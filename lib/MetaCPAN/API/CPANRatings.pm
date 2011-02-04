@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package MetaCPAN::API::CPANRatings;
+# ABSTRACT: CPAN Ratings information for MetaCPAN::API
 
 use Any::Moose 'Role';
 

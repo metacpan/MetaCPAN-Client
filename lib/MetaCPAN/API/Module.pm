@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package MetaCPAN::API::Module;
+# ABSTRACT: Module and dist information for MetaCPAN::API
 
 use Any::Moose 'Role';
 

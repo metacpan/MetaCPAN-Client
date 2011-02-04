@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package MetaCPAN::API::Author;
+# ABSTRACT: Author information for MetaCPAN::API
 
 use Any::Moose 'Role';
 use URI::Escape;

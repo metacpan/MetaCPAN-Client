@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 package MetaCPAN::API::POD;
+# ABSTRACT: POD information for MetaCPAN::API
 
 use Any::Moose 'Role';
 
