@@ -38,7 +38,7 @@ sub _get_hits {
     my @hits     = ();
 
     try {
-        # a single search might partial JSON data, but no hits
+        # a single search might return partial JSON data, but no hits,
         # search dist for "Moose", or author for "Dave", it will come up
         # in that case, we need to check for a _source key
 
