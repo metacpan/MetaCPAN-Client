@@ -34,7 +34,6 @@ sub search_module {
     my $base     = $self->base_url;
     my $prefix   = $self->module_prefix;
     my $url      = "$base/$prefix/$module";
-    print $self->ua->request('GET', $url, \%req_opts), "\n";
     my @hits     = $self->_get_hits(
         $self->_http_req( $url, \%req_opts )
     );
