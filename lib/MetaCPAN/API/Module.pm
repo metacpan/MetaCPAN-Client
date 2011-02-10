@@ -20,7 +20,7 @@ sub search_dist {
     my %req_opts = @_;
     my $base     = $self->base_url;
     my $prefix   = $self->module_prefix;
-    my $url      = "$base/$prefix/_search?q=dist:$dist";
+    my $url      = "$base/$prefix/_search?q=distname:$dist";
     my @hits     = $self->_get_hits(
         $self->ua->request(
             'GET',
