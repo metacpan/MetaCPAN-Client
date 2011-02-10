@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-API
 
+0.01_03     10.02.11
+            * Immutable base_url (Olaf Alders, Sawyer X).
+
 0.01_02     10.02.11
             * Make base_url 'rw' (Olaf Alders).
             * Update module search URL (Olaf Alders).
