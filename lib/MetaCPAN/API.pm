@@ -56,4 +56,13 @@ sub _get_hits {
     return @hits;
 }
 
+sub _http_req {
+    my $self               = shift;
+    my ( $url, $req_opts ) = @_;
+
+    my $res = $self->ua->request( 'GET', $url, $req_opts );
+
+    return $res;
+}
+
 1;
