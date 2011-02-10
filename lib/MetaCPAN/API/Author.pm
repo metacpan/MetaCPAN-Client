@@ -6,6 +6,8 @@ package MetaCPAN::API::Author;
 use Any::Moose 'Role';
 use URI::Escape;
 
+requires '_http_req';
+
 has author_prefix => (
     is      => 'ro',
     isa     => 'Str',

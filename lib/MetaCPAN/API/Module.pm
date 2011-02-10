@@ -5,6 +5,8 @@ package MetaCPAN::API::Module;
 
 use Any::Moose 'Role';
 
+requires '_http_req';
+
 has module_prefix => (
     is      => 'ro',
     isa     => 'Str',
