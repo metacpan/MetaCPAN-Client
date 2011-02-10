@@ -5,7 +5,7 @@ package MetaCPAN::API::Module;
 
 use Any::Moose 'Role';
 
-requires 'render_result';
+requires '_http_req';
 
 has module_prefix => (
     is      => 'ro',
@@ -22,11 +22,7 @@ sub search_dist {
     my $prefix   = $self->module_prefix;
     my $url      = "$base/$prefix/_search?q=distname:$dist";
     my @hits     = $self->_get_hits(
-        $self->ua->request(
-            'GET',
-            $url,
-            \%req_opts,
-        )
+        $self->_http_req( $url, \%req_opts )
     );
 
     return @hits;
@@ -40,13 +36,8 @@ sub search_module {
     my $base     = $self->base_url;
     my $prefix   = $self->module_prefix;
     my $url      = "$base/$prefix/$module";
-    print $self->ua->request('GET', $url, \%req_opts), "\n";
     my @hits     = $self->_get_hits(
-        $self->ua->request(
-            'GET',
-            $url,
-            \%req_opts,
-        )
+        $self->_http_req( $url, \%req_opts )
     );
 
     return @hits;
