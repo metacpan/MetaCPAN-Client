@@ -17,7 +17,7 @@ with qw/
 /;
 
 has base_url => (
-    is      => 'rw',
+    is      => 'ro',
     isa     => 'Str',
     default => 'http://api.metacpan.org',
 );
