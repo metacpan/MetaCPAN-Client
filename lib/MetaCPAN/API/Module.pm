@@ -5,8 +5,6 @@ package MetaCPAN::API::Module;
 
 use Any::Moose 'Role';
 
-requires 'render_result';
-
 has module_prefix => (
     is      => 'ro',
     isa     => 'Str',

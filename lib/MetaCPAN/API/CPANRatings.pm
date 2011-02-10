@@ -5,8 +5,6 @@ package MetaCPAN::API::CPANRatings;
 
 use Any::Moose 'Role';
 
-requires 'render_result';
-
 has cpanratings_prefix => (
     is      => 'ro',
     isa     => 'Str',

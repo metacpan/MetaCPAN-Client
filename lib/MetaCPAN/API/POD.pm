@@ -5,8 +5,6 @@ package MetaCPAN::API::POD;
 
 use Any::Moose 'Role';
 
-requires 'render_result';
-
 has pod_prefix => (
     is      => 'ro',
     isa     => 'Str',

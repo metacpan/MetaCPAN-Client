@@ -56,8 +56,4 @@ sub _get_hits {
     return @hits;
 }
 
-sub render_result {
-1;
-}
-
 1;
