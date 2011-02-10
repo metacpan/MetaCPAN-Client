@@ -18,7 +18,7 @@ sub search_pod {
     my $base    = $self->base_url;
     my $prefix  = $self->pod_prefix;
     my $url     = "$base/$prefix/$dist";
-    my $result  = $self->ua->get($url);
+    my $result  = $self->_http_req($url);
 
     return $result;
 }
