@@ -1,6 +1,13 @@
 Revision history for MetaCPAN-API
 
-0.01_01     05.02.10
+0.01_02     10.02.11
+            * Make base_url 'rw' (Olaf Alders).
+            * Update module search URL (Olaf Alders).
+            * Refactoring using _http_req method (Sawyer X).
+            * Remove render_result method (Sawyer X).
+            * Remove unnecessary print (Sawyer X).
+
+0.01_01     05.02.11
             * Module, Dist, POD, Author and CPANRatings are supported 100%.
             * Still needs more refactoring, and some methods aren't used yet.
 

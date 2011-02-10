@@ -5,7 +5,7 @@ package MetaCPAN::API::CPANRatings;
 
 use Any::Moose 'Role';
 
-requires 'render_result';
+requires '_http_req';
 
 has cpanratings_prefix => (
     is      => 'ro',
@@ -20,7 +20,7 @@ sub search_cpanratings_exact {
     my $base    = $self->base_url;
     my $prefix  = $self->cpanratings_prefix;
     my $url     = "$base/$prefix/$dist";
-    my $result  = $self->ua->get($url);
+    my $result  = $self->_http_req($url);
 
     return $result;
 }
@@ -32,7 +32,7 @@ sub search_cpanratings_like {
     my $base   = $self->base_url;
     my $prefix = $self->cpanratings_prefix;
     my $url    = "$base/$prefix/_search?q=dist:$dist";
-    my $result = $self->ua->get($url);
+    my $result = $self->_http_req($url);
 
     return $result;
 }
