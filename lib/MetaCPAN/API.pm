@@ -129,16 +129,16 @@ their DWIMish nature works, and what searches they run.
         base_url => 'http://localhost:9999',
     );
 
-    This attribute is used for REST requests. You should set it to where the
-    MetaCPAN is accessible. By default it's already set correctly, but if you're
-    running a local instance of MetaCPAN, or use a local mirror, or tunnel it
-    through a local port, or any of those stuff, you would want to change this.
+This attribute is used for REST requests. You should set it to where the
+MetaCPAN is accessible. By default it's already set correctly, but if you're
+running a local instance of MetaCPAN, or use a local mirror, or tunnel it
+through a local port, or any of those stuff, you would want to change this.
 
-    Default: I<http://api.metacpan.org>.
+Default: I<http://api.metacpan.org>.
 
-    This attribute is read-only (immutable), meaning that once it's set on
-    initialize (via C<new()>), you cannot change it. If you need to, create a
-    new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+This attribute is read-only (immutable), meaning that once it's set on
+initialize (via C<new()>), you cannot change it. If you need to, create a
+new instance of MetaCPAN::API. Why is it immutable? Because it's better.
 
 =head2 ua
 
@@ -148,15 +148,15 @@ their DWIMish nature works, and what searches they run.
         ),
     );
 
-    This attribute is used to contain the user agent used for running the REST
-    request to the server. It is specifically set to L<HTTP::Tiny>, so if you
-    want to set it manually, make sure it's of HTTP::Tiny.
+This attribute is used to contain the user agent used for running the REST
+request to the server. It is specifically set to L<HTTP::Tiny>, so if you
+want to set it manually, make sure it's of HTTP::Tiny.
 
-    HTTP::Tiny is used as part of the philosophy of keeping it tiny.
+HTTP::Tiny is used as part of the philosophy of keeping it tiny.
 
-    This attribute is read-only (immutable), meaning that once it's set on
-    initialize (via C<new()>), you cannot change it. If you need to, create a
-    new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+This attribute is read-only (immutable), meaning that once it's set on
+initialize (via C<new()>), you cannot change it. If you need to, create a
+new instance of MetaCPAN::API. Why is it immutable? Because it's better.
 
 =head1 METHODS
 
