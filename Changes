@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-API
 
+0.02        13.02.11
+            (First stable release!)
+            * Add docs (Sawyer X).
+
 0.01_03     10.02.11
             * Immutable base_url (Olaf Alders, Sawyer X).
 
