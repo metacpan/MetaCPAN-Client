@@ -84,3 +84,78 @@ sub search_author_wildcard {
 }
 
 1;
+
+__END__
+
+=head1 DESCRIPTION
+
+This role provides MetaCPAN::API with several methods to get the author
+information.
+
+=head1 ATTRIBUTES
+
+=head2 author_prefix
+
+This attribute helps set the path to the author requests in the REST API.
+You will most likely never have to touch this as long as you have an updated
+version of MetaCPAN::API.
+
+Default: I<author>.
+
+This attribute is read-only (immutable), meaning that once it's set on
+initialize (via C<new()>), you cannot change it. If you need to, create a
+new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+
+=head1 METHODS
+
+=head2 search_author
+
+    my @authors = $mcpan->search_author('Dave');
+
+This method is the DWIM interface for the author searches. It tries to do what
+you probably want. It does so in the following steps:
+
+=over 4
+
+=item 1. Trimming leading and trailing spaces
+
+=item 2. Checks if it's possibly a PAUSE ID
+
+If there are no spaces, meaning it's a single word, it's assumed to optionally
+be a PAUSE ID, so it searches it as a PAUSE ID.
+
+=item 3. Searches by author name
+
+As if you gave I<"Olaf Alders"> as the search.
+
+=item 4. Searches by wildcard
+
+As if you gave I<"Olaf"> but want to find anything with I<Olaf> in it.
+
+=back
+
+It stacks the results on top of each other, so you find the PAUSE ID (if there
+is one) first, the full name search second and the wildcards last. The purpose
+is to try to get as accurate results as possible first time around.
+
+Feel free to submit patches to improve this!
+
+=head2 search_author_pauseid
+
+    my $author = $mcpan->search_author_pauseid('XSAWYERX');
+
+Searches MetaCPAN for a specific PAUSE ID.
+
+=head2 search_author_name
+
+    my $author = $mcpan->search_author_name('Sawyer X');
+
+Searches MetaCPAN for a specific name.
+
+=head2 search_author_wildcard
+
+    my $author = $mcpan->search_author_wildcard('Dave');
+
+Searches MetaCPAN for an author using a string, and full wildcard on both
+sides. Equivalent to searching I<*Dave*>.
+
