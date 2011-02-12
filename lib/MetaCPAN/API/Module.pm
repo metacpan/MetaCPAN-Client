@@ -44,3 +44,39 @@ sub search_module {
 }
 
 1;
+
+__END__
+
+=head1 DESCRIPTION
+
+This role provides MetaCPAN::API with several methods to get the module and
+dist information.
+
+=head1 ATTRIBUTES
+
+=head2 module_prefix
+
+This attribute helps set the path to the module and dist requests in the REST
+API. You will most likely never have to touch this as long as you have an
+updated version of MetaCPAN::API.
+
+Default: I<module>.
+
+This attribute is read-only (immutable), meaning that once it's set on
+initialize (via C<new()>), you cannot change it. If you need to, create a
+new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+
+=head1 METHODS
+
+=head2 search_dist
+
+    my @dists = $mcpan->search_dist('Moose');
+
+Searches MetaCPAN for a dist.
+
+=head2 search_module
+
+    my @modules = $mcpan->search_module('Moose');
+
+Searches MetaCPAN for a module.
+
