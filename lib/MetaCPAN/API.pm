@@ -60,6 +60,7 @@ sub _http_req {
     my $self               = shift;
     my ( $url, $req_opts ) = @_;
 
+    defined $req_opts or $req_opts = {};
     my $res = $self->ua->request( 'GET', $url, $req_opts );
 
     return $res;
