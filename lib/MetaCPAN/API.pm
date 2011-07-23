@@ -13,6 +13,7 @@ use HTTP::Tiny;
 with qw/
     MetaCPAN::API::Author
     MetaCPAN::API::Module
+    MetaCPAN::API::POD
     MetaCPAN::API::Release
 /;
 
