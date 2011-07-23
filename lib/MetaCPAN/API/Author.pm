@@ -23,17 +23,13 @@ __END__
 
 =head1 DESCRIPTION
 
-This role provides MetaCPAN::API with fetching information about distribution
-and releases.
+This role provides MetaCPAN::API with fetching information about authors.
 
 =head1 METHODS
 
-=head2 release
+=head2 author
 
-    my $result = $mcpan->release( distribution => 'Moose' );
+    my $result = $mcpan->author('XSAWYERX');
 
-    # or
-    my $result = $mcpan->release( author => 'DOY', release => 'Moose-2.0001' );
-
-Searches MetaCPAN for a dist.
+Searches MetaCPAN for a specific author.
 
