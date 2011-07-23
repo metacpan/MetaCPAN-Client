@@ -9,7 +9,7 @@ use HTTP::Tiny;
 has base_url => (
     is      => 'ro',
     isa     => 'Str',
-    default => 'http://api.metacpan.org',
+    default => 'http://api.beta.metacpan.org',
 );
 
 has ua => (
