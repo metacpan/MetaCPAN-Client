@@ -3,22 +3,42 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 10;
+use Test::Fatal;
 use Test::TinyMocker;
 use MetaCPAN::API;
 
 my $mcpan = MetaCPAN::API->new;
 isa_ok( $mcpan, 'MetaCPAN::API' );
 
+my $url  = '/release/distribution/hello';
+my $flag = 0;
+
 mock 'HTTP::Tiny'
     => methods 'get'
     => should {
         my $self = shift;
         isa_ok( $self, 'HTTP::Tiny' );
-        is( $_[0], '/release/distribution/hello', 'Correct URL' );
-        return '{"content":"test"}';
+        is( $_[0], $url, 'Correct URL' );
+
+        $flag++ == 0 and return '{"content":"test"}';
+        $flag++ == 2 and return '{"test":"test"}';
+
+        return 'string';
     };
 
-my $result = $mcpan->fetch('/release/distribution/hello');
+my $result = $mcpan->fetch($url);
 is( $result, 'test', 'Correct result' );
+
+like(
+    exception { $mcpan->fetch($url) },
+    qr/^Missing content in return value/,
+    'When content is missing',
+);
+
+like(
+    exception { $mcpan->fetch($url) },
+    qr/^Couldn't decode/,
+    'JSON decode fail',
+);
 
