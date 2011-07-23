@@ -4,9 +4,6 @@ package MetaCPAN::API;
 # ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
 
 use Any::Moose;
-use JSON;
-use Carp;
-use Try::Tiny;
 use HTTP::Tiny;
 
 has base_url => (
