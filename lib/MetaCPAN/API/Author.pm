@@ -10,7 +10,6 @@ use Any::Moose 'Role';
 sub author {
     my $self    = shift;
     my $pauseid = shift;
-    my $url     = '';
 
     $pauseid or croak 'Please provide an author PAUSEID';
 
