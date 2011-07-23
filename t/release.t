@@ -8,7 +8,8 @@ use MetaCPAN::API;
 
 my $mcpan = MetaCPAN::API->new;
 
-can_ok( $mcpan, 'release' );
+isa_ok( $mcpan, 'MetaCPAN::API' );
+can_ok( $mcpan, 'release'       );
 my $errmsg = qr/^Either provide 'distribution' or 'author and 'release'/;
 
 # missing input
