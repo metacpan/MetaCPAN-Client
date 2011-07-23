@@ -9,23 +9,22 @@ use Any::Moose 'Role';
 # /release/{distribution}
 # /release/{author}/{release}
 sub release {
-    my $self        = shift;
-    my %req_opts    = @_ ? @_ : ();
-    my $base        = $self->base_url;
-    my $url         = '';
-    my $input_error = "Either provide 'distribution' or 'author and 'release'";
+    my $self     = shift;
+    my %req_opts = @_ ? @_ : ();
+    my $url      = '';
+    my $error    = "Either provide 'distribution' or 'author and 'release'";
 
-    %req_opts or croak $input_error;
+    %req_opts or croak $error;
 
     if ( defined ( my $dist = $req_opts{'distribution'} ) ) {
-        $url = "$base/release/$dist";
+        $url = "release/$dist";
     } elsif (
         defined ( my $author  = $req_opts{'author'}  ) &&
         defined ( my $release = $req_opts{'release'} )
       ) {
-        $url = "$base/release/$author/$release";
+        $url = "release/$author/$release";
     } else {
-        croak $input_error;
+        croak $error;
     }
 
     return $self->fetch($url);

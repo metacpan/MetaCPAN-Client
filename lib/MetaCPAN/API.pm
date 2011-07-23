@@ -42,8 +42,9 @@ sub _build_ua {
 sub fetch {
     my $self = shift;
     my $url  = shift;
+    my $base = $self->base_url;
 
-    my $result = $self->ua->get($url);
+    my $result = $self->ua->get("$base/$url");
     my $decoded_result;
 
     $result->{'success'}

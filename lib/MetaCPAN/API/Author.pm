@@ -8,15 +8,14 @@ use Any::Moose 'Role';
 
 # /author/{author}
 sub author {
-    my $self        = shift;
-    my $pauseid     = shift;
-    my $base        = $self->base_url;
-    my $url         = '';
-    my $input_error = 'Please provide author PAUSEID';
+    my $self    = shift;
+    my $pauseid = shift;
+    my $url     = '';
+    my $error   = 'Please provide author PAUSEID';
 
-    $pauseid or croak $input_error;
+    $pauseid or croak $error;
 
-    return $self->fetch("$base/author/$pauseid");
+    return $self->fetch("author/$pauseid");
 }
 
 1;

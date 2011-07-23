@@ -11,7 +11,7 @@ use MetaCPAN::API;
 my $mcpan = MetaCPAN::API->new;
 isa_ok( $mcpan, 'MetaCPAN::API' );
 
-my $url  = '/release/distribution/hello';
+my $url  = 'release/distribution/hello';
 my $flag = 0;
 
 mock 'HTTP::Tiny'
@@ -19,7 +19,7 @@ mock 'HTTP::Tiny'
     => should {
         my $self = shift;
         isa_ok( $self, 'HTTP::Tiny' );
-        is( $_[0], $url, 'Correct URL' );
+        is( $_[0], $mcpan->base_url . "/$url", 'Correct URL' );
 
         $flag++ == 0 and return {
             success => 1,
