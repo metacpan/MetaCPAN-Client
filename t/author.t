@@ -10,7 +10,7 @@ my $mcpan = MetaCPAN::API->new;
 
 isa_ok( $mcpan, 'MetaCPAN::API' );
 can_ok( $mcpan, 'author'        );
-my $errmsg = qr/^Please provide author PAUSEID/;
+my $errmsg = qr/^Please provide an author PAUSEID/;
 
 # missing input
 like(

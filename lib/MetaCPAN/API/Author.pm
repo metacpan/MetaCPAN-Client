@@ -11,9 +11,8 @@ sub author {
     my $self    = shift;
     my $pauseid = shift;
     my $url     = '';
-    my $error   = 'Please provide author PAUSEID';
 
-    $pauseid or croak $error;
+    $pauseid or croak 'Please provide an author PAUSEID';
 
     return $self->fetch("author/$pauseid");
 }
