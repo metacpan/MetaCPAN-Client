@@ -10,7 +10,10 @@ use JSON;
 use Try::Tiny;
 use HTTP::Tiny;
 
-with 'MetaCPAN::API::Release';
+with qw/
+    MetaCPAN::API::Author
+    MetaCPAN::API::Release
+/;
 
 has base_url => (
     is      => 'ro',
@@ -61,7 +64,9 @@ __END__
 
 =head1 SYNOPSIS
 
-    my $mcpan   = MetaCPAN::API->new();
+    my $mcpan  = MetaCPAN::API->new();
+    my $author = $mcpan->author('XSAWYERX');
+    my $dist   = $mcpan->release( distribution => 'MetaCPAN::API' );
 
 =head1 DESCRIPTION
 
