@@ -12,7 +12,7 @@ sub release {
     my $self     = shift;
     my %req_opts = @_ ? @_ : ();
     my $url      = '';
-    my $error    = "Either provide 'distribution' or 'author and 'release'";
+    my $error    = "Either provide 'distribution' or 'author' and 'release'";
 
     %req_opts or croak $error;
 
