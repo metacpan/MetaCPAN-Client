@@ -21,14 +21,23 @@ mock 'HTTP::Tiny'
         isa_ok( $self, 'HTTP::Tiny' );
         is( $_[0], $url, 'Correct URL' );
 
-        $flag++ == 0 and return '{"content":"test"}';
-        $flag++ == 2 and return '{"test":"test"}';
+        $flag++ == 0 and return {
+            success => 1,
+            content => '{"test":"test"}',
+        };
 
-        return 'string';
+        $flag++ == 2 and return {
+            success => 1,
+        };
+
+        return {
+            success => 1,
+            content => 'string',
+        };
     };
 
 my $result = $mcpan->fetch($url);
-is( $result, 'test', 'Correct result' );
+is_deeply( $result, { test => 'test' }, 'Correct result' );
 
 like(
     exception { $mcpan->fetch($url) },
