@@ -43,13 +43,13 @@ sub fetch {
     my $result = $self->ua->get($url);
     my $decoded_result;
 
-    try   { $decoded_result = decode_json $result }
-    catch { croak "Couldn't decode '$result': $_" };
-
-    defined $decoded_result->{'content'}
+    defined ( my $content = $result->{'content'} )
         or croak 'Missing content in return value';
 
-    return $decoded_result->{'content'};
+    try   { $decoded_result = decode_json $content }
+    catch { croak "Couldn't decode '$content': $_" };
+
+    return $decoded_result;
 }
 
 1;
