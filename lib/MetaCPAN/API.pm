@@ -28,8 +28,16 @@ has ua => (
     lazy_build => 1,
 );
 
+has ua_args => (
+    is      => 'ro',
+    isa     => 'ArrayRef',
+    default => sub { [] },
+);
+
 sub _build_ua {
-    return HTTP::Tiny->new;
+    my $self = shift;
+
+    return HTTP::Tiny->new( @{ $self->ua_args } );
 }
 
 sub _get_hits {
