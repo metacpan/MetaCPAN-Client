@@ -6,6 +6,8 @@ package MetaCPAN::API;
 use Any::Moose;
 use HTTP::Tiny;
 
+with 'MetaCPAN::API::Release';
+
 has base_url => (
     is      => 'ro',
     isa     => 'Str',
