@@ -1,46 +1,19 @@
 use strict;
 use warnings;
 package MetaCPAN::API::Module;
-# ABSTRACT: Module and dist information for MetaCPAN::API
+# ABSTRACT: Module information for MetaCPAN::API
 
+use Carp;
 use Any::Moose 'Role';
 
-requires '_http_req';
+# /module/{module}
+sub module {
+    my $self = shift;
+    my $name = shift;
 
-has module_prefix => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'module',
-);
+    $name or croak 'Please provide a module name';
 
-# http://api.metacpan.org/module/_search?q=dist:moose
-sub search_dist {
-    my $self     = shift;
-    my $dist     = shift;
-    my %req_opts = @_;
-    my $base     = $self->base_url;
-    my $prefix   = $self->module_prefix;
-    my $url      = "$base/$prefix/_search?q=distname:$dist";
-    my @hits     = $self->_get_hits(
-        $self->_http_req( $url, \%req_opts )
-    );
-
-    return @hits;
-}
-
-# http://api.metacpan.org/module/Moose
-sub search_module {
-    my $self     = shift;
-    my $module   = shift;
-    my %req_opts = @_ || ();
-    my $base     = $self->base_url;
-    my $prefix   = $self->module_prefix;
-    my $url      = "$base/$prefix/$module";
-    my @hits     = $self->_get_hits(
-        $self->_http_req( $url, \%req_opts )
-    );
-
-    return @hits;
+    return $self->fetch("module/$name");
 }
 
 1;
@@ -49,34 +22,15 @@ __END__
 
 =head1 DESCRIPTION
 
-This role provides MetaCPAN::API with several methods to get the module and
-dist information.
+This role provides MetaCPAN::API with fetching information about modules.
 
-=head1 ATTRIBUTES
-
-=head2 module_prefix
-
-This attribute helps set the path to the module and dist requests in the REST
-API. You will most likely never have to touch this as long as you have an
-updated version of MetaCPAN::API.
-
-Default: I<module>.
-
-This attribute is read-only (immutable), meaning that once it's set on
-initialize (via C<new()>), you cannot change it. If you need to, create a
-new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+More specifically, this returns the C<.pm> file of that module.
 
 =head1 METHODS
 
-=head2 search_dist
+=head2 module
 
-    my @dists = $mcpan->search_dist('Moose');
+    my $result = $mcpan->module('MetaCPAN::API');
 
-Searches MetaCPAN for a dist.
-
-=head2 search_module
-
-    my @modules = $mcpan->search_module('Moose');
-
-Searches MetaCPAN for a module.
+Searches MetaCPAN and returns a module's C<.pm> file.
 
