@@ -4,6 +4,10 @@ package MetaCPAN::API;
 # ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
 
 use Any::Moose;
+
+use Carp;
+use JSON;
+use Try::Tiny;
 use HTTP::Tiny;
 
 with 'MetaCPAN::API::Release';
@@ -30,6 +34,22 @@ sub _build_ua {
     my $self = shift;
 
     return HTTP::Tiny->new( @{ $self->ua_args } );
+}
+
+sub fetch {
+    my $self = shift;
+    my $url  = shift;
+
+    my $result = $self->ua->get($url);
+    my $decoded_result;
+
+    try   { $decoded_result = decode_json $result }
+    catch { croak "Couldn't decode '$result': $_" };
+
+    defined $decoded_result->{'content'}
+        or croak 'Missing content in return value';
+
+    return $decoded_result->{'content'};
 }
 
 1;
