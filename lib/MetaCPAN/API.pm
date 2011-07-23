@@ -33,40 +33,6 @@ sub _build_ua {
     return HTTP::Tiny->new( @{ $self->ua_args } );
 }
 
-sub _get_hits {
-    my $self     = shift;
-    my $response = shift;
-    my @hits     = ();
-
-    try {
-        # a single search might return partial JSON data, but no hits,
-        # search dist for "Moose", or author for "Dave", it will come up
-        # in that case, we need to check for a _source key
-
-        my $content = decode_json $response->{'content'};
-
-        if ( exists $content->{'hits'}{'hits'} ) {
-            @hits = @{ $content->{'hits'}{'hits'} };
-        } elsif ( exists $content->{'_source'} ) {
-            @hits = $content;
-        }
-    } catch {
-        croak 'There was an error decoding response from MetaCPAN.';
-    };
-
-    return @hits;
-}
-
-sub _http_req {
-    my $self               = shift;
-    my ( $url, $req_opts ) = @_;
-
-    defined $req_opts or $req_opts = {};
-    my $res = $self->ua->request( 'GET', $url, $req_opts );
-
-    return $res;
-}
-
 1;
 
 __END__
