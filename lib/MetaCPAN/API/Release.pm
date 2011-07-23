@@ -28,7 +28,7 @@ sub release {
         croak $input_error;
     }
 
-    $self->fetch($url);
+    return $self->fetch($url);
 }
 
 1;
