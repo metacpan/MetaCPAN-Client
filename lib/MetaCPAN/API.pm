@@ -43,6 +43,9 @@ sub fetch {
     my $result = $self->ua->get($url);
     my $decoded_result;
 
+    $result->{'success'}
+        or croak "Failed to fetch '$url': " . $result->{'reason'};
+
     defined ( my $content = $result->{'content'} )
         or croak 'Missing content in return value';
 
