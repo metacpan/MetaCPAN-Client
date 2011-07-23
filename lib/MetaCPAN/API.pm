@@ -9,13 +9,6 @@ use Carp;
 use Try::Tiny;
 use HTTP::Tiny;
 
-with qw/
-    MetaCPAN::API::Author
-    MetaCPAN::API::CPANRatings
-    MetaCPAN::API::Module
-    MetaCPAN::API::POD
-/;
-
 has base_url => (
     is      => 'ro',
     isa     => 'Str',
