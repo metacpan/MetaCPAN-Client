@@ -62,25 +62,27 @@ __END__
 =head1 SYNOPSIS
 
     my $mcpan   = MetaCPAN::API->new();
-    my @authors = $mcpan->search_author_pauseid('XSAWYERX');
-    my @dists   = $mcpan->search_dist("MetaCPAN");
 
 =head1 DESCRIPTION
 
-This is a complete API-compliant interface to MetaCPAN
+This is a hopefully-complete API-compliant interface to MetaCPAN
 (http://search.metacpan.org) with DWIM capabilities, to make your life easier.
 
 This module has three purposes:
 
 =over 4
 
-=item * Provide 100% of the MetaCPAN API
+=item * Provide 100% of the beta MetaCPAN API
 
 This module will be updated regularly on every MetaCPAN API change, and intends
 to provide the user with as much of the API as possible, no shortcuts. If it's
 documented in the API, you should be able to do it.
 
-Because of this design decision, this module has an official MetaCPAN namespace.
+Because of this design decision, this module has an official MetaCPAN namespace
+with the blessing of the MetaCPAN developers.
+
+Notice this module currently only provides the beta API, not the old
+soon-to-be-deprecated API.
 
 =item * Be lightweight, to allow flexible usage
 
@@ -124,19 +126,13 @@ MetaCPAN is accessible. By default it's already set correctly, but if you're
 running a local instance of MetaCPAN, or use a local mirror, or tunnel it
 through a local port, or any of those stuff, you would want to change this.
 
-Default: I<http://api.metacpan.org>.
+Default: I<http://beta.api.metacpan.org>.
 
 This attribute is read-only (immutable), meaning that once it's set on
 initialize (via C<new()>), you cannot change it. If you need to, create a
 new instance of MetaCPAN::API. Why is it immutable? Because it's better.
 
 =head2 ua
-
-    my $mcpan = MetaCPAN::API->new(
-        ua => HTTP::Tiny->new(
-            %extra_args,
-        ),
-    );
 
 This attribute is used to contain the user agent used for running the REST
 request to the server. It is specifically set to L<HTTP::Tiny>, so if you
@@ -148,9 +144,28 @@ This attribute is read-only (immutable), meaning that once it's set on
 initialize (via C<new()>), you cannot change it. If you need to, create a
 new instance of MetaCPAN::API. Why is it immutable? Because it's better.
 
+=head2 ua_args
+
+    my $mcpan = MetaCPAN::API->new(
+        ua_args => [ agent => 'MyAgent' ],
+    );
+
+The arguments that will be given to the L<HTTP::Tiny> user agent.
+
+This attribute is read-only (immutable), meaning that once it's set on
+initialize (via C<new()>), you cannot change it. If you need to, create a
+new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+
 =head1 METHODS
 
-Currently methods are documented by their respected namespace. In the future you
-might find some of the documentation ported (or copy-pasted) here for your
-convenience.
+=head2 fetch
+
+    my $result = $mcpan->fetch('/release/distribution/Moose');
+
+This is a helper method for API implementations. It fetches a path from
+MetaCPAN, decodes the JSON from the content variable and returns it.
+
+You don't really need to use it, but you can in case you want to write your
+own extension implementation to MetaCPAN::API.
+
 
