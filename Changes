@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-API
 
+0.11        24.07.11
+            * Correct the POD example and tests.
+            * Update to use a different API path.
+
 0.10        24.07.11
             * Almost complete rewrite.
             * Make use of the new beta API.
