@@ -61,8 +61,8 @@ and distribution releases.
     # or
     my $result = $mcpan->pod(
         author  => 'DOY',
-        release => 'Moose-2.0001',
-        path    => 'Moose.pm',
+        release => 'Moose-2.0201',
+        path    => 'lib/Moose.pm',
     );
 
 Searches MetaCPAN for a module or a specific release and returns the POD.

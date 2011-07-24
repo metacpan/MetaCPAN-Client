@@ -20,7 +20,7 @@ with qw/
 has base_url => (
     is      => 'ro',
     isa     => 'Str',
-    default => 'http://api.beta.metacpan.org',
+    default => 'http://api.metacpan.org/v0',
 );
 
 has ua => (
