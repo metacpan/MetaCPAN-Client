@@ -1,5 +1,12 @@
 Revision history for MetaCPAN-API
 
+0.10        24.07.11
+            * Almost complete rewrite.
+            * Make use of the new beta API.
+            * Remove old API support.
+            * Remove DWIM methods for now.
+            * Include lots of tests.
+
 0.02        13.02.11
             (First stable release!)
             * Add docs (Sawyer X).
