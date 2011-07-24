@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 6;
 use Test::Fatal;
 use MetaCPAN::API;
 
@@ -26,12 +26,11 @@ like(
     'Incorrect input',
 );
 
-__END__
 my $result = $mcpan->pod( module => 'Moose' );
 ok( $result, 'Got result' );
 
 $result = $mcpan->pod(
-    author => 'DOY', release => 'Moose-2.0001', path => 'Moose.pm',
+    author => 'DOY', release => 'Moose-2.0201', path => 'lib/Moose.pm',
 );
 
 ok( $result, 'Got result' );
