@@ -3,26 +3,44 @@ use warnings;
 package MetaCPAN::API::POD;
 # ABSTRACT: POD information for MetaCPAN::API
 
+use Carp;
 use Any::Moose 'Role';
 
-requires '_http_req';
+# /pod/{module}
+# /pod/{author}/{release}/{path}
+sub pod {
+    my $self  = shift;
+    my %opts  = @_ ? @_ : ();
+    my $url   = '';
+    my $error = "Either provide 'module' or 'author and 'release' and 'path'";
 
-has pod_prefix => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'pod',
-);
+    %opts or croak $error;
 
-# http://api.metacpan.org/pod/AAA::Demo
-sub search_pod {
-    my $self    = shift;
-    my $dist    = shift;
-    my $base    = $self->base_url;
-    my $prefix  = $self->pod_prefix;
-    my $url     = "$base/$prefix/$dist";
-    my $result  = $self->_http_req($url);
+    if ( defined ( my $module = $opts{'module'} ) ) {
+        $url = "pod/$module";
+    } elsif (
+        defined ( my $author  = $opts{'author'}  ) &&
+        defined ( my $release = $opts{'release'} ) &&
+        defined ( my $path    = $opts{'path'}    )
+      ) {
+        $url = "pod/$author/$release/$path";
+    } else {
+        croak $error;
+    }
 
-    return $result;
+    # check content-type
+    if ( defined ( my $type = $opts{'content-type'} ) ) {
+        $type =~ m{^text/ (?: html|plain|x-pod|x-markdown )}x
+            or croak 'Incorrect content-type provided';
+    }
+
+    $url = $self->base_url . "/$url";
+
+    my $result = $self->ua->get($url);
+    $result->{'success'}
+        or croak "Failed to fetch '$url': " . $result->{'reason'};
+
+    return $result->{'content'};
 }
 
 1;
@@ -31,28 +49,21 @@ __END__
 
 =head1 DESCRIPTION
 
-This role provides MetaCPAN::API with several methods to get the CPAN Ratings
-information.
-
-=head1 ATTRIBUTES
-
-=head2 pod_prefix
-
-This attribute helps set the path to the POD requests in the REST API.
-You will most likely never have to touch this as long as you have an updated
-version of MetaCPAN::API.
-
-Default: I<pod>.
-
-This attribute is read-only (immutable), meaning that once it's set on
-initialize (via C<new()>), you cannot change it. If you need to, create a
-new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+This role provides MetaCPAN::API with fetching POD information about modules
+and distribution releases.
 
 =head1 METHODS
 
-=head2 search_pod
+=head2 pod
 
-    my $result = $mcpan->search_pod('MetaCPAN::API');
+    my $result = $mcpan->pod( pod => 'Moose' );
 
-Search for the POD of a specific module.
+    # or
+    my $result = $mcpan->pod(
+        author  => 'DOY',
+        release => 'Moose-2.0001',
+        path    => 'Moose.pm',
+    );
+
+Searches MetaCPAN for a module or a specific release and returns the POD.
 
