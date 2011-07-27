@@ -29,14 +29,17 @@ sub pod {
     }
 
     # check content-type
+    my %extra = ();
     if ( defined ( my $type = $opts{'content-type'} ) ) {
         $type =~ m{^text/ (?: html|plain|x-pod|x-markdown )}x
             or croak 'Incorrect content-type provided';
+
+        $extra{'content-type'} = $type;
     }
 
     $url = $self->base_url . "/$url";
 
-    my $result = $self->ua->get($url);
+    my $result = $self->ua->get( $url, \%extra );
     $result->{'success'}
         or croak "Failed to fetch '$url': " . $result->{'reason'};
 
