@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 10;
+use Test::More tests => 14;
 use Test::Fatal;
 use Test::TinyMocker;
 use MetaCPAN::API;
@@ -49,5 +49,25 @@ like(
     exception { $mcpan->fetch($url) },
     qr/^Couldn't decode/,
     'JSON decode fail',
+);
+
+mock 'HTTP::Tiny'
+    => methods 'get'
+    => should {
+        my $self = shift;
+        isa_ok( $self, 'HTTP::Tiny' );
+        is( $_[0], $mcpan->base_url . '/', 'Correct URL' );
+        is_deeply( $_[1], { test => 'it' }, 'Got extra params' );
+
+        return {
+            success => 1,
+            content => '{"content":"ok"}',
+        };
+    };
+
+is_deeply(
+    $mcpan->fetch( '', test => 'it' ),
+    { content => 'ok' },
+    'Sending params work right',
 );
 
