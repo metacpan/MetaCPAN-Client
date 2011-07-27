@@ -31,7 +31,7 @@ sub pod {
     # check content-type
     my %extra = ();
     if ( defined ( my $type = $opts{'content-type'} ) ) {
-        $type =~ m{^text/ (?: html|plain|x-pod|x-markdown )}x
+        $type =~ m{^ text/ (?: html|plain|x-pod|x-markdown ) $}x
             or croak 'Incorrect content-type provided';
 
         $extra{'content-type'} = $type;
