@@ -59,3 +59,15 @@ and releases.
 
 Searches MetaCPAN for a dist.
 
+You can do complex searches using 'search' parameter:
+
+    # example lifted from MetaCPAN docs
+    my $result = $mcpan->release(
+        search => {
+            author => "OALDERS AND ",
+            filter => "status:latest",
+            fields => "name",
+            size   => 1,
+        },
+    );
+
