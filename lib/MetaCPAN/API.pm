@@ -42,11 +42,12 @@ sub _build_ua {
 }
 
 sub fetch {
-    my $self = shift;
-    my $url  = shift;
-    my $base = $self->base_url;
+    my $self   = shift;
+    my $url    = shift;
+    my %extra  = @_;
+    my $base   = $self->base_url;
 
-    my $result = $self->ua->get("$base/$url");
+    my $result = $self->ua->get( "$base/$url", \%extra );
     my $decoded_result;
 
     $result->{'success'}
@@ -170,10 +171,17 @@ new instance of MetaCPAN::API. Why is it immutable? Because it's better.
 
     my $result = $mcpan->fetch('/release/distribution/Moose');
 
+    # with parameters
+    my $more = $mcpan->fetch(
+        '/release/distribution/Moose',
+        param => 'value',
+    );
+
 This is a helper method for API implementations. It fetches a path from
 MetaCPAN, decodes the JSON from the content variable and returns it.
 
 You don't really need to use it, but you can in case you want to write your
 own extension implementation to MetaCPAN::API.
 
+It accepts an additional hash as C<GET> parameters.
 
