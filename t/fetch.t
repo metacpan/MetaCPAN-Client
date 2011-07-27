@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 14;
+use Test::More tests => 13;
 use Test::Fatal;
 use Test::TinyMocker;
 use MetaCPAN::API;
@@ -56,8 +56,7 @@ mock 'HTTP::Tiny'
     => should {
         my $self = shift;
         isa_ok( $self, 'HTTP::Tiny' );
-        is( $_[0], $mcpan->base_url . '/', 'Correct URL' );
-        is_deeply( $_[1], { test => 'it' }, 'Got extra params' );
+        is( $_[0], $mcpan->base_url . '/?test=it', 'Correct URL' );
 
         return {
             success => 1,
