@@ -1,5 +1,13 @@
 Revision history for MetaCPAN-API
 
+0.20        28.07.11
+            * Add complex (manual) searches to author()/release() + docs.
+            * Add file() as a synonym to module().
+            * Respect content-type.
+            * Allow setting additional params to fetch().
+            * Allow "pauseid" in author via key.
+            * Better check for content-type.
+
 0.11        24.07.11
             * Correct the POD example and tests.
             * Update to use a different API path.

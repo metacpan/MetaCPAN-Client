@@ -8,12 +8,32 @@ use Any::Moose 'Role';
 
 # /author/{author}
 sub author {
-    my $self    = shift;
-    my $pauseid = shift;
+    my $self = shift;
+    my ( $pause_id, $url, %extra_opts );
 
-    $pauseid or croak 'Please provide an author PAUSEID';
+    if ( @_ == 1 ) {
+        $url = 'author/' . shift;
+    } elsif ( @_ == 2 ) {
+        my %opts = @_;
 
-    return $self->fetch("author/$pauseid");
+        if ( defined $opts{'pauseid'} ) {
+            $url = "author/" . $opts{'pauseid'};
+        } elsif ( defined $opts{'search'} ) {
+            my $search_opts = $opts{'search'};
+
+            ref $search_opts && ref $search_opts eq 'HASH'
+                or croak "'search' key must be hashref";
+
+            %extra_opts = %{$search_opts};
+            $url        = 'author/_search';
+        } else {
+            croak 'Unknown option given';
+        }
+    } else {
+        croak 'Please provide an author PAUSEID or a "search"';
+    }
+
+    return $self->fetch( $url, %extra_opts );
 }
 
 1;
@@ -28,7 +48,18 @@ This role provides MetaCPAN::API with fetching information about authors.
 
 =head2 author
 
-    my $result = $mcpan->author('XSAWYERX');
+    my $result1 = $mcpan->author('XSAWYERX');
+    my $result2 = $mcpan->author( pauseid => 'XSAWYERX' );
 
 Searches MetaCPAN for a specific author.
+
+You can do complex searches using 'search' parameter:
+
+    # example lifted from MetaCPAN docs
+    my $result = $mcpan->author(
+        search => {
+            q    => "profile.name:twitter',
+            size => 1,
+        },
+    );
 

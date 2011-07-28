@@ -10,7 +10,7 @@ my $mcpan = MetaCPAN::API->new;
 
 isa_ok( $mcpan, 'MetaCPAN::API' );
 can_ok( $mcpan, 'release'       );
-my $errmsg = qr/^Either provide 'distribution' or 'author' and 'release'/;
+my $errmsg = qr/^Either provide 'distribution', or 'author' and 'release', or 'search'/;
 
 # missing input
 like(
