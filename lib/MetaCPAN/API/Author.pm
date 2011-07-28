@@ -3,84 +3,63 @@ use warnings;
 package MetaCPAN::API::Author;
 # ABSTRACT: Author information for MetaCPAN::API
 
+use Carp;
 use Any::Moose 'Role';
-use URI::Escape;
 
-requires '_http_req';
-
-has author_prefix => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'author',
-);
-
-sub search_author {
+# /author/{author}
+sub author {
     my $self = shift;
-    my $term = shift;
-    my @hits = ();
+    my ( $pause_id, $url, %extra_opts );
 
-    # clean leading/trailing spaces
-    $term =~ s/^\s+//;
-    $term =~ s/\s+$//;
+    if ( @_ == 1 ) {
+        $url = 'author/' . shift;
+    } elsif ( @_ == 2 ) {
+        my %opts = @_;
 
-    # if there are no spaces, it might be a PAUSE ID
-    if ( $term !~ /\s/ ) {
-        push @hits, $self->_get_hits( $self->search_author_pauseid($term) );
+        if ( defined $opts{'pauseid'} ) {
+            $url = "author/" . $opts{'pauseid'};
+        } elsif ( defined $opts{'search'} ) {
+            my $search_opts = $opts{'search'};
+
+            ref $search_opts && ref $search_opts eq 'HASH'
+                or croak "'search' key must be hashref";
+
+            %extra_opts = %{$search_opts};
+            $url        = 'author/_search';
+        } else {
+            croak 'Unknown option given';
+        }
+    } else {
+        croak 'Please provide an author PAUSEID or a "search"';
     }
 
-    # search by name
-    push @hits, $self->_get_hits( $self->search_author_name($term) );
-
-    # search by wildcard
-    push @hits, $self->_get_hits( $self->search_author_wildcard($term) );
-
-    # remove uniques
-    my %seen   = ();
-    my @unique = grep { ! $seen{ $_->{'_id'} }++ } @hits;
-
-    return @unique;
-}
-
-# http://api.metacpan.org/author/DROLSKY
-sub search_author_pauseid {
-    my $self    = shift;
-    my $pauseid = shift;
-    my $base    = $self->base_url;
-    my $prefix  = $self->author_prefix;
-    my $url     = "$base/$prefix/$pauseid";
-    my $result  = $self->_http_req($url);
-
-    return $result;
-}
-
-# http://api.metacpan.org/author/_search?q=name:Dave
-# http://api.metacpan.org/author/_search?q=name:%22dave%20rolsky%22
-sub search_author_name {
-    my $self   = shift;
-    my $name   = shift;
-    my $base   = $self->base_url;
-    my $prefix = $self->author_prefix;
-
-    # escape letters, specifying the regex because by default
-    # it will not escape quotations, which it should
-    $name = uri_escape( $name, q{^A-Za-z0-9\-\._~} );
-
-    my $url    = "$base/$prefix/_search?q=name:$name";
-    my $result = $self->_http_req($url);
-
-    return $result;
-}
-
-# http://api.metacpan.org/author/_search?q=author:D*
-sub search_author_wildcard {
-    my $self   = shift;
-    my $term   = shift; # you decide on the wildcard when you call the method
-    my $base   = $self->base_url;
-    my $prefix = $self->author_prefix;
-    my $url    = "$base/$prefix/_search?q=author:$term";
-    my $result = $self->_http_req($url);
-
-    return $result;
+    return $self->fetch( $url, %extra_opts );
 }
 
 1;
+
+__END__
+
+=head1 DESCRIPTION
+
+This role provides MetaCPAN::API with fetching information about authors.
+
+=head1 METHODS
+
+=head2 author
+
+    my $result1 = $mcpan->author('XSAWYERX');
+    my $result2 = $mcpan->author( pauseid => 'XSAWYERX' );
+
+Searches MetaCPAN for a specific author.
+
+You can do complex searches using 'search' parameter:
+
+    # example lifted from MetaCPAN docs
+    my $result = $mcpan->author(
+        search => {
+            q    => "profile.name:twitter',
+            size => 1,
+        },
+    );
+

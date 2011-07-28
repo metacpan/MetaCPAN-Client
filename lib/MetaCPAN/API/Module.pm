@@ -1,46 +1,43 @@
 use strict;
 use warnings;
 package MetaCPAN::API::Module;
-# ABSTRACT: Module and dist information for MetaCPAN::API
+# ABSTRACT: Module information for MetaCPAN::API
 
+use Carp;
 use Any::Moose 'Role';
 
-requires '_http_req';
+# /module/{module}
+sub module {
+    my $self = shift;
+    my $name = shift;
 
-has module_prefix => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'module',
-);
+    $name or croak 'Please provide a module name';
 
-# http://api.metacpan.org/module/_search?q=dist:moose
-sub search_dist {
-    my $self     = shift;
-    my $dist     = shift;
-    my %req_opts = @_;
-    my $base     = $self->base_url;
-    my $prefix   = $self->module_prefix;
-    my $url      = "$base/$prefix/_search?q=distname:$dist";
-    my @hits     = $self->_get_hits(
-        $self->_http_req( $url, \%req_opts )
-    );
-
-    return @hits;
+    return $self->fetch("module/$name");
 }
 
-# http://api.metacpan.org/module/Moose
-sub search_module {
-    my $self     = shift;
-    my $module   = shift;
-    my %req_opts = @_ || ();
-    my $base     = $self->base_url;
-    my $prefix   = $self->module_prefix;
-    my $url      = "$base/$prefix/$module";
-    my @hits     = $self->_get_hits(
-        $self->_http_req( $url, \%req_opts )
-    );
-
-    return @hits;
-}
+# file() is a synonym of module
+sub file { goto &module }
 
 1;
+
+__END__
+
+=head1 DESCRIPTION
+
+This role provides MetaCPAN::API with fetching information about modules.
+
+More specifically, this returns the C<.pm> file of that module.
+
+=head1 METHODS
+
+=head2 module
+
+    my $result = $mcpan->module('MetaCPAN::API');
+
+Searches MetaCPAN and returns a module's C<.pm> file.
+
+=head2 file
+
+A synonym of C<module>.
+
