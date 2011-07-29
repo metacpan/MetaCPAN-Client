@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-API
 
+0.30        30.07.11
+            * Add POST query searches (RT #69814, GH #2).
+            (original code by Tim Bunce, thank you!)
+            * More tests.
+
 0.20        28.07.11
             * Add complex (manual) searches to author()/release() + docs.
             * Add file() as a synonym to module().

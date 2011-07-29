@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 13;
+use Test::More tests => 7;
 use Test::Fatal;
 use Test::TinyMocker;
 use MetaCPAN::API;
@@ -38,18 +38,6 @@ mock 'HTTP::Tiny'
 
 my $result = $mcpan->fetch($url);
 is_deeply( $result, { test => 'test' }, 'Correct result' );
-
-like(
-    exception { $mcpan->fetch($url) },
-    qr/^Missing content in return value/,
-    'When content is missing',
-);
-
-like(
-    exception { $mcpan->fetch($url) },
-    qr/^Couldn't decode/,
-    'JSON decode fail',
-);
 
 mock 'HTTP::Tiny'
     => methods 'get'
