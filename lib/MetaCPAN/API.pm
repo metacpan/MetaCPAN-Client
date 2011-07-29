@@ -226,3 +226,16 @@ own extension implementation to MetaCPAN::API.
 
 It accepts an additional hash as C<GET> parameters.
 
+=head2 post
+
+    # /release&content={"query":{"match_all":{}},"filter":{"prefix":{"archive":"Cache-Cache-1.06"}}}
+    my $result = $mcpan->fetch(
+        'release',
+        {
+            query  => { match_all => {} },
+            filter => { prefix => { archive => 'Cache-Cache-1.06' } },
+        },
+    );
+
+The POST equivalent of the C<fetch()> method. It gets the path and JSON request.
+
