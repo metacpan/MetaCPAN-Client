@@ -50,10 +50,37 @@ sub fetch {
     my $req_url = $extra ? "$base/$url?$extra" : "$base/$url";
 
     my $result  = $self->ua->get($req_url);
+    return $self->_decode_result( $result, $req_url );
+}
+
+sub post {
+    my $self  = shift;
+    my $url   = shift;
+    my $query = shift;
+    my $base  = $self->base_url;
+
+    my $query_json = encode_json $query;
+    my $result     = $self->ua->request(
+        'POST',
+        "$base/$url",
+        {
+            headers => { "Content-Type" => "application/json" },
+            content => $query_json,
+        }
+    );
+
+    return $self->_decode_result( $result, $url, $query_json );
+}
+
+sub _decode_result {
+    my $self = shift;
+    my ( $result, $url, $original ) = @_;
     my $decoded_result;
 
     $result->{'success'}
-        or croak "Failed to fetch '$url': " . $result->{'reason'};
+        or croak "Failed to fetch '$url': " .
+                 $result->{'reason'}        .
+                 defined $original ? " (Submitted request: $original)" : '';
 
     defined ( my $content = $result->{'content'} )
         or croak 'Missing content in return value';
