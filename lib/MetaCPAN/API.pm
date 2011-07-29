@@ -59,12 +59,18 @@ sub post {
     my $query = shift;
     my $base  = $self->base_url;
 
+    defined $url
+        or croak 'First argument of URL must be provided';
+
+    ref $query and ref $query eq 'HASH'
+        or croak 'Second argument of query hashref must be provided';
+
     my $query_json = encode_json $query;
     my $result     = $self->ua->request(
         'POST',
         "$base/$url",
         {
-            headers => { "Content-Type" => "application/json" },
+            headers => { 'Content-Type' => 'application/json' },
             content => $query_json,
         }
     );
@@ -77,10 +83,20 @@ sub _decode_result {
     my ( $result, $url, $original ) = @_;
     my $decoded_result;
 
-    $result->{'success'}
-        or croak "Failed to fetch '$url': " .
-                 $result->{'reason'}        .
-                 defined $original ? " (Submitted request: $original)" : '';
+    ref $result and ref $result eq 'HASH'
+        or croak 'First argument must be hashref';
+
+    defined $url
+        or croak 'Second argument of a URL must be provided';
+
+    if ( defined ( my $success = $result->{'success'} ) ) {
+        my $reason = $result->{'reason'} || '';
+        $reason .= ( defined $original ? " (request: $original)" : '' );
+
+        $success or croak "Failed to fetch '$url': $reason";
+    } else {
+        croak 'Missing success in return value';
+    }
 
     defined ( my $content = $result->{'content'} )
         or croak 'Missing content in return value';
