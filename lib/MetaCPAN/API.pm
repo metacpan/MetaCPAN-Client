@@ -132,7 +132,7 @@ __END__
 =head1 DESCRIPTION
 
 This is a hopefully-complete API-compliant interface to MetaCPAN
-(http://search.metacpan.org) with DWIM capabilities, to make your life easier.
+(L<https://metacpan.org>) with DWIM capabilities, to make your life easier.
 
 This module has three purposes:
 
