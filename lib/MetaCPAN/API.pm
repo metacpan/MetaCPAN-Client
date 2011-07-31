@@ -192,7 +192,7 @@ MetaCPAN is accessible. By default it's already set correctly, but if you're
 running a local instance of MetaCPAN, or use a local mirror, or tunnel it
 through a local port, or any of those stuff, you would want to change this.
 
-Default: I<http://beta.api.metacpan.org>.
+Default: I<http://api.metacpan.org/v0>.
 
 This attribute is read-only (immutable), meaning that once it's set on
 initialize (via C<new()>), you cannot change it. If you need to, create a
