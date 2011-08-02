@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-API
 
+0.31        02.08.11
+            * URL updates (thanks to Olaf Alders, OALDERS).
+            * Small mismatched quote in POD example.
+            
 0.30        30.07.11
             * Add POST query searches (RT #69814, GH #2).
             (original code by Tim Bunce, thank you!)

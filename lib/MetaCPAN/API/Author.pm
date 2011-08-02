@@ -58,7 +58,7 @@ You can do complex searches using 'search' parameter:
     # example lifted from MetaCPAN docs
     my $result = $mcpan->author(
         search => {
-            q    => "profile.name:twitter',
+            q    => 'profile.name:twitter',
             size => 1,
         },
     );
