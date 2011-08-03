@@ -5,9 +5,9 @@ use warnings;
 
 use Test::More tests => 8;
 use Test::Fatal;
-use MetaCPAN::API;
+use t::lib::Functions;
 
-my $mcpan = MetaCPAN::API->new;
+my $mcpan = mcpan();
 isa_ok( $mcpan, 'MetaCPAN::API' );
 
 # parameters
