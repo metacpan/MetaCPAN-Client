@@ -6,9 +6,9 @@ use warnings;
 use Test::More tests => 13;
 use Test::Fatal;
 use Test::TinyMocker;
-use MetaCPAN::API;
+use t::lib::Functions;
 
-my $mcpan = MetaCPAN::API->new;
+my $mcpan = mcpan();
 isa_ok( $mcpan, 'MetaCPAN::API' );
 
 like(
