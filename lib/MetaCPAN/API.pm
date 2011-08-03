@@ -33,7 +33,10 @@ has ua => (
 has ua_args => (
     is      => 'ro',
     isa     => 'ArrayRef',
-    default => sub { [] },
+    default => sub {
+        my $version = $MetaCPAN::API::VERSION || 'xx';
+        return [ agent => "MetaCPAN::API/$version" ];
+    },
 );
 
 sub _build_ua {
@@ -221,6 +224,8 @@ The arguments that will be given to the L<HTTP::Tiny> user agent.
 This attribute is read-only (immutable), meaning that once it's set on
 initialize (via C<new()>), you cannot change it. If you need to, create a
 new instance of MetaCPAN::API. Why is it immutable? Because it's better.
+
+The default is a user agent string: B<MetaCPAN::API/$version>.
 
 =head1 METHODS
 
