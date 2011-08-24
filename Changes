@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-API
 
+0.33        24.08.11
+            * No functional changes.
+            * Skip t::lib in dzil.
+
 0.32        04.08.11
             * Use a default agent string for requests.
             * Use a default agent string for tests.
