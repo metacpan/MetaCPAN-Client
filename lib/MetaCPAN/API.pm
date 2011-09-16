@@ -16,6 +16,7 @@ with qw/
     MetaCPAN::API::Module
     MetaCPAN::API::POD
     MetaCPAN::API::Release
+    MetaCPAN::API::Source
 /;
 
 has base_url => (
