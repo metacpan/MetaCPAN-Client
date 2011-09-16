@@ -34,7 +34,7 @@ sub pod {
         $type =~ m{^ text/ (?: html|plain|x-pod|x-markdown ) $}x
             or croak 'Incorrect content-type provided';
 
-        $extra{'content-type'} = $type;
+        $extra{headers}->{'content-type'} = $type;
     }
 
     $url = $self->base_url . "/$url";
