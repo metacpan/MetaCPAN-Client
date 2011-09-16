@@ -14,7 +14,7 @@ sub source {
     my $self  = shift;
     my %opts  = @_ ? @_ : ();
     my $url   = '';
-    my $error = "Provide 'author and 'release' and 'path'";
+    my $error = "Provide 'author' and 'release' and 'path'";
 
     %opts or croak $error;
 
