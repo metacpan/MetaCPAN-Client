@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-API
 
+0.34        02.10.11
+            * Added MetaCPAN::API::Source (Renee Baecker).
+            * Fix of HTTP::Tiny content-type in options (Renee Baecker).
+            * Typo fix (Olaf Alders, reported by @doherty).
+
 0.33        24.08.11
             * No functional changes.
             * Skip t::lib in dzil.
