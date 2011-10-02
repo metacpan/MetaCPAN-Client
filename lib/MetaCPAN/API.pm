@@ -16,6 +16,7 @@ with qw/
     MetaCPAN::API::Module
     MetaCPAN::API::POD
     MetaCPAN::API::Release
+    MetaCPAN::API::Source
 /;
 
 has base_url => (
@@ -130,7 +131,7 @@ __END__
 
     my $mcpan  = MetaCPAN::API->new();
     my $author = $mcpan->author('XSAWYERX');
-    my $dist   = $mcpan->release( distribution => 'MetaCPAN::API' );
+    my $dist   = $mcpan->release( distribution => 'MetaCPAN-API' );
 
 =head1 DESCRIPTION
 
