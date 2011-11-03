@@ -251,7 +251,7 @@ It accepts an additional hash as C<GET> parameters.
 =head2 post
 
     # /release&content={"query":{"match_all":{}},"filter":{"prefix":{"archive":"Cache-Cache-1.06"}}}
-    my $result = $mcpan->fetch(
+    my $result = $mcpan->post(
         'release',
         {
             query  => { match_all => {} },
