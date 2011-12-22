@@ -69,7 +69,7 @@ sub post {
     ref $query and ref $query eq 'HASH'
         or croak 'Second argument of query hashref must be provided';
 
-    my $query_json = encode_json $query;
+    my $query_json = to_json( $query, { canonical => 1 } );
     my $result     = $self->ua->request(
         'POST',
         "$base/$url",
