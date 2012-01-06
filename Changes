@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-API
 
+0.40        06.01.12
+            * Fixed JSON encoding so ElasticSearch won't fail.
+              (Christian Walde)
+            * Documentation fixes (Logan - logie17).
+
 0.34        02.10.11
             * Added MetaCPAN::API::Source (Renee Baecker).
             * Fix of HTTP::Tiny content-type in options (Renee Baecker).
