@@ -69,7 +69,7 @@ sub post {
     ref $query and ref $query eq 'HASH'
         or croak 'Second argument of query hashref must be provided';
 
-    my $query_json = encode_json $query;
+    my $query_json = to_json( $query, { canonical => 1 } );
     my $result     = $self->ua->request(
         'POST',
         "$base/$url",
@@ -251,7 +251,7 @@ It accepts an additional hash as C<GET> parameters.
 =head2 post
 
     # /release&content={"query":{"match_all":{}},"filter":{"prefix":{"archive":"Cache-Cache-1.06"}}}
-    my $result = $mcpan->fetch(
+    my $result = $mcpan->post(
         'release',
         {
             query  => { match_all => {} },

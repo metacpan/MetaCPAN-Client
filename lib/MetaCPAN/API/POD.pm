@@ -59,7 +59,7 @@ and distribution releases.
 
 =head2 pod
 
-    my $result = $mcpan->pod( pod => 'Moose' );
+    my $result = $mcpan->pod( module => 'Moose' );
 
     # or
     my $result = $mcpan->pod(
