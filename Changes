@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-API
 
+0.41        07.01.12
+            * Use Test::TinyMocker 0.02 syntax in tests to avoid test fails.
+
 0.40        06.01.12
             * Fixed JSON encoding so ElasticSearch won't fail.
               (Christian Walde)
