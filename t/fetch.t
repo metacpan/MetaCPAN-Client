@@ -15,7 +15,7 @@ my $url  = 'release/distribution/hello';
 my $flag = 0;
 
 mock 'HTTP::Tiny'
-    => methods 'get'
+    => method 'get'
     => should {
         my $self = shift;
         isa_ok( $self, 'HTTP::Tiny' );
@@ -40,7 +40,7 @@ my $result = $mcpan->fetch($url);
 is_deeply( $result, { test => 'test' }, 'Correct result' );
 
 mock 'HTTP::Tiny'
-    => methods 'get'
+    => method 'get'
     => should {
         my $self = shift;
         isa_ok( $self, 'HTTP::Tiny' );
