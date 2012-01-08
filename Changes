@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-API
 
+0.42        08.01.12
+            * Corrected documentation in MetaCPAN::API::Source.
+            * Updated Dist::Zilla configuration, added more tests.
+
 0.41        07.01.12
             * Use Test::TinyMocker 0.02 syntax in tests to avoid test fails.
 

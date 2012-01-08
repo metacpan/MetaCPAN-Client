@@ -44,9 +44,9 @@ This role provides MetaCPAN::API with fetching of source files.
 
 =head1 METHODS
 
-=head2 pod
+=head2 source
 
-    my $text = $mcpan->pod(
+    my $source = $mcpan->source(
         author  => 'DOY',
         release => 'Moose-2.0201',
         path    => 'lib/Moose.pm',
