@@ -118,7 +118,9 @@ sub _build_extra_params {
         or croak 'Incorrect number of params, must be key/value';
 
     my %extra = @_;
-    my $extra = join '&', map { "$_=" . uri_escape($extra{$_}) } keys %extra;
+    my $extra = join '&', map {
+        "$_=" . uri_escape( $extra{$_} )
+    } sort keys %extra;
 
     return $extra;
 }
