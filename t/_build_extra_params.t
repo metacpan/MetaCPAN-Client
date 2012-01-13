@@ -31,14 +31,14 @@ is(
 # regular
 is(
     $mcpan->_build_extra_params( param1 => 'one', param2 => 'two' ),
-    'param2=two&param1=one',
+    'param1=one&param2=two',
     'Basic params',
 );
 
 # throw some symbols in there
 is(
     $mcpan->_build_extra_params( param1 => 'one', param2 => 'two space' ),
-    'param2=two%20space&param1=one',
+    'param1=one&param2=two%20space',
     'Escaping HTML in params',
 );
 
