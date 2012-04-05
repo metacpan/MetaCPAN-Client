@@ -131,9 +131,27 @@ __END__
 
 =head1 SYNOPSIS
 
+    # simple usage
     my $mcpan  = MetaCPAN::API->new();
     my $author = $mcpan->author('XSAWYERX');
     my $dist   = $mcpan->release( distribution => 'MetaCPAN-API' );
+
+    # advanced usage with cache (contributed by Kent Fredric)
+    require CHI;
+    require WWW::Mechanize::Cached;
+    require HTTP::Tiny::Mech;
+    require MetaCPAN::API;
+
+    my $mcpan = MetaCPAN::API->new(
+      ua => HTTP::Tiny::Mech->new(
+        mechua => WWW::Mechanize::Cached->new(
+          cache => CHI->new(
+            driver => 'File',
+            root_dir => '/tmp/metacpan-cache',
+          ),
+        ),
+      ),
+    );
 
 =head1 DESCRIPTION
 
