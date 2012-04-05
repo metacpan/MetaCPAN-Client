@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-API
 
+0.43        05.04.12
+            * Add example in POD of advanced usage with cache by Kent Fredric.
+              (Gist: https://gist.github.com/1291928)
+            * Sort keys in param join - more predictable result.
+
 0.42        08.01.12
             * Corrected documentation in MetaCPAN::API::Source.
             * Updated Dist::Zilla configuration, added more tests.
