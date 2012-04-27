@@ -70,3 +70,6 @@ and distribution releases.
 
 Searches MetaCPAN for a module or a specific release and returns the POD.
 
+Content type can also be specified, like so:
+
+    my $result = $mcpan->pod( module => 'Moose', 'content-type' => 'x-pod' );

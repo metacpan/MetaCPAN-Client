@@ -13,8 +13,12 @@ use URI::Escape 'uri_escape';
 
 with qw/
     MetaCPAN::API::Author
+    MetaCPAN::API::Distribution
+    MetaCPAN::API::Favorite
+    MetaCPAN::API::File
     MetaCPAN::API::Module
     MetaCPAN::API::POD
+    MetaCPAN::API::Rating
     MetaCPAN::API::Release
     MetaCPAN::API::Source
 /;

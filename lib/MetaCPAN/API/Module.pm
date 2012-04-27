@@ -16,9 +16,6 @@ sub module {
     return $self->fetch("module/$name");
 }
 
-# file() is a synonym of module
-sub file { goto &module }
-
 1;
 
 __END__
@@ -39,5 +36,6 @@ Searches MetaCPAN and returns a module's C<.pm> file.
 
 =head2 file
 
-A synonym of C<module>.
+This used to be a synonym of C<module>, but the functionality has now
+moved to L<MetaCPAN::API::File>.
 
