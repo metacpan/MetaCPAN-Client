@@ -116,8 +116,14 @@ sub _build_extra_params {
 
     @_ % 2 == 0
         or croak 'Incorrect number of params, must be key/value';
-
     my %extra = @_;
+
+    # if it's deep, JSON encoding needs to be involved
+    if (scalar grep { ref } values %extra) {
+        my $query_json = to_json( \%extra, { canonical => 1 } );
+        %extra = ( source => $query_json );
+    }
+
     my $extra = join '&', map {
         "$_=" . uri_escape( $extra{$_} )
     } sort keys %extra;
