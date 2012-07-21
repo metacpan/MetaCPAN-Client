@@ -1,143 +1,12 @@
-use strict;
-use warnings;
-package MetaCPAN::API;
-# ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
+=pod
 
-use Any::Moose;
+=head1 NAME
 
-use Carp;
-use JSON;
-use Try::Tiny;
-use HTTP::Tiny;
-use URI::Escape 'uri_escape';
+MetaCPAN::API - A comprehensive, DWIM-featured API to MetaCPAN
 
-with qw/
-    MetaCPAN::API::Author
-    MetaCPAN::API::Distribution
-    MetaCPAN::API::Favorite
-    MetaCPAN::API::File
-    MetaCPAN::API::Module
-    MetaCPAN::API::POD
-    MetaCPAN::API::Rating
-    MetaCPAN::API::Release
-    MetaCPAN::API::Source
-/;
+=head1 VERSION
 
-has base_url => (
-    is      => 'ro',
-    isa     => 'Str',
-    default => 'http://api.metacpan.org/v0',
-);
-
-has ua => (
-    is         => 'ro',
-    isa        => 'HTTP::Tiny',
-    lazy_build => 1,
-);
-
-has ua_args => (
-    is      => 'ro',
-    isa     => 'ArrayRef',
-    default => sub {
-        my $version = $MetaCPAN::API::VERSION || 'xx';
-        return [ agent => "MetaCPAN::API/$version" ];
-    },
-);
-
-sub _build_ua {
-    my $self = shift;
-
-    return HTTP::Tiny->new( @{ $self->ua_args } );
-}
-
-sub fetch {
-    my $self    = shift;
-    my $url     = shift;
-    my $extra   = $self->_build_extra_params(@_);
-    my $base    = $self->base_url;
-    my $req_url = $extra ? "$base/$url?$extra" : "$base/$url";
-
-    my $result  = $self->ua->get($req_url);
-    return $self->_decode_result( $result, $req_url );
-}
-
-sub post {
-    my $self  = shift;
-    my $url   = shift;
-    my $query = shift;
-    my $base  = $self->base_url;
-
-    defined $url
-        or croak 'First argument of URL must be provided';
-
-    ref $query and ref $query eq 'HASH'
-        or croak 'Second argument of query hashref must be provided';
-
-    my $query_json = to_json( $query, { canonical => 1 } );
-    my $result     = $self->ua->request(
-        'POST',
-        "$base/$url",
-        {
-            headers => { 'Content-Type' => 'application/json' },
-            content => $query_json,
-        }
-    );
-
-    return $self->_decode_result( $result, $url, $query_json );
-}
-
-sub _decode_result {
-    my $self = shift;
-    my ( $result, $url, $original ) = @_;
-    my $decoded_result;
-
-    ref $result and ref $result eq 'HASH'
-        or croak 'First argument must be hashref';
-
-    defined $url
-        or croak 'Second argument of a URL must be provided';
-
-    if ( defined ( my $success = $result->{'success'} ) ) {
-        my $reason = $result->{'reason'} || '';
-        $reason .= ( defined $original ? " (request: $original)" : '' );
-
-        $success or croak "Failed to fetch '$url': $reason";
-    } else {
-        croak 'Missing success in return value';
-    }
-
-    defined ( my $content = $result->{'content'} )
-        or croak 'Missing content in return value';
-
-    try   { $decoded_result = decode_json $content }
-    catch { croak "Couldn't decode '$content': $_" };
-
-    return $decoded_result;
-}
-
-sub _build_extra_params {
-    my $self = shift;
-
-    @_ % 2 == 0
-        or croak 'Incorrect number of params, must be key/value';
-    my %extra = @_;
-
-    # if it's deep, JSON encoding needs to be involved
-    if (scalar grep { ref } values %extra) {
-        my $query_json = to_json( \%extra, { canonical => 1 } );
-        %extra = ( source => $query_json );
-    }
-
-    my $extra = join '&', map {
-        "$_=" . uri_escape( $extra{$_} )
-    } sort keys %extra;
-
-    return $extra;
-}
-
-1;
-
-__END__
+version 0.43
 
 =head1 SYNOPSIS
 
@@ -290,4 +159,15 @@ It accepts an additional hash as C<GET> parameters.
     );
 
 The POST equivalent of the C<fetch()> method. It gets the path and JSON request.
+
+=head1 AUTHOR
+
+Sawyer X <xsawyerx@cpan.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2011 by Sawyer X.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
