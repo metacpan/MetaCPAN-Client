@@ -16,6 +16,7 @@ with qw/
     MetaCPAN::API::Distribution
     MetaCPAN::API::Favorite
     MetaCPAN::API::File
+    MetaCPAN::API::Autocomplete
     MetaCPAN::API::Module
     MetaCPAN::API::POD
     MetaCPAN::API::Rating
