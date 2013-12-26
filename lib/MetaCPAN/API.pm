@@ -7,6 +7,13 @@ use Carp;
 use MetaCPAN::API::Request;
 use MetaCPAN::API::Author;
 
+has request => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => sub { MetaCPAN::API::Request->new },
+    handles => ['fetch'],
+);
+
 my @supported_searches = qw<
     author
 >;
@@ -15,7 +22,7 @@ sub author {
     my $self    = shift;
     my $pauseid = shift or croak "author takes pauseid as parameter";
 
-    my $response = MetaCPAN::API::Request->new->fetch("author/$pauseid");
+    my $response = $self->fetch("author/$pauseid");
     ref $response eq 'HASH'
         or croak "Failed to fetch author ($pauseid)";
 
@@ -48,7 +55,7 @@ sub _search {
 
     my $query = $self->_build_search_string( $args );
 
-    my $results = MetaCPAN::API::Request->new->fetch(
+    my $results = $self->fetch(
         "$type/_search",
         q => $query
     );

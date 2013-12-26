@@ -1,12 +1,10 @@
 package MetaCPAN::API::Request;
 
 use Moo;
-
 use Carp;
-
-use HTTP::Tiny;
 use JSON;
 use Try::Tiny;
+use HTTP::Tiny;
 use URI::Escape 'uri_escape';
 use List::Util 'first';
 
@@ -39,7 +37,7 @@ sub fetch {
     my $url     = shift or croak "fetch must be called with a URL param";
 
     my $extra   = $self->_build_extra_params(@_);
-    my $req_url = sprintf "%s/%s?%s", $self->base_url, $url, $extra;
+    my $req_url = sprintf '%s/%s?%s', $self->base_url, $url, $extra;
 
     my $result  = $self->ua->get($req_url);
     return $self->_decode_result( $result, $req_url );
@@ -57,7 +55,7 @@ sub post {
 
     my $result = $self->ua->request(
         'POST',
-        sprintf("%s/%s", $self->base_url, $url),
+        sprintf( '%s/%s', $self->base_url, $url ),
         {
             headers => { 'Content-Type' => 'application/json' },
             content => $query_json,
