@@ -15,13 +15,16 @@ sub author {
     my $self    = shift;
     my $pauseid = shift or croak "author takes pauseid as parameter";
 
-    my $author_details = MetaCPAN::API::Request->new->fetch("author/$pauseid");
-    ref $author_details eq 'HASH' or croak "failed to fetch author $pauseid";
+    my $response = MetaCPAN::API::Request->new->fetch("author/$pauseid");
+    ref $response eq 'HASH'
+        or croak "Failed to fetch author ($pauseid)";
 
-    return MetaCPAN::API::Author->new( data => {
-        map +( $_ => $author_details->{$_} ),
-        @{ MetaCPAN::API::Author->known_fields }
-    } );
+    return MetaCPAN::API::Author->new(
+        data => {
+            map +( $_ => $response->{$_} ),
+            @{ MetaCPAN::API::Author->known_fields }
+        }
+    );
 }
 
 sub author_search {
@@ -36,11 +39,12 @@ sub _search {
     my $self = shift;
     my $type = shift;
     my $args = shift;
-    ref $args eq 'HASH' or croak "_search takes a hash ref as parameter";
 
-    unless ( grep { $_ eq $type } @supported_searches ) {
-        croak "search type is not supported";
-    }
+    ref $args eq 'HASH'
+        or croak "_search takes a hash ref as parameter";
+
+    grep { $_ eq $type } @supported_searches
+        or croak "search type is not supported";
 
     my $query = $self->_build_search_string( $args );
 
@@ -48,10 +52,12 @@ sub _search {
         "$type/_search",
         q => $query
     );
-    return undef unless exists $results->{hits}{hits};
 
-# fix to return ResultSet
-    return [ map { $_->{_source} } @{ $results->{hits}{hits} } ];
+    exists $results->{hits}{hits}
+        or return;
+
+    # fix to return ResultSet
+    return [ map { $_->{_source} } @{ $results->{'hits'}{'hits'} } ];
 }
 
 sub _build_search_string {
