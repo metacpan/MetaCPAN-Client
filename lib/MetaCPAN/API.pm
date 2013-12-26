@@ -3,7 +3,6 @@ package MetaCPAN::API;
 
 use Moo;
 use Carp;
-use List::Util 'first';
 
 use MetaCPAN::API::Request;
 use MetaCPAN::API::Author;
@@ -39,13 +38,16 @@ sub _search {
     my $args = shift;
     ref $args eq 'HASH' or croak "_search takes a hash ref as parameter";
 
-    unless ( first { $_ eq $type } @supported_searches ) {
+    unless ( grep { $_ eq $type } @supported_searches ) {
         croak "search type is not supported";
     }
 
     my $query = $self->_build_search_string( $args );
 
-    my $results = MetaCPAN::API::Request->new->fetch("$type/_search?q=$query");
+    my $results = MetaCPAN::API::Request->new->fetch(
+        "$type/_search",
+        q => $query
+    );
 }
 
 sub _build_search_string {
@@ -57,6 +59,7 @@ sub _build_search_string {
         or croak "search argsent must contain one key/val pair";
     my ($key) = keys %$args;
     my $val = $args->{$key};
+    my $_key = $key;  $_key =~ s/^([a-z]+).*$/$1/;
 
     if ( $key eq 'either' and ref $val eq 'ARRAY' ) {
         return sprintf("(%s)",
@@ -66,7 +69,7 @@ sub _build_search_string {
         return sprintf("(%s)",
             join 'AND' => map { $self->_build_search_string($_) } @$val);
 
-    } elsif ( grep { $key eq $_ } @{ MetaCPAN::API::Author->known_fields } and
+    } elsif ( grep { $_key eq $_ } @{ MetaCPAN::API::Author->known_fields } and
               ! ref $val )
     {
         return sprintf "(%s:%s)", $key, $val;
