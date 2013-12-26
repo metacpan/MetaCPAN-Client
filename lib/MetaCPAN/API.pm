@@ -39,12 +39,7 @@ sub module {
     ref $response eq 'HASH'
         or croak "Failed to fetch Module ($module)";
 
-    return MetaCPAN::API::Module->new(
-        data => {
-            map +( $_ => $response->{$_} ),
-            @{ MetaCPAN::API::Module->known_fields }
-        }
-    );
+    return MetaCPAN::API::Module->new_from_request( $response );
 }
 
 sub file {
@@ -56,12 +51,7 @@ sub file {
     ref $response eq 'HASH'
         or croak "Failed to fetch File ($path)";
 
-    return MetaCPAN::API::Module->new(
-        data => {
-            map +( $_ => $response->{$_} ),
-            @{ MetaCPAN::API::Module->known_fields }
-        }
-    );
+    return MetaCPAN::API::Module->new_from_request( $response );
 }
 
 sub distribution {}

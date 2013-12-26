@@ -3,6 +3,8 @@ package MetaCPAN::API::Author;
 
 use Moo;
 
+with 'MetaCPAN::API::Role::Object';
+
 my @known_fields = qw<
     blog city country dir email gravatar_url name
     pauseid profile updated user website
@@ -24,17 +26,7 @@ has data => (
     required => 1,
 );
 
-sub new_from_request {
-    my ( $class, $request ) = @_;
-
-    return $class->new(
-        data => {
-            map +( $_ => $request->{$_} ),
-            @known_fields
-        }
-    );
-}
-
+sub _known_fields { return \@known_fields }
 
 1;
 

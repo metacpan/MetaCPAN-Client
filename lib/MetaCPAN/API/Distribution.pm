@@ -3,11 +3,13 @@ package MetaCPAN::API::Distribution;
 
 use Moo;
 
+with 'MetaCPAN::API::Role::Object';
+
 my @known_fields = qw<name bugs>;
 
 foreach my $field (@known_fields) {
     has $field => (
-        is      => 'ro',        
+        is      => 'ro',
         lazy    => 1,
         default => sub {
             my $self = shift;
@@ -21,7 +23,8 @@ has data => (
     required => 1,
 );
 
-sub known_fields { return \@known_fields }
+sub _known_fields { return \@known_fields }
+
 
 1;
 

@@ -3,6 +3,8 @@ package MetaCPAN::API::Favorite;
 
 use Moo;
 
+with 'MetaCPAN::API::Role::Object';
+
 my @known_fields = qw<date user release id author distribution>;
 
 foreach my $field (@known_fields) {
@@ -21,7 +23,8 @@ has data => (
     required => 1,
 );
 
-sub known_fields { return \@known_fields }
+sub _known_fields { return \@known_fields }
+
 
 1;
 

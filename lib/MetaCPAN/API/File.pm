@@ -3,6 +3,8 @@ package MetaCPAN::API::File;
 
 use Moo;
 
+with 'MetaCPAN::API::Role::Object';
+
 my @known_fields = qw<
     pod status date author maturity directory indexed documentation id
     module authorized pod_lines version binary name version_numified release
@@ -11,7 +13,7 @@ my @known_fields = qw<
 
 foreach my $field (@known_fields) {
     has $field => (
-        is      => 'ro',        
+        is      => 'ro',
         lazy    => 1,
         default => sub {
             my $self = shift;
@@ -25,7 +27,8 @@ has data => (
     required => 1,
 );
 
-sub known_fields { return \@known_fields }
+sub _known_fields { return \@known_fields }
+
 
 1;
 
