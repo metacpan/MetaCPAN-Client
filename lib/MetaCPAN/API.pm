@@ -27,12 +27,7 @@ sub author {
     ref $response eq 'HASH'
         or croak "Failed to fetch Author ($pauseid)";
 
-    return MetaCPAN::API::Author->new(
-        data => {
-            map +( $_ => $response->{$_} ),
-            @{ MetaCPAN::API::Author->known_fields }
-        }
-    );
+    return MetaCPAN::API::Author->new_from_request( $response );
 }
 
 sub module {
@@ -131,9 +126,7 @@ sub _build_search_string {
         return sprintf("(%s)",
             join 'AND' => map { $self->_build_search_string($_) } @$val);
 
-    } elsif ( grep { $_key eq $_ } @{ MetaCPAN::API::Author->known_fields } and
-              ! ref $val )
-    {
+    } elsif ( ! ref $val ) {
         return sprintf "(%s:%s)", $key, $val;
 
     } else {

@@ -24,7 +24,17 @@ has data => (
     required => 1,
 );
 
-sub known_fields { return \@known_fields }
+sub new_from_request {
+    my ( $class, $request ) = @_;
+
+    return $class->new(
+        data => {
+            map +( $_ => $request->{$_} ),
+            @known_fields
+        }
+    );
+}
+
 
 1;
 
