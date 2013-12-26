@@ -15,9 +15,9 @@ has base_url => (
 );
 
 has ua => (
-    is         => 'ro',
-    lazy_build => 1,
-    builder    => '_build_ua',
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_build_ua',
 );
 
 has ua_args => (
@@ -25,6 +25,7 @@ has ua_args => (
     default => sub {
         return [ agent => 'MetaCPAN::API/'.($MetaCPAN::API::VERSION||'xx') ];
     },
+    lazy => 1,
 );
 
 
