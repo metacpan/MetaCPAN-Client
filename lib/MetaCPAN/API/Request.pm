@@ -8,6 +8,7 @@ use HTTP::Tiny;
 use JSON;
 use Try::Tiny;
 use URI::Escape 'uri_escape';
+use List::Util 'first';
 
 has base_url => (
     is      => 'ro',
@@ -36,10 +37,10 @@ sub _build_ua {
 
 sub fetch {
     my $self    = shift;
-    my $url     = shift;
+    my $url     = shift || croak "fetch must be called with a URL param";
+
     my $extra   = $self->_build_extra_params(@_);
-    my $base    = $self->base_url;
-    my $req_url = $extra ? "$base/$url?$extra" : "$base/$url";
+    my $req_url = sprintf "%s/%s?%s", $self->base_url, $url, $extra;
 
     my $result  = $self->ua->get($req_url);
     return $self->_decode_result( $result, $req_url );
@@ -47,20 +48,17 @@ sub fetch {
 
 sub post {
     my $self  = shift;
-    my $url   = shift;
+    my $url   = shift || croak 'First argument of URL must be provided';
     my $query = shift;
-    my $base  = $self->base_url;
 
-    defined $url
-        or croak 'First argument of URL must be provided';
-
-    ref $query and ref $query eq 'HASH'
+    ref $query eq 'HASH'
         or croak 'Second argument of query hashref must be provided';
 
     my $query_json = to_json( $query, { canonical => 1 } );
-    my $result     = $self->ua->request(
+
+    my $result = $self->ua->request(
         'POST',
-        "$base/$url",
+        sprintf("%s/%s", $self->base_url, $url),
         {
             headers => { 'Content-Type' => 'application/json' },
             content => $query_json,
@@ -71,28 +69,21 @@ sub post {
 }
 
 sub _decode_result {
-    my $self = shift;
-    my ( $result, $url, $original ) = @_;
-    my $decoded_result;
+    my $self     = shift;
+    my $result   = shift;
+    my $url      = shift || croak 'Second argument of a URL must be provided';
 
-    ref $result and ref $result eq 'HASH'
+    ref $result eq 'HASH'
         or croak 'First argument must be hashref';
 
-    defined $url
-        or croak 'Second argument of a URL must be provided';
+    my $success = $result->{'success'};
+    defined $success or croak 'Missing success in return value';
+    $success or croak "Failed to fetch '$url': " . $result->{'reason'};
 
-    if ( defined ( my $success = $result->{'success'} ) ) {
-        my $reason = $result->{'reason'} || '';
-        $reason .= ( defined $original ? " (request: $original)" : '' );
+    my $content = $result->{'content'} ||
+        croak 'Missing content in return value';
 
-        $success or croak "Failed to fetch '$url': $reason";
-    } else {
-        croak 'Missing success in return value';
-    }
-
-    defined ( my $content = $result->{'content'} )
-        or croak 'Missing content in return value';
-
+    my $decoded_result;
     try   { $decoded_result = decode_json $content }
     catch { croak "Couldn't decode '$content': $_" };
 
@@ -107,16 +98,12 @@ sub _build_extra_params {
     my %extra = @_;
 
     # if it's deep, JSON encoding needs to be involved
-    if (scalar grep { ref } values %extra) {
-        my $query_json = to_json( \%extra, { canonical => 1 } );
-        %extra = ( source => $query_json );
-    }
+    %extra = ( source => to_json( \%extra, { canonical => 1 } ) )
+        if first { ref } values %extra;
 
-    my $extra = join '&', map {
-        "$_=" . uri_escape( $extra{$_} )
-    } sort keys %extra;
-
-    return $extra;
+    return join '&' =>
+        map  { "$_=" . uri_escape( $extra{$_} ) }
+        sort keys %extra;
 }
 
 
