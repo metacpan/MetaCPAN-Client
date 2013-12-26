@@ -11,7 +11,7 @@ has request => (
     is      => 'ro',
     lazy    => 1,
     builder => sub { MetaCPAN::API::Request->new },
-    handles => ['fetch'],
+    handles => [qw<fetch post>],
 );
 
 my @supported_searches = qw<
