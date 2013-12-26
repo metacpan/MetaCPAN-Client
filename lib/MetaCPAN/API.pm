@@ -3,12 +3,18 @@ package MetaCPAN::API;
 
 use Moo;
 use Carp;
+use List::Util 'first';
+
 use MetaCPAN::API::Request;
 use MetaCPAN::API::Author;
 
+my @supported_searches = qw<
+    author
+>;
+
 sub author {
     my $self    = shift;
-    my $pauseid = shift or croak "author method must take pauseid as parameter";
+    my $pauseid = shift or croak "author takes pauseid as parameter";
 
     my $author_details = MetaCPAN::API::Request->new->fetch("author/$pauseid");
     ref $author_details eq 'HASH' or croak "failed to fetch author $pauseid";
@@ -19,7 +25,57 @@ sub author {
     } );
 }
 
-sub author_search {}
+sub author_search {
+    my $self = shift;
+    my $args = shift;
+    ref $args eq 'HASH' or croak "author_search takes a hash ref as parameter";
+
+    return $self->_search( 'author', $args );
+}
+
+sub _search {
+    my $self = shift;
+    my $type = shift;
+    my $args = shift;
+    ref $args eq 'HASH' or croak "_search takes a hash ref as parameter";
+
+    unless ( first { $_ eq $type } @supported_searches ) {
+        croak "search type is not supported";
+    }
+
+    my $query = $self->_build_search_string( $args );
+
+    my $results = MetaCPAN::API::Request->new->fetch("$type/_search?q=$query");
+}
+
+sub _build_search_string {
+    my $self = shift;
+    my $args = shift;
+
+    ref $args eq 'HASH' or croak "search argument must be a hash ref";
+    scalar(keys %$args) == 1
+        or croak "search argsent must contain one key/val pair";
+    my ($key) = keys %$args;
+    my $val = $args->{$key};
+
+    if ( $key eq 'either' and ref $val eq 'ARRAY' ) {
+        return sprintf("(%s)",
+            join 'OR' => map { $self->_build_search_string($_) } @$val);
+
+    } elsif ( $key eq 'all' and ref $val eq 'ARRAY' ) {
+        return sprintf("(%s)",
+            join 'AND' => map { $self->_build_search_string($_) } @$val);
+
+    } elsif ( grep { $key eq $_ } @{ MetaCPAN::API::Author->known_fields } and
+              ! ref $val )
+    {
+        return sprintf "(%s:%s)", $key, $val;
+
+    } else {
+        croak "invalid search parameters";
+    }
+}
+
 
 1;
 
@@ -103,4 +159,46 @@ their DWIMish nature works, and what searches they run.
 
 =back
 
+
+=head3 author_search
+
+(TODO: write doc for author_search here)
+
+  SIMPLE:
+    { name => 'a*' }
+
+
+  OR:
+    {
+        either => [
+            { name => 'a*' },
+            { name => '*b' }
+        ],
+    }
+
+  AND:
+    {
+        all => [
+            { name  => 'a*' },
+            { email => '*cpan*' }
+        ],
+    }
+
+  COMPLEX:
+    {
+        either => [
+            {
+                all => [
+                    { name  => 'a*' },
+                    { email => '*cpan*' }
+                ],
+            },
+            {
+                all => [
+                    { name  => 'b*' },
+                    { email => '*cpan*' }
+                ],
+            },
+        ]
+    }
 
