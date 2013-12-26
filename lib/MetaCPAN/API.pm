@@ -48,6 +48,10 @@ sub _search {
         "$type/_search",
         q => $query
     );
+    return undef unless exists $results->{hits}{hits};
+
+# fix to return ResultSet
+    return [ map { $_->{_source} } @{ $results->{hits}{hits} } ];
 }
 
 sub _build_search_string {
