@@ -20,11 +20,12 @@ my @supported_searches = qw<
 
 sub author {
     my $self    = shift;
-    my $pauseid = shift or croak "author takes pauseid as parameter";
+    my $pauseid = shift
+        or croak 'Author takes PAUSE ID as parameter';
 
     my $response = $self->fetch("author/$pauseid");
     ref $response eq 'HASH'
-        or croak "Failed to fetch author ($pauseid)";
+        or croak "Failed to fetch Author ($pauseid)";
 
     return MetaCPAN::API::Author->new(
         data => {
@@ -33,6 +34,50 @@ sub author {
         }
     );
 }
+
+sub module {
+    my $self   = shift;
+    my $module = shift
+        or croak 'Module takes module name as parameter';
+
+    my $response = $self->fetch("module/$module");
+    ref $response eq 'HASH'
+        or croak "Failed to fetch Module ($module)";
+
+    return MetaCPAN::API::Module->new(
+        data => {
+            map +( $_ => $response->{$_} ),
+            @{ MetaCPAN::API::Module->known_fields }
+        }
+    );
+}
+
+sub file {
+    my $self = shift;
+    my $path = shift
+        or croak 'File takes file path as parameter';
+
+    my $response = $self->fetch("file/$path");
+    ref $response eq 'HASH'
+        or croak "Failed to fetch File ($path)";
+
+    return MetaCPAN::API::Module->new(
+        data => {
+            map +( $_ => $response->{$_} ),
+            @{ MetaCPAN::API::Module->known_fields }
+        }
+    );
+}
+
+sub distribution {}
+
+sub favorite {}
+
+sub rating {}
+
+sub release {}
+
+sub pod {}
 
 sub author_search {
     my $self = shift;
