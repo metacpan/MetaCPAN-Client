@@ -3,53 +3,60 @@ use warnings;
 package MetaCPAN::API;
 # ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
 
-use Any::Moose;
+use Moo;
 
 use Carp;
-use JSON;
-use Try::Tiny;
+#use JSON;
+#use Try::Tiny;
 use HTTP::Tiny;
-use URI::Escape 'uri_escape';
+#use URI::Escape 'uri_escape';
 
-with qw/
-    MetaCPAN::API::Author
-    MetaCPAN::API::Distribution
-    MetaCPAN::API::Favorite
-    MetaCPAN::API::File
-    MetaCPAN::API::Autocomplete
-    MetaCPAN::API::Module
-    MetaCPAN::API::POD
-    MetaCPAN::API::Rating
-    MetaCPAN::API::Release
-    MetaCPAN::API::Source
-/;
+# with qw/
+#     MetaCPAN::API::Author
+#     MetaCPAN::API::Distribution
+#     MetaCPAN::API::Favorite
+#     MetaCPAN::API::File
+#     MetaCPAN::API::Autocomplete
+#     MetaCPAN::API::Module
+#     MetaCPAN::API::POD
+#     MetaCPAN::API::Rating
+#     MetaCPAN::API::Release
+#     MetaCPAN::API::Source
+# /;
 
 has base_url => (
     is      => 'ro',
-    isa     => 'Str',
-    default => 'http://api.metacpan.org/v0',
+    default => sub { 'http://api.metacpan.org/v0' },
 );
 
 has ua => (
     is         => 'ro',
-    isa        => 'HTTP::Tiny',
     lazy_build => 1,
+    builder    => '_build_ua',
 );
 
 has ua_args => (
     is      => 'ro',
-    isa     => 'ArrayRef',
     default => sub {
-        my $version = $MetaCPAN::API::VERSION || 'xx';
-        return [ agent => "MetaCPAN::API/$version" ];
+        return [ agent => "MetaCPAN::API/".($MetaCPAN::API::VERSION||'xx') ];
     },
 );
 
 sub _build_ua {
     my $self = shift;
-
     return HTTP::Tiny->new( @{ $self->ua_args } );
 }
+
+sub author {}
+
+sub author_search {}
+
+1;
+
+
+
+
+__END__
 
 sub fetch {
     my $self    = shift;
@@ -137,8 +144,6 @@ sub _build_extra_params {
 }
 
 1;
-
-__END__
 
 =head1 SYNOPSIS
 
