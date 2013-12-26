@@ -1,4 +1,5 @@
-package MetaCPAN::API::Role::Object;
+package MetaCPAN::API::Role::Entity;
+# ABSTRACT: A role for MetaCPAN entities
 
 use Moo::Role;
 
@@ -13,5 +14,5 @@ sub new_from_request {
     );
 }
 
-
 1;
+

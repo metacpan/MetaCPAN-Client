@@ -3,7 +3,7 @@ package MetaCPAN::API::File;
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Object';
+with 'MetaCPAN::API::Role::Entity';
 
 my @known_fields = qw<
     pod status date author maturity directory indexed documentation id

@@ -3,7 +3,7 @@ package MetaCPAN::API::Favorite;
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Object';
+with 'MetaCPAN::API::Role::Entity';
 
 my @known_fields = qw<date user release id author distribution>;
 

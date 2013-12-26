@@ -3,7 +3,7 @@ package MetaCPAN::API::Release;
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Object';
+with 'MetaCPAN::API::Role::Entity';
 
 my @known_fields = qw<
     resources status date author maturity dependency id authorized

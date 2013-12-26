@@ -3,7 +3,7 @@ package MetaCPAN::API::Distribution;
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Object';
+with 'MetaCPAN::API::Role::Entity';
 
 my @known_fields = qw<name bugs>;
 
