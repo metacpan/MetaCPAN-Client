@@ -1,26 +1,23 @@
-use strict;
-use warnings;
 package MetaCPAN::API;
 # ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
 
 use Moo;
-
 use Carp;
+use MetaCPAN::API::Request;
+use MetaCPAN::API::Author;
 
-# with qw/
-#     MetaCPAN::API::Author
-#     MetaCPAN::API::Distribution
-#     MetaCPAN::API::Favorite
-#     MetaCPAN::API::File
-#     MetaCPAN::API::Autocomplete
-#     MetaCPAN::API::Module
-#     MetaCPAN::API::POD
-#     MetaCPAN::API::Rating
-#     MetaCPAN::API::Release
-#     MetaCPAN::API::Source
-# /;
+sub author {
+    my $self    = shift;
+    my $pauseid = shift or croak "author method must take pauseid as parameter";
 
-sub author {}
+    my $author_details = MetaCPAN::API::Request->new->fetch("author/$pauseid");
+    ref $author_details eq 'HASH' or croak "failed to fetch author $pauseid";
+
+    return MetaCPAN::API::Author->new( data => {
+        map +( $_ => $author_details->{$_} ),
+        @{ MetaCPAN::API::Author->known_fields }
+    } );
+}
 
 sub author_search {}
 
