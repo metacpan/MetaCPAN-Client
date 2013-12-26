@@ -4,18 +4,8 @@ package MetaCPAN::API::Author;
 use Moo;
 
 my @known_fields = qw<
-  blog
-  city
-  country
-  dir
-  email
-  gravatar_url
-  name
-  pauseid
-  profile
-  updated
-  user
-  website
+    blog city country dir email gravatar_url name
+    pauseid profile updated user website
 >;
 
 foreach my $field (@known_fields) {
