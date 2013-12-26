@@ -37,7 +37,7 @@ sub _build_ua {
 
 sub fetch {
     my $self    = shift;
-    my $url     = shift || croak "fetch must be called with a URL param";
+    my $url     = shift or croak "fetch must be called with a URL param";
 
     my $extra   = $self->_build_extra_params(@_);
     my $req_url = sprintf "%s/%s?%s", $self->base_url, $url, $extra;
@@ -48,7 +48,7 @@ sub fetch {
 
 sub post {
     my $self  = shift;
-    my $url   = shift || croak 'First argument of URL must be provided';
+    my $url   = shift or croak 'First argument of URL must be provided';
     my $query = shift;
 
     ref $query eq 'HASH'
@@ -71,7 +71,7 @@ sub post {
 sub _decode_result {
     my $self     = shift;
     my $result   = shift;
-    my $url      = shift || croak 'Second argument of a URL must be provided';
+    my $url      = shift or croak 'Second argument of a URL must be provided';
 
     ref $result eq 'HASH'
         or croak 'First argument must be hashref';
@@ -80,7 +80,7 @@ sub _decode_result {
     defined $success or croak 'Missing success in return value';
     $success or croak "Failed to fetch '$url': " . $result->{'reason'};
 
-    my $content = $result->{'content'} ||
+    my $content = $result->{'content'} or
         croak 'Missing content in return value';
 
     my $decoded_result;
