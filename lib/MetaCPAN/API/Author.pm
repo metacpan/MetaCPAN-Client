@@ -4,13 +4,23 @@ package MetaCPAN::API::Author;
 use Moo;
 
 my @known_fields = qw<
-    profile country website gravatar_url name blog
-    dir email city user updated pauseid
+  blog
+  city
+  country
+  dir
+  email
+  gravatar_url
+  name
+  pauseid
+  profile
+  updated
+  user
+  website
 >;
 
 foreach my $field (@known_fields) {
     has $field => (
-        is      => 'ro',        
+        is      => 'ro',
         default => sub {
             my $self = shift;
             return $self->data->{$field};
