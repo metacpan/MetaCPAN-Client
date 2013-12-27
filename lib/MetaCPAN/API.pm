@@ -20,6 +20,7 @@ has request => (
 
 my @supported_searches = qw<
     author
+    favorite
 >;
 
 sub author {
@@ -66,9 +67,13 @@ sub favorite {
     # return MetaCPAN::API::Favorite->new_from_request( $response );
 }
 
+# http://api.metacpan.org/v0/rating/_search?q=rating:4.0
+# http://api.metacpan.org/v0/rating/_search?q=distribution:Moose
 sub rating {}
 
+# http://api.metacpan.org/v0/release/_search?q=author:XSAWYERX
 sub release {}
+
 
 sub pod {}
 
@@ -78,6 +83,16 @@ sub author_search {
     ref $args eq 'HASH' or croak "author_search takes a hash ref as parameter";
 
     return $self->_search( 'author', $args );
+}
+
+# http://api.metacpan.org/v0/favorite/_search?q=distribution:Moose
+# http://api.metacpan.org/v0/favorite/_search?q=author:DOY
+sub favorite_search {
+    my $self = shift;
+    my $args = shift;
+    ref $args eq 'HASH' or croak "favorite_search takes a hash ref as parameter";
+
+    return $self->_search( 'favorite', $args );
 }
 
 
@@ -129,6 +144,7 @@ sub _build_search_string {
     ref $args eq 'HASH' or croak "search argument must be a hash ref";
     scalar(keys %$args) == 1
         or croak "search argsent must contain one key/val pair";
+
     my ($key) = keys %$args;
     my $val = $args->{$key};
     my $_key = $key;  $_key =~ s/^([a-z]+).*$/$1/;
