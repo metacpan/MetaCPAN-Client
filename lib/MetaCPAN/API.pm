@@ -27,11 +27,7 @@ sub author {
     my $pauseid = shift
         or croak 'Author takes PAUSE ID as parameter';
 
-    my $response = $self->fetch("author/$pauseid");
-    ref $response eq 'HASH'
-        or croak "Failed to fetch Author ($pauseid)";
-
-    return MetaCPAN::API::Author->new_from_request( $response );
+    return $self->_get('author', $pauseid);
 }
 
 sub module {
@@ -39,11 +35,7 @@ sub module {
     my $module = shift
         or croak 'Module takes module name as parameter';
 
-    my $response = $self->fetch("module/$module");
-    ref $response eq 'HASH'
-        or croak "Failed to fetch Module ($module)";
-
-    return MetaCPAN::API::Module->new_from_request( $response );
+    return $self->_get('module', $module);
 }
 
 sub file {
@@ -51,23 +43,15 @@ sub file {
     my $path = shift
         or croak 'File takes file path as parameter';
 
-    my $response = $self->fetch("file/$path");
-    ref $response eq 'HASH'
-        or croak "Failed to fetch File ($path)";
-
-    return MetaCPAN::API::File->new_from_request( $response );
+    return $self->_get('file', $path);
 }
 
 sub distribution {
-    my $self    = shift;
+    my $self = shift;
     my $dist = shift
         or croak 'Distribution takes a name as parameter';
 
-    my $response = $self->fetch("distribution/$dist");
-    ref $response eq 'HASH'
-        or croak "Failed to fetch Distribution ($dist)";
-
-    return MetaCPAN::API::Distribution->new_from_request( $response );
+    return $self->_get('distribution', $dist);
 }
 
 sub favorite {
@@ -96,6 +80,22 @@ sub author_search {
     return $self->_search( 'author', $args );
 }
 
+
+sub _get {
+    my $self = shift;
+    scalar(@_) == 2
+        or croak "_get takes type and search string as parameters";
+
+    my $type = shift;
+    my $arg  = shift;
+
+    my $response = $self->fetch("$type/$arg");
+    ref $response eq 'HASH'
+        or croak sprintf("Failed to fetch %s (%s)", ucfirst($type), $arg);
+
+    my $class = "MetaCPAN::API::" . ucfirst($type);
+    return $class->new_from_request( $response );
+}
 
 sub _search {
     my $self = shift;
