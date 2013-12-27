@@ -6,6 +6,10 @@ use Carp;
 
 use MetaCPAN::API::Request;
 use MetaCPAN::API::Author;
+use MetaCPAN::API::Distribution;
+use MetaCPAN::API::Module;
+use MetaCPAN::API::File;
+#use MetaCPAN::API::Favorite;
 
 has request => (
     is      => 'ro',
@@ -51,12 +55,32 @@ sub file {
     ref $response eq 'HASH'
         or croak "Failed to fetch File ($path)";
 
-    return MetaCPAN::API::Module->new_from_request( $response );
+    return MetaCPAN::API::File->new_from_request( $response );
 }
 
-sub distribution {}
+sub distribution {
+    my $self    = shift;
+    my $dist = shift
+        or croak 'Distribution takes a name as parameter';
 
-sub favorite {}
+    my $response = $self->fetch("distribution/$dist");
+    ref $response eq 'HASH'
+        or croak "Failed to fetch Distribution ($dist)";
+
+    return MetaCPAN::API::Distribution->new_from_request( $response );
+}
+
+sub favorite {
+    # my $self = shift;
+    # my $name = shift
+    #     or croak 'Favorite takes name as parameter';
+
+    # my $response = $self->fetch("favorite",q=>"distribution:$name");
+    # ref $response eq 'HASH'
+    #     or croak "Failed to fetch Favorite ($name)";
+
+    # return MetaCPAN::API::Favorite->new_from_request( $response );
+}
 
 sub rating {}
 
@@ -71,6 +95,7 @@ sub author_search {
 
     return $self->_search( 'author', $args );
 }
+
 
 sub _search {
     my $self = shift;

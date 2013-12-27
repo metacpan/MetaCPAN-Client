@@ -9,7 +9,7 @@ my @known_fields = qw<date user release id author distribution>;
 
 foreach my $field (@known_fields) {
     has $field => (
-        is      => 'ro',        
+        is      => 'ro',
         lazy    => 1,
         default => sub {
             my $self = shift;
