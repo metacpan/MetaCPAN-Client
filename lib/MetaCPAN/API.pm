@@ -23,37 +23,10 @@ my @supported_searches = qw<
     favorite
 >;
 
-sub author {
-    my $self    = shift;
-    my $pauseid = shift
-        or croak 'Author takes PAUSE ID as parameter';
-
-    return $self->_get('author', $pauseid);
-}
-
-sub module {
-    my $self   = shift;
-    my $module = shift
-        or croak 'Module takes module name as parameter';
-
-    return $self->_get('module', $module);
-}
-
-sub file {
-    my $self = shift;
-    my $path = shift
-        or croak 'File takes file path as parameter';
-
-    return $self->_get('file', $path);
-}
-
-sub distribution {
-    my $self = shift;
-    my $dist = shift
-        or croak 'Distribution takes a name as parameter';
-
-    return $self->_get('distribution', $dist);
-}
+sub author       { shift->_get('author',       shift) }
+sub module       { shift->_get('module',       shift) }
+sub file         { shift->_get('file',         shift) }
+sub distribution { shift->_get('distribution', shift) }
 
 sub favorite {
     # my $self = shift;
@@ -98,11 +71,8 @@ sub favorite_search {
 
 sub _get {
     my $self = shift;
-    scalar(@_) == 2
-        or croak "_get takes type and search string as parameters";
-
-    my $type = shift;
-    my $arg  = shift;
+    my $type = shift or croak "fetch requires a type";
+    my $arg  = shift or croak "fetch requires an arg";
 
     my $response = $self->fetch("$type/$arg");
     ref $response eq 'HASH'
@@ -171,8 +141,6 @@ sub _build_search_string {
 
 __END__
 
-
-1;
 
 =head1 SYNOPSIS
 
