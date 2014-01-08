@@ -171,23 +171,23 @@ sub _build_search_string {
     my $args = shift;
 
     ref($args) eq 'HASH' or croak "search argument must be a hash ref";
-    scalar(keys %$args) == 1
-        or croak "search argsent must contain one key/val pair";
+    scalar keys %{$args} == 1
+        or croak "search arg sent must contain one key/val pair";
 
-    my ($key) = keys %$args;
+    my ($key) = keys %{$args};
     my $val = $args->{$key};
     my $_key = $key;  $_key =~ s/^([a-z]+).*$/$1/;
 
     if ( $key eq 'either' and ref($val) eq 'ARRAY' ) {
-        return sprintf("(%s)",
-            join 'OR' => map { $self->_build_search_string($_) } @$val);
+        return sprintf('(%s)',
+            join 'OR' => map { $self->_build_search_string($_) } @{$val});
 
     } elsif ( $key eq 'all' and ref($val) eq 'ARRAY' ) {
-        return sprintf("(%s)",
-            join 'AND' => map { $self->_build_search_string($_) } @$val);
+        return sprintf('(%s)',
+            join 'AND' => map { $self->_build_search_string($_) } @{$val});
 
     } elsif ( ! ref $val ) {
-        return sprintf "(%s:%s)", $key, $val;
+        return sprintf '(%s:%s)', $key, $val;
 
     } else {
         croak "invalid search parameters";
