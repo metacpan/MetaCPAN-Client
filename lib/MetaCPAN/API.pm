@@ -10,6 +10,7 @@ use MetaCPAN::API::Distribution;
 use MetaCPAN::API::Module;
 use MetaCPAN::API::File;
 use MetaCPAN::API::Favorite;
+use MetaCPAN::API::Release;
 
 has request => (
     is      => 'ro',
@@ -107,11 +108,15 @@ sub rating {
 #
 sub release {
    my $self = shift;
-   my $args = shift;
-   ref($args) eq 'HASH' or
-       croak "release takes a hash ref as parameter";
+   my $arg  = shift;
 
-    return $self->_search('release', $args);
+   ref($arg) eq 'HASH' and
+       return $self->_search('release', $arg);
+
+   defined $arg and $arg =~ /\w/ and
+       return $self->_get('release', $arg);
+
+   croak 'release takes either a name or hash (search arguments) as a parameter';
 }
 
 sub pod {}
