@@ -27,39 +27,21 @@ sub author {
     my $self = shift;
     my $arg  = shift;
 
-    ref($arg) eq 'HASH' and
-        return $self->_search('author', $arg);
-
-    defined $arg and $arg =~ /\w/ and
-        return $self->_get('author', $arg);
-
-    croak 'author takes either PAUSE ID or hash as a parameter';
+    return $self->_get_or_search('author', $arg);
 }
 
 sub module {
     my $self = shift;
     my $arg  = shift;
 
-    ref($arg) eq 'HASH' and
-        return $self->_search('module', $arg);
-
-    defined $arg and $arg =~ /\w/ and
-        return $self->_get('module', $arg);
-
-    croak 'module takes either a name or hash (search arguments) as a parameter';
+    return $self->_get_or_search('module', $arg);
 }
 
 sub distribution {
     my $self = shift;
     my $arg  = shift;
 
-    ref($arg) eq 'HASH' and
-        return $self->_search('distribution', $arg);
-
-    defined $arg and $arg =~ /\w/ and
-        return $self->_get('distribution', $arg);
-
-    croak 'distribution takes either a name or hash (search arguments) as a parameter';
+    return $self->_get_or_search('distribution', $arg);
 }
 
 sub file {
@@ -110,13 +92,7 @@ sub release {
    my $self = shift;
    my $arg  = shift;
 
-   ref($arg) eq 'HASH' and
-       return $self->_search('release', $arg);
-
-   defined $arg and $arg =~ /\w/ and
-       return $self->_get('release', $arg);
-
-   croak 'release takes either a name or hash (search arguments) as a parameter';
+   return $self->_get_or_search('release', $arg);
 }
 
 sub pod {}
@@ -166,6 +142,20 @@ sub _search {
     return [ map { $_->{_source} } @{ $results->{'hits'}{'hits'} } ];
 }
 
+sub _get_or_search {
+    my $self = shift;
+    my $type = shift;
+    my $arg  = shift;
+
+    ref($arg) eq 'HASH' and
+        return $self->_search($type, $arg);
+
+    defined $arg and $arg =~ /\w/ and
+        return $self->_get($type, $arg);
+
+    croak "$type: invalid args (takes scalar value or search parameters hash ref)";
+}
+
 sub _build_search_string {
     my $self = shift;
     my $args = shift;
@@ -186,7 +176,7 @@ sub _build_search_string {
         return sprintf('(%s)',
             join 'AND' => map { $self->_build_search_string($_) } @{$val});
 
-    } elsif ( ! ref $val ) {
+    } elsif ( ! ref($val) ) {
         return sprintf '(%s:%s)', $key, $val;
 
     } else {
