@@ -9,7 +9,7 @@ use MetaCPAN::API::Author;
 use MetaCPAN::API::Distribution;
 use MetaCPAN::API::Module;
 use MetaCPAN::API::File;
-#use MetaCPAN::API::Favorite;
+use MetaCPAN::API::Favorite;
 
 has request => (
     is      => 'ro',
@@ -19,82 +19,106 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author
-    favorite
+    author distribution favorite module rating release
 >;
 
 sub author {
-    my $self    = shift;
-    my $pauseid = shift
-        or croak 'Author takes PAUSE ID as parameter';
+    my $self = shift;
+    my $arg  = shift;
 
-    return $self->_get('author', $pauseid);
+    ref($arg) eq 'HASH' and
+        return $self->_search('author', $arg);
+
+    defined $arg and $arg =~ /\w/ and
+        return $self->_get('author', $arg);
+
+    croak 'author takes either PAUSE ID or hash as a parameter';
 }
 
 sub module {
-    my $self   = shift;
-    my $module = shift
-        or croak 'Module takes module name as parameter';
+    my $self = shift;
+    my $arg  = shift;
 
-    return $self->_get('module', $module);
+    ref($arg) eq 'HASH' and
+        return $self->_search('module', $arg);
+
+    defined $arg and $arg =~ /\w/ and
+        return $self->_get('module', $arg);
+
+    croak 'module takes either a name or hash (search arguments) as a parameter';
+}
+
+sub distribution {
+    my $self = shift;
+    my $arg  = shift;
+
+    ref($arg) eq 'HASH' and
+        return $self->_search('distribution', $arg);
+
+    defined $arg and $arg =~ /\w/ and
+        return $self->_get('distribution', $arg);
+
+    croak 'distribution takes either a name or hash (search arguments) as a parameter';
 }
 
 sub file {
     my $self = shift;
     my $path = shift
-        or croak 'File takes file path as parameter';
+        or croak 'file takes file path as parameter';
 
     return $self->_get('file', $path);
 }
 
-sub distribution {
-    my $self = shift;
-    my $dist = shift
-        or croak 'Distribution takes a name as parameter';
-
-    return $self->_get('distribution', $dist);
-}
-
+#
+# $api->rating({ dist => "Moose" })
+#   is equal to http://api.metacpan.org/v0/favorite/_search?q=distribution:Moose
+#
+# $api->rating({ author => "DOY" })
+#   is equal to http://api.metacpan.org/v0/favorite/_search?q=author:DOY
+#
 sub favorite {
-    # my $self = shift;
-    # my $name = shift
-    #     or croak 'Favorite takes name as parameter';
+    my $self = shift;
+    my $args = shift;
+    ref($args) eq 'HASH' or
+        croak "favorite takes a hash ref as parameter";
 
-    # my $response = $self->fetch("favorite",q=>"distribution:$name");
-    # ref $response eq 'HASH'
-    #     or croak "Failed to fetch Favorite ($name)";
-
-    # return MetaCPAN::API::Favorite->new_from_request( $response );
+    return $self->_search('favorite', $args);
 }
 
-# http://api.metacpan.org/v0/rating/_search?q=rating:4.0
-# http://api.metacpan.org/v0/rating/_search?q=distribution:Moose
-sub rating {}
+#
+# $api->rating({ rating => "4.0" })
+#   is equal to http://api.metacpan.org/v0/rating/_search?q=rating:4.0
+#
+# $api->rating({ distribution => "Moose" })
+#   is equal to http://api.metacpan.org/v0/rating/_search?q=distribution:Moose
+#
+sub rating {
+    my $self = shift;
+    my $args = shift;
+    ref($args) eq 'HASH' or
+        croak "rating takes a hash ref as parameter";
 
-# http://api.metacpan.org/v0/release/_search?q=author:XSAWYERX
-sub release {}
+    return $self->_search('rating', $args);
+}
 
+#
+# $api->release({ author => "XSAWYERX" })
+#   is equal to http://api.metacpan.org/v0/release/_search?q=author:XSAWYERX
+#
+sub release {
+   my $self = shift;
+   my $args = shift;
+   ref($args) eq 'HASH' or
+       croak "release takes a hash ref as parameter";
+
+    return $self->_search('release', $args);
+}
 
 sub pod {}
 
-sub author_search {
-    my $self = shift;
-    my $args = shift;
-    ref $args eq 'HASH' or croak "author_search takes a hash ref as parameter";
 
-    return $self->_search( 'author', $args );
-}
 
-# http://api.metacpan.org/v0/favorite/_search?q=distribution:Moose
-# http://api.metacpan.org/v0/favorite/_search?q=author:DOY
-sub favorite_search {
-    my $self = shift;
-    my $args = shift;
-    ref $args eq 'HASH' or croak "favorite_search takes a hash ref as parameter";
-
-    return $self->_search( 'favorite', $args );
-}
-
+###
 
 sub _get {
     my $self = shift;
@@ -105,11 +129,11 @@ sub _get {
     my $arg  = shift;
 
     my $response = $self->fetch("$type/$arg");
-    ref $response eq 'HASH'
+    ref($response) eq 'HASH'
         or croak sprintf("Failed to fetch %s (%s)", ucfirst($type), $arg);
 
     my $class = "MetaCPAN::API::" . ucfirst($type);
-    return $class->new_from_request( $response );
+    return $class->new_from_request($response);
 }
 
 sub _search {
@@ -117,13 +141,13 @@ sub _search {
     my $type = shift;
     my $args = shift;
 
-    ref $args eq 'HASH'
+    ref($args) eq 'HASH'
         or croak "_search takes a hash ref as parameter";
 
     grep { $_ eq $type } @supported_searches
         or croak "search type is not supported";
 
-    my $query = $self->_build_search_string( $args );
+    my $query = $self->_build_search_string($args);
 
     my $results = $self->fetch(
         "$type/_search",
@@ -141,7 +165,7 @@ sub _build_search_string {
     my $self = shift;
     my $args = shift;
 
-    ref $args eq 'HASH' or croak "search argument must be a hash ref";
+    ref($args) eq 'HASH' or croak "search argument must be a hash ref";
     scalar(keys %$args) == 1
         or croak "search argsent must contain one key/val pair";
 
@@ -149,11 +173,11 @@ sub _build_search_string {
     my $val = $args->{$key};
     my $_key = $key;  $_key =~ s/^([a-z]+).*$/$1/;
 
-    if ( $key eq 'either' and ref $val eq 'ARRAY' ) {
+    if ( $key eq 'either' and ref($val) eq 'ARRAY' ) {
         return sprintf("(%s)",
             join 'OR' => map { $self->_build_search_string($_) } @$val);
 
-    } elsif ( $key eq 'all' and ref $val eq 'ARRAY' ) {
+    } elsif ( $key eq 'all' and ref($val) eq 'ARRAY' ) {
         return sprintf("(%s)",
             join 'AND' => map { $self->_build_search_string($_) } @$val);
 
