@@ -118,12 +118,16 @@ sub _get {
 }
 
 sub _search {
-    my $self = shift;
-    my $type = shift;
-    my $args = shift;
+    my $self   = shift;
+    my $type   = shift;
+    my $args   = shift;
+    my $params = shift;
 
     ref($args) eq 'HASH'
-        or croak "_search takes a hash ref as parameter";
+        or croak '_search takes a hash ref as query';
+
+    $params && ref $params eq 'HASH'
+        or croak '_search takes a hash ref as query parameters';
 
     grep { $_ eq $type } @supported_searches
         or croak "search type is not supported";
@@ -132,7 +136,8 @@ sub _search {
 
     my $results = $self->fetch(
         "$type/_search",
-        q => $query
+        q => $query,
+        $params,
     );
 
     exists $results->{hits}{hits}

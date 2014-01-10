@@ -35,8 +35,9 @@ sub _build_ua {
 sub fetch {
     my $self    = shift;
     my $url     = shift or croak "fetch must be called with a URL param";
+    my $params  = shift || {};
 
-    my $extra   = $self->_build_extra_params(@_);
+    my $extra   = $self->_build_extra_params( %{$params} );
     my $req_url = sprintf '%s/%s?%s', $self->base_url, $url, $extra;
 
     my $result  = $self->ua->get($req_url);
@@ -92,15 +93,12 @@ sub _build_extra_params {
 
     @_ % 2 == 0
         or croak 'Incorrect number of params, must be key/value';
+
     my %extra = @_;
 
-    # if it's deep, JSON encoding needs to be involved
-    %extra = ( source => to_json( \%extra, { canonical => 1 } ) )
-        if first { ref } values %extra;
-
-    return join '&' =>
-        map  { "$_=" . uri_escape( $extra{$_} ) }
-        sort keys %extra;
+    return join '&', map +(
+               "$_=" . uri_escape( $extra{$_} )
+           ), sort keys %extra;
 }
 
 
