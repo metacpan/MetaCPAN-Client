@@ -11,6 +11,7 @@ use MetaCPAN::API::Module;
 use MetaCPAN::API::File;
 use MetaCPAN::API::Favorite;
 use MetaCPAN::API::Release;
+use MetaCPAN::API::ResultSet;
 
 has request => (
     is      => 'ro',
@@ -139,6 +140,8 @@ sub _search {
     if ($params) {
         ref $params eq 'HASH'
             or croak '_search takes a hash ref as query parameters';
+    } else {
+        $params = {};
     }
 
     grep { $_ eq $type } @supported_searches
@@ -150,15 +153,21 @@ sub _search {
         "$type/_search",
         {
             query => { query_string => { query => $query } },
-            ( $params ? %{$params} : () ),
+            %{$params},
         },
     );
 
-    exists $results->{'hits'}{'hits'}
-        or return;
+    my @hits = map {;
+        my $class = 'MetaCPAN::API::' . ucfirst $type;
+        $class->new_from_request( $_->{'_source'} );
+    } @{ $results->{'hits'}{'hits'} };
 
-    # fix to return ResultSet
-    return [ map { $_->{'_source'} } @{ $results->{'hits'}{'hits'} } ];
+    my $rs = MetaCPAN::API::ResultSet->new(
+        hits   => \@hits,
+        facets => $results->{'facets'},
+    );
+
+    return $rs;
 }
 
 sub _get_or_search {

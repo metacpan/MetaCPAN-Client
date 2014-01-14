@@ -13,7 +13,7 @@ sub new_from_request {
 
     return $class->new(
         data => {
-            map +( $_ => $request->{$_} ),
+            map +( defined $request->{$_} ? ( $_ => $request->{$_} ) : () ),
             @{ $class->_known_fields }
         }
     );
