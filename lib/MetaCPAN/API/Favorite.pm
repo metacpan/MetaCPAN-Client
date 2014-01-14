@@ -18,11 +18,6 @@ foreach my $field (@known_fields) {
     );
 }
 
-has data => (
-    is       => 'ro',
-    required => 1,
-);
-
 sub _known_fields { return \@known_fields }
 
 

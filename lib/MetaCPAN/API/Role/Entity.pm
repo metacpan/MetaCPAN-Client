@@ -3,6 +3,11 @@ package MetaCPAN::API::Role::Entity;
 
 use Moo::Role;
 
+has data => (
+    is       => 'ro',
+    required => 1,
+);
+
 sub new_from_request {
     my ( $class, $request ) = @_;
 

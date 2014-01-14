@@ -120,7 +120,7 @@ sub _get {
     my $arg  = shift;
 
     my $response = $self->fetch("$type/$arg");
-    ref($response) eq 'HASH'
+    ref $response eq 'HASH'
         or croak sprintf("Failed to fetch %s (%s)", ucfirst($type), $arg);
 
     my $class = "MetaCPAN::API::" . ucfirst($type);
