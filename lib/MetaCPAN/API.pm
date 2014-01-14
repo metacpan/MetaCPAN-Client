@@ -150,11 +150,10 @@ sub _search {
         "$type/_search",
         {
             query => { query_string => { query => $query } },
-            %{$params},
+            ( $params ? %{$params} : () ),
         },
     );
 
-::p $results;
     exists $results->{'hits'}{'hits'}
         or return;
 
