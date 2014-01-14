@@ -36,11 +36,18 @@ sub fetch {
     my $self    = shift;
     my $url     = shift or croak "fetch must be called with a URL param";
     my $params  = shift || {};
+    my $req_url = sprintf '%s/%s', $self->base_url, $url;
+    my $ua      = $self->ua;
 
-    my $extra   = $self->_build_extra_params( %{$params} );
-    my $req_url = sprintf '%s/%s?%s', $self->base_url, $url, $extra;
+    my $result;
+    if ( %{$params} ) {
+        $result = $ua->post( $req_url, {
+            content => to_json $params
+        } );
+    } else {
+        $result = $ua->get($req_url);
+    }
 
-    my $result  = $self->ua->get($req_url);
     return $self->_decode_result( $result, $req_url );
 }
 
@@ -87,20 +94,6 @@ sub _decode_result {
 
     return $decoded_result;
 }
-
-sub _build_extra_params {
-    my $self = shift;
-
-    @_ % 2 == 0
-        or croak 'Incorrect number of params, must be key/value';
-
-    my %extra = @_;
-
-    return join '&', map +(
-               "$_=" . uri_escape( $extra{$_} )
-           ), sort keys %extra;
-}
-
 
 1;
 

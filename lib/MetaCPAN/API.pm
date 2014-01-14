@@ -24,32 +24,37 @@ my @supported_searches = qw<
 >;
 
 sub author {
-    my $self = shift;
-    my $arg  = shift;
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-    return $self->_get_or_search('author', $arg);
+    return $self->_get_or_search( 'author', $arg, $params );
 }
 
 sub module {
-    my $self = shift;
-    my $arg  = shift;
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-    return $self->_get_or_search('module', $arg);
+    return $self->_get_or_search( 'module', $arg, $params );
 }
 
 sub distribution {
-    my $self = shift;
-    my $arg  = shift;
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-    return $self->_get_or_search('distribution', $arg);
+    return $self->_get_or_search( 'distribution', $arg, $params );
 }
 
 sub file {
-    my $self = shift;
-    my $path = shift
+    my $self   = shift;
+    my $path   = shift
         or croak 'file takes file path as parameter';
 
-    return $self->_get('file', $path);
+    my $params = shift;
+
+    return $self->_get( 'file', $path, $params );
 }
 
 #
@@ -60,12 +65,14 @@ sub file {
 #   is equal to http://api.metacpan.org/v0/favorite/_search?q=author:DOY
 #
 sub favorite {
-    my $self = shift;
-    my $args = shift;
+    my $self   = shift;
+    my $args   = shift;
+    my $params = shift;
+
     ref($args) eq 'HASH' or
         croak "favorite takes a hash ref as parameter";
 
-    return $self->_search('favorite', $args);
+    return $self->_search( 'favorite', $args, $params );
 }
 
 #
@@ -76,12 +83,14 @@ sub favorite {
 #   is equal to http://api.metacpan.org/v0/rating/_search?q=distribution:Moose
 #
 sub rating {
-    my $self = shift;
-    my $args = shift;
-    ref($args) eq 'HASH' or
-        croak "rating takes a hash ref as parameter";
+    my $self   = shift;
+    my $args   = shift;
+    my $params = shift;
 
-    return $self->_search('rating', $args);
+    ref($args) eq 'HASH' or
+        croak 'rating takes a hash ref as parameter';
+
+    return $self->_search( 'rating', $args, $params );
 }
 
 #
@@ -89,10 +98,11 @@ sub rating {
 #   is equal to http://api.metacpan.org/v0/release/_search?q=author:XSAWYERX
 #
 sub release {
-   my $self = shift;
-   my $arg  = shift;
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-   return $self->_get_or_search('release', $arg);
+    return $self->_get_or_search( 'release', $arg, $params );
 }
 
 sub pod {}
@@ -123,11 +133,13 @@ sub _search {
     my $args   = shift;
     my $params = shift;
 
-    ref($args) eq 'HASH'
+    ref $args eq 'HASH'
         or croak '_search takes a hash ref as query';
 
-    $params && ref $params eq 'HASH'
-        or croak '_search takes a hash ref as query parameters';
+    if ($params) {
+        ref $params eq 'HASH'
+            or croak '_search takes a hash ref as query parameters';
+    }
 
     grep { $_ eq $type } @supported_searches
         or croak "search type is not supported";
@@ -136,24 +148,28 @@ sub _search {
 
     my $results = $self->fetch(
         "$type/_search",
-        q => $query,
-        $params,
+        {
+            query => { query_string => { query => $query } },
+            %{$params},
+        },
     );
 
-    exists $results->{hits}{hits}
+::p $results;
+    exists $results->{'hits'}{'hits'}
         or return;
 
     # fix to return ResultSet
-    return [ map { $_->{_source} } @{ $results->{'hits'}{'hits'} } ];
+    return [ map { $_->{'_source'} } @{ $results->{'hits'}{'hits'} } ];
 }
 
 sub _get_or_search {
-    my $self = shift;
-    my $type = shift;
-    my $arg  = shift;
+    my $self   = shift;
+    my $type   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-    ref($arg) eq 'HASH' and
-        return $self->_search($type, $arg);
+    ref $arg eq 'HASH' and
+        return $self->_search( $type, $arg, $params );
 
     defined $arg and $arg =~ /\w/ and
         return $self->_get($type, $arg);
