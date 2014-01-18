@@ -3,10 +3,12 @@ package MetaCPAN::API::Request;
 use Moo;
 use Carp;
 use JSON;
+use ElasticSearch;
 use Try::Tiny;
 use HTTP::Tiny;
 use URI::Escape 'uri_escape';
 use List::Util 'first';
+
 
 has base_url => (
     is      => 'ro',
@@ -49,6 +51,31 @@ sub fetch {
     }
 
     return $self->_decode_result( $result, $req_url );
+}
+
+sub ssearch {
+    my $self   = shift;
+    my $type   = shift;
+    my $params = shift;
+
+    my $es = ElasticSearch->new( servers => 'api.metacpan.org', no_refresh => 1 );
+
+    my $scroller = $es->scrolled_search(
+        %$params,
+        search_type => 'scan',
+        scroll      => '5m',
+        index       => 'v0',
+        type        => $type,
+        size        => 500,
+    );
+
+    my @results;
+
+    while ( my $result = $scroller->next ) {
+        push @results => $result;
+    }
+
+    return \@results;
 }
 
 sub post {
