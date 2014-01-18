@@ -75,7 +75,10 @@ sub ssearch {
         push @results => $result;
     }
 
-    return \@results;
+    return +{
+        results => \@results,
+        facets  => $scroller->facets,
+    }
 }
 
 sub post {
