@@ -17,7 +17,7 @@ has request => (
     is      => 'ro',
     lazy    => 1,
     builder => sub { MetaCPAN::API::Request->new },
-    handles => [qw<fetch post>],
+    handles => [qw<fetch post ssearch>],
 );
 
 my @supported_searches = qw<
@@ -149,8 +149,8 @@ sub _search {
 
     my $query = $self->_build_search_string($args);
 
-    my $results = $self->fetch(
-        "$type/_search",
+    my $results = $self->ssearch(
+        $type,
         {
             query => { query_string => { query => $query } },
             %{$params},
@@ -160,11 +160,11 @@ sub _search {
     my @hits = map {;
         my $class = 'MetaCPAN::API::' . ucfirst $type;
         $class->new_from_request( $_->{'_source'} );
-    } @{ $results->{'hits'}{'hits'} };
+    } @{$results};
 
     my $rs = MetaCPAN::API::ResultSet->new(
         hits   => \@hits,
-        facets => $results->{'facets'},
+#        facets => $results->{'facets'},
     );
 
     return $rs;
