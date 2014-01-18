@@ -61,7 +61,7 @@ sub ssearch {
     my $es = ElasticSearch->new( servers => 'api.metacpan.org', no_refresh => 1 );
 
     my $scroller = $es->scrolled_search(
-        %$params,
+        %{$params},
         search_type => 'scan',
         scroll      => '5m',
         index       => 'v0',
