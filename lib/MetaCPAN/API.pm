@@ -149,7 +149,7 @@ sub _search {
 
     my $query = $self->_build_search_string($args);
 
-    my $results = $self->ssearch(
+    my $result = $self->ssearch(
         $type,
         {
             query => { query_string => { query => $query } },
@@ -160,7 +160,7 @@ sub _search {
     my @hits = map {;
         my $class = 'MetaCPAN::API::' . ucfirst $type;
         $class->new_from_request( $_->{'_source'} );
-    } @{$results->{'results'}};
+    } @{ $results->{'results'} };
 
     my $rs = MetaCPAN::API::ResultSet->new(
         hits   => \@hits,

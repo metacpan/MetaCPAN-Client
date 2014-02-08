@@ -69,10 +69,10 @@ sub ssearch {
         size        => 500,
     );
 
-    my @results;
+    my @results = ();
 
     while ( my $result = $scroller->next ) {
-        push @results => $result;
+        push @results, $result;
     }
 
     return +{
