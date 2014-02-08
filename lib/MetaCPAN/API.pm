@@ -160,11 +160,11 @@ sub _search {
     my @hits = map {;
         my $class = 'MetaCPAN::API::' . ucfirst $type;
         $class->new_from_request( $_->{'_source'} );
-    } @{$results};
+    } @{$results->{'results'}};
 
     my $rs = MetaCPAN::API::ResultSet->new(
         hits   => \@hits,
-#        facets => $results->{'facets'},
+        facets => $results->{'facets'},
     );
 
     return $rs;
