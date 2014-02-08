@@ -164,7 +164,7 @@ sub _search {
 
     my $rs = MetaCPAN::API::ResultSet->new(
         hits   => \@hits,
-        facets => $result->{'facets'},
+        facets => $result->{'facets'} || {},
     );
 
     return $rs;
