@@ -149,7 +149,7 @@ sub _search {
 
     my $query = $self->_build_search_string($args);
 
-    my $result = $self->ssearch(
+    my $scroller = $self->ssearch(
         $type,
         {
             query => { query_string => { query => $query } },
@@ -157,14 +157,9 @@ sub _search {
         },
     );
 
-    my @hits = map {;
-        my $class = 'MetaCPAN::API::' . ucfirst $type;
-        $class->new_from_request( $_->{'_source'} );
-    } @{ $result->{'results'} };
-
     my $rs = MetaCPAN::API::ResultSet->new(
-        hits   => \@hits,
-        facets => $result->{'facets'} || {},
+        scroller => $scroller,
+        type     => $type,
     );
 
     return $rs;

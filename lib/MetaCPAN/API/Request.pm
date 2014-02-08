@@ -58,7 +58,10 @@ sub ssearch {
     my $type   = shift;
     my $params = shift;
 
-    my $es = ElasticSearch->new( servers => 'api.metacpan.org', no_refresh => 1 );
+    my $es = ElasticSearch->new(
+        servers    => 'api.metacpan.org',
+        no_refresh => 1,
+    );
 
     my $scroller = $es->scrolled_search(
         %{$params},
@@ -66,19 +69,10 @@ sub ssearch {
         scroll      => '5m',
         index       => 'v0',
         type        => $type,
-        size        => 500,
+        size        => 1000,
     );
 
-    my @results = ();
-
-    while ( my $result = $scroller->next ) {
-        push @results, $result;
-    }
-
-    return +{
-        results => \@results,
-        facets  => $scroller->facets,
-    }
+    return $scroller;
 }
 
 sub post {
