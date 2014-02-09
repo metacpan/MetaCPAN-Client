@@ -56,6 +56,7 @@ sub fetch {
 sub ssearch {
     my $self   = shift;
     my $type   = shift;
+    my $args   = shift;
     my $params = shift;
 
     my $es = ElasticSearch->new(
@@ -63,16 +64,19 @@ sub ssearch {
         no_refresh => 1,
     );
 
-    my $scroller = $es->scrolled_search(
-        %{$params},
+    my $query = $self->_build_query( $args );
+
+    my %search_info = (
         search_type => 'scan',
         scroll      => '5m',
         index       => 'v0',
         type        => $type,
         size        => 1000,
+        query       => $query,
+        %{$params},
     );
 
-    return $scroller;
+    return $es->scrolled_search( %search_info );
 }
 
 sub post {
@@ -118,6 +122,67 @@ sub _decode_result {
 
     return $decoded_result;
 }
+
+sub _build_query {
+    my $self = shift;
+    my $args = shift;
+
+    my $key = _read_query_key($args);
+
+    my %query;
+    my @elements = map { _build_query_element($_) } @{ $args->{$key} };
+
+    if ( $key eq 'all' ) {
+        $query{bool} = { must => \@elements };
+
+    } elsif ( $key eq 'either' ) {
+        $query{bool} = {
+            should => \@elements,
+            "minimum_should_match" => 1,
+        };
+
+    } else {
+        %query = %{ _build_query_element( $args->{$key} ) };
+    }
+
+    return \%query;
+}
+
+sub _read_query_key {
+    my $args = shift;
+
+    # search queries take a 1 key/value element hash
+    scalar keys %{$args} == 1
+        or croak 'Wrong number of query arguments';
+
+    my ($key) = keys %{$args};
+
+    # all/either queries take an array as params
+    if ( $key eq 'all' or $key eq 'either' ) {
+        ref($args->{$key}) eq 'ARRAY'
+            or croak 'Wrong type of query arguments for all/either';
+    }
+
+    return $key;
+}
+
+sub _build_query_element {
+    my $args = shift;
+
+    scalar keys %{$args} == 1
+        or croak 'Wrong number of keys in query element';
+
+    my ($key) = keys %{$args};
+
+    !ref($args->{$key}) and $args->{$key} =~ /\w/
+        or croak 'Wrong type of query arguments';
+
+    my $wildcard = $args->{$key} =~ /[*?]/;
+    my $qtype    = $wildcard ? 'wildcard' : 'term';
+
+    return +{ $qtype => $args };
+}
+
 
 1;
 

@@ -147,15 +147,7 @@ sub _search {
     grep { $_ eq $type } @supported_searches
         or croak "search type is not supported";
 
-    my $query = $self->_build_search_string($args);
-
-    my $scroller = $self->ssearch(
-        $type,
-        {
-            query => { query_string => { query => $query } },
-            %{$params},
-        },
-    );
+    my $scroller = $self->ssearch($type, $args, $params);
 
     my $rs = MetaCPAN::API::ResultSet->new(
         scroller => $scroller,
@@ -180,42 +172,11 @@ sub _get_or_search {
     croak "$type: invalid args (takes scalar value or search parameters hash ref)";
 }
 
-sub _build_search_string {
-    my $self = shift;
-    my $args = shift;
-
-    ref($args) eq 'HASH' or croak "search argument must be a hash ref";
-    scalar keys %{$args} == 1
-        or croak "search arg sent must contain one key/val pair";
-
-    my ($key) = keys %{$args};
-    my $val = $args->{$key};
-    my $_key = $key;  $_key =~ s/^([a-z]+).*$/$1/;
-
-    if ( $key eq 'either' and ref($val) eq 'ARRAY' ) {
-        return sprintf('(%s)',
-            join 'OR' => map { $self->_build_search_string($_) } @{$val});
-
-    } elsif ( $key eq 'all' and ref($val) eq 'ARRAY' ) {
-        return sprintf('(%s)',
-            join 'AND' => map { $self->_build_search_string($_) } @{$val});
-
-    } elsif ( ! ref($val) ) {
-        return sprintf '(%s:%s)', $key, $val;
-
-    } else {
-        croak "invalid search parameters";
-    }
-}
-
 
 1;
 
 
 __END__
-
-
-1;
 
 =head1 SYNOPSIS
 
