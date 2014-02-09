@@ -14,7 +14,7 @@ can_ok( $mcpan, 'author'        );
 # missing input
 like(
     exception { $mcpan->author },
-    qr/^Please provide an author PAUSEID/,
+    qr/^author: invalid args/,
     'Missing any information',
 );
 
