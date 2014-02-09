@@ -130,19 +130,15 @@ sub _build_query {
     my $key = _read_query_key($args);
 
     my %query;
-    my @elements = map { _build_query_element($_) } @{ $args->{$key} };
 
-    if ( $key eq 'all' ) {
-        $query{bool} = { must => \@elements };
-
-    } elsif ( $key eq 'either' ) {
-        $query{bool} = {
-            should => \@elements,
-            "minimum_should_match" => 1,
-        };
+    if ( $key eq 'all' or $key eq 'either' ) {
+        my @elements = map { _build_query_element($_) } @{ $args->{$key} };
+        $query{bool} = $key eq 'all'
+            ? { must => \@elements }
+            : { should => \@elements, "minimum_should_match" => 1 };
 
     } else {
-        %query = %{ _build_query_element( $args->{$key} ) };
+        %query = %{ _build_query_element( $args ) };
     }
 
     return \%query;
