@@ -101,9 +101,9 @@ sub post {
 }
 
 sub _decode_result {
-    my $self     = shift;
-    my $result   = shift;
-    my $url      = shift or croak 'Second argument of a URL must be provided';
+    my $self   = shift;
+    my $result = shift;
+    my $url    = shift or croak 'Second argument of a URL must be provided';
 
     ref $result eq 'HASH'
         or croak 'First argument must be hashref';
