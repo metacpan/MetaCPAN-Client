@@ -4,7 +4,6 @@ use Moo;
 use Carp;
 use JSON;
 use Elasticsearch;
-use Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
 use URI::Escape 'uri_escape';
@@ -61,18 +60,19 @@ sub ssearch {
     my $params = shift;
 
     my $es = Elasticsearch->new(
-        nodes    => 'api.metacpan.org',
-        cxn_pool => 'Static::NoPing',
+        nodes    => [ 'api.metacpan.org:9200' ],
     );
 
-    my $scroller = Elasticsearch::Scroll->new(
-        body        => $params,
-        es          => $es,
+    my $body = $self->_build_body( $args );
+
+    my %search_info = (
+        search_type => 'scan',
+        scroll      => '5m',
+        index       => 'v0',
         type        => $type,
         size        => 1000,
-        index       => 'v0',
-        scroll      => '5m',
-        search_type => 'scan',
+        body        => $body,
+        %{$params},
     );
 
     return $scroller;
@@ -122,7 +122,7 @@ sub _decode_result {
     return $decoded_result;
 }
 
-sub _build_query {
+sub _build_body {
     my $self = shift;
     my $args = shift;
 
@@ -140,7 +140,7 @@ sub _build_query {
         %query = %{ _build_query_element( $args ) };
     }
 
-    return \%query;
+    return +{ query => \%query };
 }
 
 sub _read_query_key {
