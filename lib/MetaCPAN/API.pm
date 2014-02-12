@@ -70,8 +70,8 @@ sub favorite {
     my $args   = shift;
     my $params = shift;
 
-    ref($args) eq 'HASH' or
-        croak "favorite takes a hash ref as parameter";
+    ref($args) eq 'HASH'
+        or croak "favorite takes a hash ref as parameter";
 
     return $self->_search( 'favorite', $args, $params );
 }
@@ -88,8 +88,8 @@ sub rating {
     my $args   = shift;
     my $params = shift;
 
-    ref($args) eq 'HASH' or
-        croak 'rating takes a hash ref as parameter';
+    ref($args) eq 'HASH'
+        or croak 'rating takes a hash ref as parameter';
 
     return $self->_search( 'rating', $args, $params );
 }
@@ -137,24 +137,19 @@ sub _search {
     ref $args eq 'HASH'
         or croak '_search takes a hash ref as query';
 
-    if ($params) {
-        ref $params eq 'HASH'
-            or croak '_search takes a hash ref as query parameters';
-    } else {
-        $params = {};
-    }
+    !defined $params or ref $params eq 'HASH'
+        or croak '_search takes a hash ref as query parameters';
+    $params ||= {};
 
     grep { $_ eq $type } @supported_searches
         or croak "search type is not supported";
 
     my $scroller = $self->ssearch($type, $args, $params);
 
-    my $rs = MetaCPAN::API::ResultSet->new(
+    return MetaCPAN::API::ResultSet->new(
         scroller => $scroller,
         type     => $type,
     );
-
-    return $rs;
 }
 
 sub _get_or_search {

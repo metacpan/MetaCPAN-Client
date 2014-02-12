@@ -7,8 +7,8 @@ use Carp;
 has scroller => (
     is       => 'ro',
     isa      => sub {
-        croak "scroller must be an ElasticSearch::ScrolledSearch object"
-            unless ref($_[0]) eq 'ElasticSearch::ScrolledSearch';
+        ref($_[0]) eq 'ElasticSearch::ScrolledSearch'
+            or croak "scroller must be an ElasticSearch::ScrolledSearch object";
     },
     required => 1,
     handles  => [qw/ total /],
@@ -17,9 +17,8 @@ has scroller => (
 has type => (
     is       => 'ro',
     isa      => sub {
-        croak "invalid type"
-            unless grep { $_ eq $_[0] }
-                qw/ author distribution favorite file module release /;
+        grep( { $_ eq $_[0] }, qw/ author distribution favorite file module release /)
+            or croak "invalid type"
     },
     required => 1,
 );

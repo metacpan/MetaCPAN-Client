@@ -41,14 +41,9 @@ sub fetch {
     my $req_url = sprintf '%s/%s', $self->base_url, $url;
     my $ua      = $self->ua;
 
-    my $result;
-    if ( %{$params} ) {
-        $result = $ua->post( $req_url, {
-            content => to_json $params
-        } );
-    } else {
-        $result = $ua->get($req_url);
-    }
+    my $result  = keys %{$params}
+        ? $ua->post( $req_url, { content => to_json $params } )
+        : $ua->get($req_url);
 
     return $self->_decode_result( $result, $req_url );
 }
@@ -60,10 +55,8 @@ sub ssearch {
     my $params = shift;
 
     my $es = Elasticsearch->new(
-        nodes    => [ 'api.metacpan.org:9200' ],
+        nodes => [ 'api.metacpan.org:9200' ],
     );
-
-    my $body = $self->_build_body( $args );
 
     my %search_info = (
         search_type => 'scan',
@@ -71,7 +64,7 @@ sub ssearch {
         index       => 'v0',
         type        => $type,
         size        => 1000,
-        body        => $body,
+        body        => $self->_build_body( $args ),
         %{$params},
     );
 
@@ -112,8 +105,8 @@ sub _decode_result {
     defined $success or croak 'Missing success in return value';
     $success or croak "Failed to fetch '$url': " . $result->{'reason'};
 
-    my $content = $result->{'content'} or
-        croak 'Missing content in return value';
+    my $content = $result->{'content'}
+        or croak 'Missing content in return value';
 
     my $decoded_result;
     try   { $decoded_result = decode_json $content }
