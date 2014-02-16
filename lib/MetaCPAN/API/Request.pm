@@ -3,7 +3,8 @@ package MetaCPAN::API::Request;
 use Moo;
 use Carp;
 use JSON;
-use ElasticSearch;
+use Elasticsearch;
+use Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
 use URI::Escape 'uri_escape';
@@ -59,24 +60,22 @@ sub ssearch {
     my $args   = shift;
     my $params = shift;
 
-    my $es = ElasticSearch->new(
-        servers    => 'api.metacpan.org',
-        no_refresh => 1,
+    my $es = Elasticsearch->new(
+        nodes    => 'api.metacpan.org',
+        cxn_pool => 'Static::NoPing',
     );
 
-    my $query = $self->_build_query( $args );
-
-    my %search_info = (
-        search_type => 'scan',
-        scroll      => '5m',
-        index       => 'v0',
+    my $scroller = Elasticsearch::Scroll->new(
+        body        => $params,
+        es          => $es,
         type        => $type,
         size        => 1000,
-        query       => $query,
-        %{$params},
+        index       => 'v0',
+        scroll      => '5m',
+        search_type => 'scan',
     );
 
-    return $es->scrolled_search( %search_info );
+    return $scroller;
 }
 
 sub post {
