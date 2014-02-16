@@ -27,6 +27,35 @@ __END__
 
 =head1 DESCRIPTION
 
+    my $favorite = $mcpan->favorite( {
+        distribution => 'Moose'
+    } );
+
+This represents a MetaCPAN favorite entity.
 
 =head1 ATTRIBUTES
+
+=head2 date
+
+Date of the favorite.
+
+=head2 user
+
+The user ID (B<not> PAUSE ID) of who favorited.
+
+=head2 release
+
+The release that was favorited.
+
+=head2 id
+
+The favorite ID.
+
+=head2 author
+
+The PAUSE ID of the user who favorited.
+
+=head2 distribution
+
+The distribution that was favorited.
 

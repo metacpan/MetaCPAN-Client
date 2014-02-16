@@ -27,6 +27,17 @@ __END__
 
 =head1 DESCRIPTION
 
+    my $dist = $mcpan->distribution('MetaCPAN-API');
+
+This represents a MetaCPAN distribution entity.
 
 =head1 ATTRIBUTES
+
+=head2 name
+
+Distribution's name.
+
+=head2 bugs
+
+Distribution's bug information.
 

@@ -10,6 +10,9 @@ __END__
 
 =head1 DESCRIPTION
 
+This is currently the exact same as L<MetaCPAN::API::File>.
 
 =head1 ATTRIBUTES
+
+Whatever L<MetaCPAN::API::File> has.
 

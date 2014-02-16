@@ -23,13 +23,27 @@ foreach my $field (@known_fields) {
 
 sub _known_fields { return \@known_fields }
 
-
 1;
 
 __END__
 
 =head1 DESCRIPTION
 
-
 =head1 ATTRIBUTES
+
+=head2 date
+
+=head2 release
+
+=head2 author
+
+=head2 details
+
+=head2 rating
+
+=head2 distribution
+
+=head2 helpful
+
+=head2 user
 
