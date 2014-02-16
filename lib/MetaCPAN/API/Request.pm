@@ -4,6 +4,7 @@ use Moo;
 use Carp;
 use JSON;
 use Elasticsearch;
+use Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
 use URI::Escape 'uri_escape';
@@ -55,10 +56,12 @@ sub ssearch {
     my $params = shift;
 
     my $es = Elasticsearch->new(
-        nodes => [ 'api.metacpan.org:9200' ],
+        nodes    => 'api.metacpan.org',
+        cxn_pool => 'Static::NoPing',
     );
 
-    my %search_info = (
+    my $scroller = Elasticsearch::Scroll->new(
+        es          => $es,
         search_type => 'scan',
         scroll      => '5m',
         index       => 'v0',
