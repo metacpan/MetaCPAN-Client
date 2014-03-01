@@ -53,6 +53,47 @@ __END__
 
 =head1 DESCRIPTION
 
+Object representing a result from Elastic Search. This is used for the complex
+(as in non-simple) queries to MetaCPAN. It provides easy access to the scroller
+and facets.
 
 =head1 ATTRIBUTES
+
+=head2 scroller
+
+An L<Elasticsearch::Scroll> object
+
+=head2 type
+
+The entity of the result set. Available types:
+
+=over 4
+
+=item * author
+
+=item * distribution
+
+=item * module
+
+=item * release
+
+=item * favorite
+
+=item * file
+
+=back
+
+=head2 facets
+
+The facets available in the Elastic Search response.
+
+=head1 METHODS
+
+=head2 next
+
+Iterator call to fetch the next result set object.
+
+=head2 total
+
+Iterator call to fetch the total amount of objects available in result set.
 

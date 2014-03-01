@@ -333,7 +333,7 @@ This module has three purposes:
 
 =over 4
 
-=item * Provide 100% of the beta MetaCPAN API
+=item * Provide 100% of the MetaCPAN API
 
 This module will be updated regularly on every MetaCPAN API change, and intends
 to provide the user with as much of the API as possible, no shortcuts. If it's
