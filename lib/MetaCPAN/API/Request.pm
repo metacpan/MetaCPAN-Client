@@ -7,13 +7,26 @@ use Elasticsearch;
 use Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
-use URI::Escape 'uri_escape';
-use List::Util 'first';
 
+has domain => (
+    is      => 'ro',
+    default => sub { 'api.metacpan.org' },
+);
+
+has version => (
+    is      => 'ro',
+    default => sub {'v0'},
+);
 
 has base_url => (
     is      => 'ro',
-    default => sub { 'http://api.metacpan.org/v0' },
+    default => sub {
+        my $self    = shift;
+        my $domain  = $self->domain;
+        my $version = $self->version;
+
+        return "http://$domain/$version";
+    },
 );
 
 has ua => (
@@ -29,7 +42,6 @@ has ua_args => (
     },
 );
 
-
 sub _build_ua {
     my $self = shift;
     return HTTP::Tiny->new( @{ $self->ua_args } );
@@ -37,7 +49,7 @@ sub _build_ua {
 
 sub fetch {
     my $self    = shift;
-    my $url     = shift or croak "fetch must be called with a URL param";
+    my $url     = shift or croak 'fetch must be called with a URL parameter';
     my $params  = shift || {};
     my $req_url = sprintf '%s/%s', $self->base_url, $url;
     my $ua      = $self->ua;
@@ -56,8 +68,8 @@ sub ssearch {
     my $params = shift;
 
     my $es = Elasticsearch->new(
-        nodes    => 'api.metacpan.org',
-        cxn_pool => 'Static::NoPing',
+        nodes            => $self->domain,
+        cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
     );
 
@@ -65,36 +77,14 @@ sub ssearch {
         es          => $es,
         search_type => 'scan',
         scroll      => '5m',
-        index       => 'v0',
+        index       => $self->version,
         type        => $type,
         size        => 1000,
-        body        => $self->_build_body( $args ),
+        body        => $self->_build_body($args),
         %{$params},
     );
 
     return $scroller;
-}
-
-sub post {
-    my $self  = shift;
-    my $url   = shift or croak 'First argument of URL must be provided';
-    my $query = shift;
-
-    ref $query eq 'HASH'
-        or croak 'Second argument of query hashref must be provided';
-
-    my $query_json = to_json( $query, { canonical => 1 } );
-
-    my $result = $self->ua->request(
-        'POST',
-        sprintf( '%s/%s', $self->base_url, $url ),
-        {
-            headers => { 'Content-Type' => 'application/json' },
-            content => $query_json,
-        }
-    );
-
-    return $self->_decode_result( $result, $url, $query_json );
 }
 
 sub _decode_result {
@@ -106,8 +96,12 @@ sub _decode_result {
         or croak 'First argument must be hashref';
 
     my $success = $result->{'success'};
-    defined $success or croak 'Missing success in return value';
-    $success or croak "Failed to fetch '$url': " . $result->{'reason'};
+
+    defined $success
+        or croak 'Missing success in return value';
+
+    $success
+        or croak "Failed to fetch '$url': " . $result->{'reason'};
 
     my $content = $result->{'content'}
         or croak 'Missing content in return value';
@@ -120,21 +114,19 @@ sub _decode_result {
 }
 
 sub _build_body {
-    my $self = shift;
-    my $args = shift;
-
-    my $key = _read_query_key($args);
-
-    my %query;
+    my $self  = shift;
+    my $args  = shift;
+    my $key   = _read_query_key($args);
+    my %query = ();
 
     if ( $key eq 'all' or $key eq 'either' ) {
-        my @elements = map { _build_query_element($_) } @{ $args->{$key} };
-        $query{bool} = $key eq 'all'
-            ? { must => \@elements }
-            : { should => \@elements, "minimum_should_match" => 1 };
+        my @elements = map +( _build_query_element($_) ), @{ $args->{$key} };
 
+        $query{'bool'} = $key eq 'all'
+            ? { must   => \@elements }
+            : { should => \@elements, "minimum_should_match" => 1 };
     } else {
-        %query = %{ _build_query_element( $args ) };
+        %query = %{ _build_query_element($args) };
     }
 
     return +{ query => \%query };
@@ -151,7 +143,7 @@ sub _read_query_key {
 
     # all/either queries take an array as params
     if ( $key eq 'all' or $key eq 'either' ) {
-        ref($args->{$key}) eq 'ARRAY'
+        ref( $args->{$key} ) eq 'ARRAY'
             or croak 'Wrong type of query arguments for all/either';
     }
 
@@ -166,7 +158,7 @@ sub _build_query_element {
 
     my ($key) = keys %{$args};
 
-    !ref($args->{$key}) and $args->{$key} =~ /\w/
+    ! ref( $args->{$key} ) and $args->{$key} =~ /\w/
         or croak 'Wrong type of query arguments';
 
     my $wildcard = $args->{$key} =~ /[*?]/;
@@ -174,7 +166,6 @@ sub _build_query_element {
 
     return +{ $qtype => $args };
 }
-
 
 1;
 

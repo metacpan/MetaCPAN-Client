@@ -71,7 +71,7 @@ sub favorite {
     my $params = shift;
 
     ref($args) eq 'HASH'
-        or croak "favorite takes a hash ref as parameter";
+        or croak 'favorite takes a hash ref as parameter';
 
     return $self->_search( 'favorite', $args, $params );
 }
@@ -108,23 +108,22 @@ sub release {
 
 sub pod {}
 
-
-
 ###
 
 sub _get {
     my $self = shift;
+
     scalar(@_) == 2
-        or croak "_get takes type and search string as parameters";
+        or croak '_get takes type and search string as parameters';
 
     my $type = shift;
     my $arg  = shift;
 
     my $response = $self->fetch("$type/$arg");
     ref $response eq 'HASH'
-        or croak sprintf("Failed to fetch %s (%s)", ucfirst($type), $arg);
+        or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
-    my $class = "MetaCPAN::API::" . ucfirst($type);
+    my $class = 'MetaCPAN::API::' . ucfirst($type);
     return $class->new_from_request($response);
 }
 
@@ -137,12 +136,13 @@ sub _search {
     ref $args eq 'HASH'
         or croak '_search takes a hash ref as query';
 
-    !defined $params or ref $params eq 'HASH'
+    ! defined $params or ref $params eq 'HASH'
         or croak '_search takes a hash ref as query parameters';
+
     $params ||= {};
 
     grep { $_ eq $type } @supported_searches
-        or croak "search type is not supported";
+        or croak 'search type is not supported';
 
     my $scroller = $self->ssearch($type, $args, $params);
 
@@ -164,12 +164,10 @@ sub _get_or_search {
     defined $arg and $arg =~ /\w/ and
         return $self->_get($type, $arg);
 
-    croak "$type: invalid args (takes scalar value or search parameters hash ref)";
+    croak "$type: invalid args (takes scalar value or search parameters hashref)";
 }
 
-
 1;
-
 
 __END__
 
