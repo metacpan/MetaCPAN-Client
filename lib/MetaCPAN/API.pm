@@ -10,6 +10,7 @@ use MetaCPAN::API::Distribution;
 use MetaCPAN::API::Module;
 use MetaCPAN::API::File;
 use MetaCPAN::API::Favorite;
+use MetaCPAN::API::Rating;
 use MetaCPAN::API::Release;
 use MetaCPAN::API::ResultSet;
 
@@ -55,7 +56,7 @@ sub file {
 
     my $params = shift;
 
-    return $self->_get( 'file', $path, $params );
+    return $self->_get( 'file', $path );
 }
 
 #
@@ -161,7 +162,7 @@ sub _get_or_search {
     ref $arg eq 'HASH' and
         return $self->_search( $type, $arg, $params );
 
-    defined $arg and $arg =~ /\w/ and
+    defined $arg and $arg =~ /^[A-Za-z\-\:]+$/ and
         return $self->_get($type, $arg);
 
     croak "$type: invalid args (takes scalar value or search parameters hashref)";

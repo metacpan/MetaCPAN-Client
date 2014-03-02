@@ -10,7 +10,7 @@ use HTTP::Tiny;
 
 has domain => (
     is      => 'ro',
-    default => sub { 'api.metacpan.org' },
+    default => sub {'api.metacpan.org'},
 );
 
 has version => (
@@ -20,6 +20,7 @@ has version => (
 
 has base_url => (
     is      => 'ro',
+    lazy    => 1,
     default => sub {
         my $self = shift;
         return sprintf('http://%s/%s', $self->domain, $self->version);
