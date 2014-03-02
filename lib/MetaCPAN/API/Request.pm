@@ -15,17 +15,14 @@ has domain => (
 
 has version => (
     is      => 'ro',
-    default => sub {'v0'},
+    default => sub { 'v0' },
 );
 
 has base_url => (
     is      => 'ro',
     default => sub {
-        my $self    = shift;
-        my $domain  = $self->domain;
-        my $version = $self->version;
-
-        return "http://$domain/$version";
+        my $self = shift;
+        return sprintf('http://%s/%s', $self->domain, $self->version);
     },
 );
 
@@ -81,7 +78,7 @@ sub ssearch {
         type        => $type,
         size        => 1000,
         body        => $self->_build_body($args),
-        %{$params},
+        %{ $params },
     );
 
     return $scroller;
