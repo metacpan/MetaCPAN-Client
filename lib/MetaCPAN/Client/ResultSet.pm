@@ -1,4 +1,4 @@
-package MetaCPAN::API::ResultSet;
+package MetaCPAN::Client::ResultSet;
 # ABSTRACT: A Result Set
 
 use Moo;
@@ -44,7 +44,7 @@ sub next {
     defined $result
         or return undef;
 
-    my $class = 'MetaCPAN::API::' . ucfirst $self->type;
+    my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
     return $class->new_from_request( $result->{'_source'} );
 }
 

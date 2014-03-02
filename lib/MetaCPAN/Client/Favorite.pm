@@ -1,9 +1,9 @@
-package MetaCPAN::API::Favorite;
+package MetaCPAN::Client::Favorite;
 # ABSTRACT: A Favorite data object
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<date user release id author distribution>;
 

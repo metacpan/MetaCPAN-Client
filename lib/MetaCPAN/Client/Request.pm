@@ -1,4 +1,4 @@
-package MetaCPAN::API::Request;
+package MetaCPAN::Client::Request;
 
 use Moo;
 use Carp;
@@ -36,7 +36,7 @@ has ua => (
 has ua_args => (
     is      => 'ro',
     default => sub {
-        return [ agent => 'MetaCPAN::API/'.($MetaCPAN::API::VERSION||'xx') ];
+        [ agent => 'MetaCPAN::Client/'.($MetaCPAN::Client::VERSION||'xx') ]
     },
 );
 
@@ -173,7 +173,7 @@ __END__
 
 =head2 domain
 
-    $mcpan = MetaCPAN::API->new( domain => 'localhost' );
+    $mcpan = MetaCPAN::Client->new( domain => 'localhost' );
 
 What domain to use for all requests.
 
@@ -181,7 +181,7 @@ Default: B<api.metacpan.org>.
 
 =head2 version
 
-    $mcpan = MetaCPAN::API->new( version => 'v0' );
+    $mcpan = MetaCPAN::Client->new( version => 'v0' );
 
 What version of MetaCPAN should be used?
 
@@ -189,7 +189,7 @@ Default: B<v0>.
 
 =head2 base_url
 
-    my $mcpan = MetaCPAN::API->new(
+    my $mcpan = MetaCPAN::Client->new(
         base_url => 'http://localhost:9999/v2',
     );
 
@@ -200,7 +200,7 @@ Default: I<http://$domain/$version>.
 
 =head2 ua
 
-    my $mcpan = MetaCPAN::API->new( ua => HTTP::Tiny->new(...) );
+    my $mcpan = MetaCPAN::Client->new( ua => HTTP::Tiny->new(...) );
 
 The user agent object for running requests.
 
@@ -227,13 +227,13 @@ Default: L<HTTP::Tiny>,
 
 =head2 ua_args
 
-    my $mcpan = MetaCPAN::API->new(
+    my $mcpan = MetaCPAN::Client->new(
         ua_args => [ agent => 'MyAgent' ],
     );
 
 Arguments sent to the user agent.
 
-Default: user agent string: B<MetaCPAN::API/$version>.
+Default: user agent string: B<MetaCPAN::Client/$version>.
 
 =head1 METHODS
 

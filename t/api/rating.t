@@ -11,15 +11,15 @@ my $mc = mcpan();
 can_ok( $mc, 'rating' );
 
 my $rs = $mc->rating( { distribution => 'Moose' } );
-isa_ok( $rs, 'MetaCPAN::API::ResultSet' );
+isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
 can_ok( $rs, 'next' );
 
 my $rating = $rs->next;
-isa_ok( $rating, 'MetaCPAN::API::Rating' );
+isa_ok( $rating, 'MetaCPAN::Client::Rating' );
 can_ok( $rating, 'distribution' );
 is( $rating->distribution, 'Moose', 'Correct distribution' );
 
 __END__
 can_ok( $rs, 'name' );
-is( $rating->name, 'MetaCPAN-API', 'Correct distribution' );
+is( $rating->name, 'MetaCPAN-Client', 'Correct distribution' );
 

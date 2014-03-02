@@ -1,9 +1,9 @@
-package MetaCPAN::API::Rating;
+package MetaCPAN::Client::Rating;
 # ABSTRACT: A Rating data object
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<
     date release author details

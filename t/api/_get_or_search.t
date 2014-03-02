@@ -10,17 +10,17 @@ use t::lib::Functions;
 {
     no warnings qw<redefine once>;
 
-    *MetaCPAN::API::_search = sub {
+    *MetaCPAN::Client::_search = sub {
         my ( $self, $type, $arg, $params ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API' );
+        ::isa_ok( $self, 'MetaCPAN::Client' );
         ::is( $type, 'type', 'Correct type' );
         ::is_deeply( $arg, { hello => 'world' }, 'Correct arg' );
         ::is_deeply( $params, { this => 'that' }, 'Correct params' );
     };
 
-    *MetaCPAN::API::_get = sub {
+    *MetaCPAN::Client::_get = sub {
         my ( $self, $type, $arg ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API' );
+        ::isa_ok( $self, 'MetaCPAN::Client' );
         ::is( $type, 'typeB', 'Correct type in _get' );
         ::is( $arg, 'argb', 'Correct arg in _get' );
     };

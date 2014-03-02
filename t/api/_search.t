@@ -11,9 +11,9 @@ use t::lib::Functions;
     no warnings qw<redefine once>;
 
     my $count = 0;
-    *MetaCPAN::API::ssearch = sub {
+    *MetaCPAN::Client::ssearch = sub {
         my ( $self, $type, $args, $params ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API' );
+        ::isa_ok( $self, 'MetaCPAN::Client' );
         ::is( $type, 'author', 'Correct type' );
         ::is_deeply( $args, { hello => 'world' }, 'Correct args' );
 
@@ -26,9 +26,9 @@ use t::lib::Functions;
         return { a => 'ok' };
     };
 
-    *MetaCPAN::API::ResultSet::new = sub {
+    *MetaCPAN::Client::ResultSet::new = sub {
         my ( $self, %args ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API::ResultSet' );
+        ::isa_ok( $self, 'MetaCPAN::Client::ResultSet' );
         ::is_deeply(
             \%args,
             {

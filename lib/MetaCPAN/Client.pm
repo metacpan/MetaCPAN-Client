@@ -1,23 +1,23 @@
-package MetaCPAN::API;
-# ABSTRACT: A comprehensive, DWIM-featured API to MetaCPAN
+package MetaCPAN::Client;
+# ABSTRACT: A comprehensive, DWIM-featured client to the MetaCPAN API
 
 use Moo;
 use Carp;
 
-use MetaCPAN::API::Request;
-use MetaCPAN::API::Author;
-use MetaCPAN::API::Distribution;
-use MetaCPAN::API::Module;
-use MetaCPAN::API::File;
-use MetaCPAN::API::Favorite;
-use MetaCPAN::API::Rating;
-use MetaCPAN::API::Release;
-use MetaCPAN::API::ResultSet;
+use MetaCPAN::Client::Request;
+use MetaCPAN::Client::Author;
+use MetaCPAN::Client::Distribution;
+use MetaCPAN::Client::Module;
+use MetaCPAN::Client::File;
+use MetaCPAN::Client::Favorite;
+use MetaCPAN::Client::Rating;
+use MetaCPAN::Client::Release;
+use MetaCPAN::Client::ResultSet;
 
 has request => (
     is      => 'ro',
     lazy    => 1,
-    builder => sub { MetaCPAN::API::Request->new },
+    builder => sub { MetaCPAN::Client::Request->new },
     handles => [qw<fetch post ssearch>],
 );
 
@@ -124,7 +124,7 @@ sub _get {
     ref $response eq 'HASH'
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
-    my $class = 'MetaCPAN::API::' . ucfirst($type);
+    my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response);
 }
 
@@ -147,7 +147,7 @@ sub _search {
 
     my $scroller = $self->ssearch($type, $args, $params);
 
-    return MetaCPAN::API::ResultSet->new(
+    return MetaCPAN::Client::ResultSet->new(
         scroller => $scroller,
         type     => $type,
     );
@@ -175,17 +175,17 @@ __END__
 =head1 SYNOPSIS
 
     # simple usage
-    my $mcpan  = MetaCPAN::API->new();
+    my $mcpan  = MetaCPAN::Client->new();
     my $author = $mcpan->author('XSAWYERX');
-    my $dist   = $mcpan->distribuion('MetaCPAN-API');
+    my $dist   = $mcpan->distribuion('MetaCPAN-Client');
 
     # advanced usage with cache (contributed by Kent Fredric)
     use CHI;
     use WWW::Mechanize::Cached;
     use HTTP::Tiny::Mech;
-    use MetaCPAN::API;
+    use MetaCPAN::Client;
 
-    my $mcpan = MetaCPAN::API->new(
+    my $mcpan = MetaCPAN::Client->new(
       ua => HTTP::Tiny::Mech->new(
         mechua => WWW::Mechanize::Cached->new(
           cache => CHI->new(
@@ -200,7 +200,7 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a hopefully-complete API-compliant interface to MetaCPAN
+This is a hopefully-complete API-compliant client to MetaCPAN
 (L<https://metacpan.org>) with DWIM capabilities, to make your life easier.
 
 =head1 ATTRIBUTES
@@ -222,60 +222,61 @@ Finds an author by either its PAUSE ID or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
 under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::API::Author> object on a simple search (PAUSE ID), or
-a L<MetaCPAN::API::ResultSet> object propagated with L<MetaCPAN::API::Author>
-objects on a complex (search spec based) search.
+Return a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
+a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Author> objects on a complex (search spec based) search.
 
 =head2 module
 
-    my $module = $mcpan->module('MetaCPAN::API');
+    my $module = $mcpan->module('MetaCPAN::Client');
     my $module = $mcpan->module($search_spec);
 
 Finds a module by either its module name or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
 under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::API::Module> object on a simple search (module name), or
-a L<MetaCPAN::API::ResultSet> object propagated with L<MetaCPAN::API::Module>
-objects on a complex (search spec based) search.
+Return a L<MetaCPAN::Client::Module> object on a simple search (module name), or
+a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Module> objects on a complex (search spec based) search.
 
 =head2 distribution
 
-    my $dist = $mcpan->dist('MetaCPAN-API');
+    my $dist = $mcpan->dist('MetaCPAN-Client');
     my $dist = $mcpan->dist($search_spec);
 
 Finds a distribution by either its distribution name or by a search spec
 defined by a hash reference. Since it is common to many other searches, it is
 explained below under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::API::Distribution> object on a simple search
-(distribution name), or a L<MetaCPAN::API::ResultSet> object propagated with
-L<MetaCPAN::API::Distribution> objects on a complex (search spec based) search.
+Return a L<MetaCPAN::Client::Distribution> object on a simple search
+(distribution name), or a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Distribution> objects on a complex (search spec based)
+search.
 
 =head2 file
 
-Return a L<MetaCPAN::API::File> object.
+Return a L<MetaCPAN::Client::File> object.
 
 =head2 favorite
 
-Return a L<MetaCPAN::API::Favorite> object.
+Return a L<MetaCPAN::Client::Favorite> object.
 
 =head2 rating
 
-Return a L<MetaCPAN::API::Rating> object.
+Return a L<MetaCPAN::Client::Rating> object.
 
 =head2 release
 
-    my $release = $mcpan->release('MetaCPAN-API');
+    my $release = $mcpan->release('MetaCPAN-Client');
     my $release = $mcpan->release($search_spec);
 
 Finds a release by either its distribution name or by a search spec defined by
 a hash reference. Since it is common to many other searches, it is explained
 below under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::API::Release> object on a simple search (release name),
-or a L<MetaCPAN::API::ResultSet> object propagated with
-L<MetaCPAN::API::Release> objects on a complex (search spec based) search.
+Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
+or a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
 
 =head2 pod
 

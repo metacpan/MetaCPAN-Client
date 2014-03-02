@@ -1,9 +1,9 @@
-package MetaCPAN::API::File;
+package MetaCPAN::Client::File;
 # ABSTRACT: A File data object
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<
     pod status date author maturity directory indexed documentation id

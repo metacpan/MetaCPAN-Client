@@ -1,9 +1,9 @@
-package MetaCPAN::API::Release;
+package MetaCPAN::Client::Release;
 # ABSTRACT: A Release data object
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<
     resources status date author maturity dependency id authorized

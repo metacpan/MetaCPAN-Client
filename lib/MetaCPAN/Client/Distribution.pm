@@ -1,9 +1,9 @@
-package MetaCPAN::API::Distribution;
+package MetaCPAN::Client::Distribution;
 # ABSTRACT: A Distribution data object
 
 use Moo;
 
-with 'MetaCPAN::API::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<name bugs>;
 
@@ -27,7 +27,7 @@ __END__
 
 =head1 DESCRIPTION
 
-    my $dist = $mcpan->distribution('MetaCPAN-API');
+    my $dist = $mcpan->distribution('MetaCPAN-Client');
 
 This represents a MetaCPAN distribution entity.
 

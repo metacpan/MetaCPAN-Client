@@ -10,18 +10,18 @@ use t::lib::Functions;
 {
     no warnings qw<redefine once>;
 
-    *MetaCPAN::API::Author::new_from_request = sub {
+    *MetaCPAN::Client::Author::new_from_request = sub {
         my ( $self, $res ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API::Author' );
+        ::isa_ok( $self, 'MetaCPAN::Client::Author' );
         ::is_deeply( $res, { hello => 'world' }, 'Correct response' );
 
         return 'ok';
     };
 
     my $count = 0;
-    *MetaCPAN::API::fetch = sub {
+    *MetaCPAN::Client::fetch = sub {
         my ( $self, $path ) = @_;
-        ::isa_ok( $self, 'MetaCPAN::API' );
+        ::isa_ok( $self, 'MetaCPAN::Client' );
         ::is( $path, 'author/myarg', 'Correct path' );
 
         $count++ == 0

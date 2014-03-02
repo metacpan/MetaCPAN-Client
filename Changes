@@ -1,4 +1,4 @@
-Revision history for MetaCPAN-API
+Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 0.43        05.04.12
             * Add example in POD of advanced usage with cache by Kent Fredric.

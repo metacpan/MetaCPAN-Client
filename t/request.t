@@ -4,10 +4,10 @@ use strict;
 use warnings;
 
 use Test::More tests => 7;
-use MetaCPAN::API::Request;
+use MetaCPAN::Client::Request;
 
-my $req = MetaCPAN::API::Request->new( domain => 'mydomain', version => 'z' );
-isa_ok( $req, 'MetaCPAN::API::Request' );
+my $req = MetaCPAN::Client::Request->new( domain => 'mydomain', version => 'z' );
+isa_ok( $req, 'MetaCPAN::Client::Request' );
 can_ok(
     $req,
     qw<domain version base_url ua ua_args
@@ -20,10 +20,10 @@ is( $req->version, 'z', 'Correct version' );
 is( $req->base_url, 'http://mydomain/z', 'Correct base_url' );
 isa_ok( $req->ua, 'HTTP::Tiny' );
 
-my $ver = $MetaCPAN::API::VERSION || 'xx';
+my $ver = $MetaCPAN::Client::VERSION || 'xx';
 is_deeply(
     $req->ua_args,
-    [ agent => "MetaCPAN::API/$ver" ],
+    [ agent => "MetaCPAN::Client/$ver" ],
     'Correct UA args',
 );
 

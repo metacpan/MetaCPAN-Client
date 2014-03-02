@@ -1,4 +1,4 @@
-package MetaCPAN::API::Role::Entity;
+package MetaCPAN::Client::Role::Entity;
 # ABSTRACT: A role for MetaCPAN entities
 
 use Moo::Role;
@@ -25,7 +25,7 @@ __END__
 
 =head1 DESCRIPTION
 
-This is a role to be consumed by all L<MetaCPAN::API> entities. It provides
+This is a role to be consumed by all L<MetaCPAN::Client> entities. It provides
 common attributes and methods.
 
 =head1 ATTRIBUTES

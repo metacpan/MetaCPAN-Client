@@ -5,11 +5,11 @@ use warnings;
 
 use Test::More tests => 3;
 use Test::Fatal;
-use MetaCPAN::API::ResultSet;
+use MetaCPAN::Client::ResultSet;
 
 like(
     exception {
-        MetaCPAN::API::ResultSet->new(
+        MetaCPAN::Client::ResultSet->new(
             type     => 'failZZ',
             scroller => bless {}, 'Elasticsearch::Scroll',
         )
@@ -18,11 +18,11 @@ like(
     'Invalid type fail',
 );
 
-my $rs = MetaCPAN::API::ResultSet->new(
+my $rs = MetaCPAN::Client::ResultSet->new(
     type     => 'author',
     scroller => bless {}, 'Elasticsearch::Scroll',
 );
 
-isa_ok( $rs, 'MetaCPAN::API::ResultSet' );
+isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
 can_ok( $rs, qw<next facets total type scroller> );
 
