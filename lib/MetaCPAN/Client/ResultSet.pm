@@ -44,7 +44,7 @@ sub next {
     my $result = $self->scroller->next;
 
     defined $result
-        or return undef;
+        or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
     return $class->new_from_request( $result->{'_source'} );
