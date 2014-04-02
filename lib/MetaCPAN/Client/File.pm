@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::File;
 # ABSTRACT: A File data object
 

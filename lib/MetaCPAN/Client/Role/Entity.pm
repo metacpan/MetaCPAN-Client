@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Role::Entity;
 # ABSTRACT: A role for MetaCPAN entities
 

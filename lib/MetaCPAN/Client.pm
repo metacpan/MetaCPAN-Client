@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client;
 # ABSTRACT: A comprehensive, DWIM-featured client to the MetaCPAN API
 

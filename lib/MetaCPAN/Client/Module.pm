@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Module;
 # ABSTRACT: A Module data object
 

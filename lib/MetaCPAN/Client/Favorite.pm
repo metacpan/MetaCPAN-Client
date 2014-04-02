@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Favorite;
 # ABSTRACT: A Favorite data object
 

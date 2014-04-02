@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Rating;
 # ABSTRACT: A Rating data object
 

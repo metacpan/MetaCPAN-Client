@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Author;
 # ABSTRACT: An Author data object
 

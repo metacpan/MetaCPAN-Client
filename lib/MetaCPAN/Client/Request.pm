@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Request;
 # ABSTRACT: Object used for making requests to MetaCPAN
 

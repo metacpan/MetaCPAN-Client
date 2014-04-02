@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::ResultSet;
 # ABSTRACT: A Result Set
 

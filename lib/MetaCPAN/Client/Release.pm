@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Release;
 # ABSTRACT: A Release data object
 

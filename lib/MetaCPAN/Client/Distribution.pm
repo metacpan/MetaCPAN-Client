@@ -1,3 +1,5 @@
+use strict;
+use warnings;
 package MetaCPAN::Client::Distribution;
 # ABSTRACT: A Distribution data object
 
