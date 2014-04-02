@@ -1,4 +1,5 @@
 package MetaCPAN::Client::Request;
+# ABSTRACT: Object used for making requests to MetaCPAN
 
 use Moo;
 use Carp;
