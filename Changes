@@ -1,4 +1,22 @@
-Revision history for MetaCPAN-API
+Revision history for MetaCPAN-Client (previously MetaCPAN-API)
+
+1.000000    02.04.14
+            ** Completely rewritten **
+            MetaCPAN::API has been completely rewritten as MetaCPAN::Client.
+
+            Other than the different name (to match MetaCPAN itself), the
+            following changes had been made:
+                * MetaCPAN::Client is officially part of MetaCPAN
+                * Semantic Versioning (semver) scheme
+                * Moo as object system
+                * All entities are now objects
+                * Using Elasticsearch.pm for complex queries
+                * Rich syntax for nested queries (AND/OR)
+                * Simple queries return entity objects
+                * Complex queries return resultset objects (with iterator)
+                * Support for scrolled searches
+                * Inline support for ElasticSearch facets
+                * Documentation, tests - all cleaned, rewritten
 
 0.43        05.04.12
             * Add example in POD of advanced usage with cache by Kent Fredric.

@@ -1,13 +1,18 @@
 use strict;
 use warnings;
-use MetaCPAN::API;
+use MetaCPAN::Client;
+use Test::More;
 
-my $version = $MetaCPAN::API::VERSION || 'xx';
+my $version = $MetaCPAN::Client::VERSION || 'xx';
 
 sub mcpan {
-    return MetaCPAN::API->new(
-        ua_args => [ agent => "MetaCPAN::API-testing/$version" ],
+    my $mc = MetaCPAN::Client->new(
+        ua_args => [ agent => "MetaCPAN::Client-testing/$version" ],
     );
+
+    isa_ok( $mc, 'MetaCPAN::Client' );
+
+    return $mc;
 }
 
 1;
