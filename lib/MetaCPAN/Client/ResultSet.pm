@@ -9,8 +9,8 @@ use Carp;
 has scroller => (
     is       => 'ro',
     isa      => sub {
-        ref $_[0] eq 'Elasticsearch::Scroll'
-            or croak 'scroller must be an Elasticsearch::Scroll object';
+        ref $_[0] eq 'Search::Elasticsearch::Scroll'
+            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
     },
     handles  => ['total'],
     required => 1,
@@ -65,7 +65,7 @@ and facets.
 
 =head2 scroller
 
-An L<Elasticsearch::Scroll> object
+An L<Search::Elasticsearch::Scroll> object
 
 =head2 type
 

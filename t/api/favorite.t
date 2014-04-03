@@ -15,6 +15,6 @@ foreach my $option ( { author => 'XSAWYERX' }, { dist => 'MetaCPAN-Client' } ) {
     isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
     can_ok( $rs, qw<type scroller> );
     is( $rs->type, 'favorite', 'Correct resultset type' );
-    isa_ok( $rs->scroller, 'Elasticsearch::Scroll' );
+    isa_ok( $rs->scroller, 'Search::Elasticsearch::Scroll' );
 }
 
