@@ -6,8 +6,8 @@ package MetaCPAN::Client::Request;
 use Moo;
 use Carp;
 use JSON;
-use Elasticsearch;
-use Elasticsearch::Scroll;
+use Search::Elasticsearch;
+use Search::Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
 
@@ -68,13 +68,13 @@ sub ssearch {
     my $args   = shift;
     my $params = shift;
 
-    my $es = Elasticsearch->new(
+    my $es = Search::Elasticsearch->new(
         nodes            => $self->domain,
         cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
     );
 
-    my $scroller = Elasticsearch::Scroll->new(
+    my $scroller = Search::Elasticsearch::Scroll->new(
         es          => $es,
         search_type => 'scan',
         scroll      => '5m',
@@ -254,6 +254,6 @@ Fetches a path from MetaCPAN (post or get), and returns the decoded result.
 
 =head2 ssearch
 
-Calls an Elastic Search query (using L<Elasticsearch> and returns an
-L<Elasticsearch::Scroll> scroller object.
+Calls an Elastic Search query (using L<Search::Elasticsearch> and returns an
+L<Search::Elasticsearch::Scroll> scroller object.
 

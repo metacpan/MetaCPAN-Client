@@ -11,7 +11,7 @@ like(
     exception {
         MetaCPAN::Client::ResultSet->new(
             type     => 'failZZ',
-            scroller => bless {}, 'Elasticsearch::Scroll',
+            scroller => bless {}, 'Search::Elasticsearch::Scroll',
         )
     },
     qr/Invalid type/,
@@ -20,7 +20,7 @@ like(
 
 my $rs = MetaCPAN::Client::ResultSet->new(
     type     => 'author',
-    scroller => bless {}, 'Elasticsearch::Scroll',
+    scroller => bless {}, 'Search::Elasticsearch::Scroll',
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
