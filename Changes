@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.000001    03.04.14
+            * changed Elasticsearch (deprecated) to Search::Elasticsearch (official)
+
 1.000000    02.04.14
             ** Completely rewritten **
             MetaCPAN::API has been completely rewritten as MetaCPAN::Client.
