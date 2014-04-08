@@ -117,11 +117,21 @@ sub _decode_result {
 sub _build_body {
     my $self  = shift;
     my $args  = shift;
-    my $key   = _read_query_key($args);
+
+    my $query = _build_body_rec($args);
+
+    return +{ query => $query };
+}
+
+sub _build_body_rec {
+    my $args  = shift;
+
     my %query = ();
 
+    my $key = _read_query_key($args);
+
     if ( $key eq 'all' or $key eq 'either' ) {
-        my @elements = map +( _build_query_element($_) ), @{ $args->{$key} };
+        my @elements = map +( _build_body_rec($_) ), @{ $args->{$key} };
 
         $query{'bool'} = $key eq 'all'
             ? { must   => \@elements }
@@ -130,7 +140,24 @@ sub _build_body {
         %query = %{ _build_query_element($args) };
     }
 
-    return +{ query => \%query };
+    return \%query;
+}
+
+sub _build_query_element {
+    my $args = shift;
+
+    scalar keys %{$args} == 1
+        or croak 'Wrong number of keys in query element';
+
+    my ($key) = keys %{$args};
+
+    ! ref( $args->{$key} ) and $args->{$key} =~ /\w/
+        or croak 'Wrong type of query arguments';
+
+    my $wildcard = $args->{$key} =~ /[*?]/;
+    my $qtype    = $wildcard ? 'wildcard' : 'term';
+
+    return +{ $qtype => $args };
 }
 
 sub _read_query_key {
@@ -151,22 +178,6 @@ sub _read_query_key {
     return $key;
 }
 
-sub _build_query_element {
-    my $args = shift;
-
-    scalar keys %{$args} == 1
-        or croak 'Wrong number of keys in query element';
-
-    my ($key) = keys %{$args};
-
-    ! ref( $args->{$key} ) and $args->{$key} =~ /\w/
-        or croak 'Wrong type of query arguments';
-
-    my $wildcard = $args->{$key} =~ /[*?]/;
-    my $qtype    = $wildcard ? 'wildcard' : 'term';
-
-    return +{ $qtype => $args };
-}
 
 1;
 
