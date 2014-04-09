@@ -6,12 +6,14 @@ use warnings;
 use Test::More tests => 6;
 use Test::Fatal;
 
-package MetaCPAN::Client::FakeEntityEmpty {
+{
+    package MetaCPAN::Client::FakeEntityEmpty;
     use Moo;
     with 'MetaCPAN::Client::Role::Entity';
 }
 
-package MetaCPAN::Client::FakeEntityFull {
+{
+    package MetaCPAN::Client::FakeEntityFull;
     use Moo;
     with 'MetaCPAN::Client::Role::Entity';
 

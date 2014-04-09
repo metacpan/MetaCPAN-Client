@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.001000    09.04.14
+            * Updated tests to work on older versions of perl.
+
 1.000001    03.04.14
             * changed Elasticsearch (deprecated) to Search::Elasticsearch (official)
 
