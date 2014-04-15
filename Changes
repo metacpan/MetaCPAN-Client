@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.001001    15.04.14
+            * Fix the reading of scroller result when 'fields' param is passed.
+
 1.001000    09.04.14
             * Add support for nested either/all queries
             * Add tests for complex queries (two levels deep)
