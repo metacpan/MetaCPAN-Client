@@ -47,7 +47,8 @@ sub next {
         or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-    return $class->new_from_request( $result->{'_source'} );
+
+    return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
 }
 
 
