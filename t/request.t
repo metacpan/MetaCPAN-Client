@@ -12,7 +12,7 @@ can_ok(
     $req,
     qw<domain version base_url ua ua_args
     fetch ssearch _decode_result
-    _build_body _read_query_key _build_query_element>,
+    _build_query_rec _build_query_element>,
 );
 
 is( $req->domain, 'mydomain', 'Correct domain' );

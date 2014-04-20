@@ -34,6 +34,23 @@ my $most_daves;
 {
     my $daves = $mc->author( {
         either => [
+            { name => 'Dave *'  },
+            { name => 'David *' },
+        ],
+        not => [
+            { name => 'Dave S*'  },
+            { name => 'David S*'  },
+        ],
+    } );
+
+    isa_ok( $daves, 'MetaCPAN::Client::ResultSet' );
+    can_ok( $daves, 'total' );
+    ok( $daves->total < $most_daves, 'Definitely less Daves' );
+}
+
+{
+    my $daves = $mc->author( {
+        either => [
             {
                 all => [
                     { name  => 'Dave *'     },

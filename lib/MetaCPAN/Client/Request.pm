@@ -118,27 +118,37 @@ sub _build_body {
     my $self  = shift;
     my $args  = shift;
 
-    my $query = _build_body_rec($args);
+    my $query = _build_query_rec($args);
 
     return +{ query => $query };
 }
 
-sub _build_body_rec {
+my %key2es = (
+    all    => 'must',
+    either => 'should',
+    not    => 'must_not',
+);
+
+sub _build_query_rec {
     my $args  = shift;
+    ref $args eq 'HASH' or croak 'query args must be a hash';
 
     my %query = ();
+    my $basic_element = 1;
 
-    my $key = _read_query_key($args);
+  KEY: for my $k ( qw/ all either not / ) {
+        my $v = delete $args->{$k} || next KEY;
+        ref $v eq 'ARRAY' or croak "invalid value for key $k";
 
-    if ( $key eq 'all' or $key eq 'either' ) {
-        my @elements = map +( _build_body_rec($_) ), @{ $args->{$key} };
+        undef $basic_element;
 
-        $query{'bool'} = $key eq 'all'
-            ? { must   => \@elements }
-            : { should => \@elements, "minimum_should_match" => 1 };
-    } else {
-        %query = %{ _build_query_element($args) };
+        $query{'bool'}{ $key2es{$k} } =
+            [ map +( _build_query_rec($_) ), @$v ];
+
+        $k eq 'either' and $query{'bool'}{'minimum_should_match'} = 1;
     }
+
+    $basic_element and %query = %{ _build_query_element($args) };
 
     return \%query;
 }
@@ -158,24 +168,6 @@ sub _build_query_element {
     my $qtype    = $wildcard ? 'wildcard' : 'term';
 
     return +{ $qtype => $args };
-}
-
-sub _read_query_key {
-    my $args = shift;
-
-    # search queries take a 1 key/value element hash
-    scalar keys %{$args} == 1
-        or croak 'Wrong number of query arguments';
-
-    my ($key) = keys %{$args};
-
-    # all/either queries take an array as params
-    if ( $key eq 'all' or $key eq 'either' ) {
-        ref( $args->{$key} ) eq 'ARRAY'
-            or croak 'Wrong type of query arguments for all/either';
-    }
-
-    return $key;
 }
 
 
