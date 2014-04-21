@@ -109,6 +109,15 @@ sub release {
     return $self->_get_or_search( 'release', $arg, $params );
 }
 
+sub reverse_dependencies {
+    my $self = shift;
+    my $dist = shift;
+
+    $dist =~ s/::/-/g;
+
+    return $self->_reverse_deps($dist);
+}
+
 sub pod {}
 
 ###
@@ -169,6 +178,26 @@ sub _get_or_search {
 
     croak "$type: invalid args (takes scalar value or search parameters hashref)";
 }
+
+sub _reverse_deps {
+    my $self = shift;
+    my $dist = shift;
+
+    my $res = $self->fetch(
+        '/search/reverse_dependencies/'.$dist,
+        {
+            query  => { match_all => {} },
+            filter => { term => { 'release.status' => 'latest' } },
+            size   => 5000,
+        }
+    );
+
+    return +[
+        map { MetaCPAN::Client::Distribution->new_from_request($_->{'_source'}) }
+        @{ $res->{'hits'}{'hits'} }
+    ];
+}
+
 
 1;
 
@@ -279,6 +308,13 @@ below under C<SEARCH SPEC>.
 Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
+
+=head2 reverse_dependencies
+
+    my $deps = $mcpan->reverse_dependencies('ElasticSearch');
+
+Return an array (ref) of L<MetaCPAN::Client::Distribution> matching all
+distributions that are dependent on a given module.
 
 =head2 pod
 
