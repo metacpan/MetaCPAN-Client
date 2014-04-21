@@ -7,7 +7,7 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<name bugs>;
+my @known_fields = qw<name bugs distribution>;
 
 foreach my $field (@known_fields) {
     has $field => (
