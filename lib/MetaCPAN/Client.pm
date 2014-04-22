@@ -118,6 +118,8 @@ sub reverse_dependencies {
     return $self->_reverse_deps($dist);
 }
 
+*rev_deps = *reverse_dependencies;
+
 sub pod {}
 
 ###
@@ -323,6 +325,10 @@ L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
 
 Return an array (ref) of L<MetaCPAN::Client::Distribution> matching all
 distributions that are dependent on a given module.
+
+=head2 rev_deps
+
+Alias to C<reverse_dependencies> described above.
 
 =head2 pod
 
