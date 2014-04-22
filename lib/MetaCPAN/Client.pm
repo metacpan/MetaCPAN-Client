@@ -183,14 +183,22 @@ sub _reverse_deps {
     my $self = shift;
     my $dist = shift;
 
-    my $res = $self->fetch(
-        '/search/reverse_dependencies/'.$dist,
-        {
-            query  => { match_all => {} },
-            filter => { term => { 'release.status' => 'latest' } },
-            size   => 5000,
-        }
-    );
+    my $res;
+
+    eval {
+        $res = $self->fetch(
+            '/search/reverse_dependencies/'.$dist,
+            {
+                query  => { match_all => {} },
+                filter => { term => { 'release.status' => 'latest' } },
+                size   => 5000,
+            }
+        );
+
+    } or do {
+        warn $@;
+        return [];
+    };
 
     return +[
         map { MetaCPAN::Client::Distribution->new_from_request($_->{'_source'}) }
