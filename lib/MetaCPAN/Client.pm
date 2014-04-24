@@ -203,7 +203,7 @@ sub _reverse_deps {
     };
 
     return +[
-        map { MetaCPAN::Client::Distribution->new_from_request($_->{'_source'}) }
+        map { MetaCPAN::Client::Release->new_from_request($_->{'_source'}) }
         @{ $res->{'hits'}{'hits'} }
     ];
 }
