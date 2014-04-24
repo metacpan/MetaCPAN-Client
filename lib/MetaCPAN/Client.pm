@@ -380,6 +380,23 @@ key:
         ]
     } );
 
+=head2 NOT
+
+If you want to filter out some of the results of an either/all query
+adding a I<NOT> filter condition, such as "not these", you can use the
+following syntax with the C<not> key:
+
+    # any author named "Dave" or "David"
+    my $daves = $mcpan->author( {
+        either => [
+            { name => 'Dave *'  },
+            { name => 'David *' },
+        ],
+        not => [
+            { email => '*gmail.com' },
+        ],
+    } );
+
 =head1 DESIGN
 
 This module has three purposes:
