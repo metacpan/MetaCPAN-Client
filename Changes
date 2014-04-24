@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.002000    24.04.14
+            * Add 'not' support for complex queries
+            * Add reverse_dependencies method
+
 1.001001    15.04.14
             * Fix the reading of scroller result when 'fields' param is passed.
 
