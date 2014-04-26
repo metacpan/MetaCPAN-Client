@@ -107,6 +107,8 @@ sub _decode_result {
     my $content = $result->{'content'}
         or croak 'Missing content in return value';
 
+    $url =~ m|/pod/| and return $content;
+
     my $decoded_result;
     try   { $decoded_result = decode_json $content }
     catch { croak "Couldn't decode '$content': $_" };

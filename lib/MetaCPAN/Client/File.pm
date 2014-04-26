@@ -4,11 +4,12 @@ package MetaCPAN::Client::File;
 # ABSTRACT: A File data object
 
 use Moo;
+use Carp;
 
 with 'MetaCPAN::Client::Role::Entity';
 
 my @known_fields = qw<
-    pod status date author maturity directory indexed documentation id
+    status date author maturity directory indexed documentation id
     module authorized pod_lines version binary name version_numified release
     path description stat distribution level sloc abstract slop mime
 >;
@@ -26,6 +27,26 @@ foreach my $field (@known_fields) {
 
 sub _known_fields { return \@known_fields }
 
+sub pod {
+    my $self   = shift;
+    my $ctype  = shift || "html";
+    $ctype = lc($ctype);
+
+    grep { $ctype eq $_ } qw<html plain x-pod x-markdown>
+        or croak "wrong content-type for POD requested";
+
+    # file/module equivallence makes this
+    # weird - TODO: sort this out
+    my $name = $self->module->[0]{name};
+
+    require MetaCPAN::Client::Request;
+
+    return
+        MetaCPAN::Client::Request->new->fetch(
+            "pod/${name}?content-type=text/${ctype}"
+        );
+}
+
 
 1;
 
@@ -34,8 +55,6 @@ __END__
 =head1 DESCRIPTION
 
 =head1 ATTRIBUTES
-
-=head2 pod
 
 =head2 status
 
@@ -87,3 +106,13 @@ __END__
 
 =head2 mime
 
+=head1 METHODS
+
+=head2 pod
+
+    my $pod = $module->pod(); # default = html
+    my $pod = $module->pod($type);
+
+Returns the POD content for the module/file.
+takes a type as argument.
+supported types: 'plain', 'html', 'x-pod', 'x-markdown'

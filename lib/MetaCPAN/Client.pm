@@ -120,8 +120,6 @@ sub reverse_dependencies {
 
 *rev_deps = *reverse_dependencies;
 
-sub pod {}
-
 ###
 
 sub _get {
