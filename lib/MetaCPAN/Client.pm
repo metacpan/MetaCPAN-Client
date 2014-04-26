@@ -323,8 +323,8 @@ L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
 
     my $deps = $mcpan->reverse_dependencies('ElasticSearch');
 
-Return an array (ref) of L<MetaCPAN::Client::Distribution> matching all
-distributions that are dependent on a given module.
+Return an array (ref) of L<MetaCPAN::Client::Release> matching all
+releases that are dependent on a given module.
 
 =head2 rev_deps
 
