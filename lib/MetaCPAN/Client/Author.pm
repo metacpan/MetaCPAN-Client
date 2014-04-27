@@ -25,6 +25,21 @@ foreach my $field (@known_fields) {
 
 sub _known_fields { return \@known_fields }
 
+sub releases {
+    my $self = shift;
+    my $id   = $self->pauseid;
+
+    require MetaCPAN::Client;
+
+    return
+        MetaCPAN::Client->new->release({
+            all => [
+                { author => $id      },
+                { status => 'latest' },
+            ]
+        });
+}
+
 1;
 
 __END__
@@ -100,3 +115,11 @@ Array of Author's websites.
 
 =head2 user
 
+=head1 METHODS
+
+=head2 releases
+
+    my $releases = $author->releases();
+
+Search all releases of current author's object.
+will return a ResultSet of MetaCPAN::Client::Release objects.
