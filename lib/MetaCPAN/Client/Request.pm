@@ -5,7 +5,7 @@ package MetaCPAN::Client::Request;
 
 use Moo;
 use Carp;
-use JSON::MaybeXS 'decode_json';
+use JSON::MaybeXS qw<decode_json encode_json>;
 use Search::Elasticsearch;
 use Search::Elasticsearch::Scroll;
 use Try::Tiny;
@@ -56,7 +56,7 @@ sub fetch {
     my $ua      = $self->ua;
 
     my $result  = keys %{$params}
-        ? $ua->post( $req_url, { content => to_json $params } )
+        ? $ua->post( $req_url, { content => encode_json $params } )
         : $ua->get($req_url);
 
     return $self->_decode_result( $result, $req_url );
