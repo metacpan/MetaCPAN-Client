@@ -1,6 +1,7 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 1.003000    -
+            * Add 'releases' method to Author
             * Add proper POD fetching from module/file objects.
             * GH #1: Switch from JSON.pm to JSON::MaybeXS.
             * GH #2: Remove incorrect and unnecessary check for class names.
