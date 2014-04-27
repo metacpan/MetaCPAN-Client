@@ -5,7 +5,7 @@ package MetaCPAN::Client::Request;
 
 use Moo;
 use Carp;
-use JSON;
+use JSON::MaybeXS 'decode_json';
 use Search::Elasticsearch;
 use Search::Elasticsearch::Scroll;
 use Try::Tiny;
