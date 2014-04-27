@@ -19,8 +19,19 @@ use MetaCPAN::Client::ResultSet;
 has request => (
     is      => 'ro',
     lazy    => 1,
-    builder => sub { MetaCPAN::Client::Request->new },
     handles => [qw<fetch post ssearch>],
+    default => sub {
+        my $self = shift;
+
+        return MetaCPAN::Client::Request->new(
+            $self->has_ua ? ( ua => $self->ua ) : ()
+        );
+    },
+);
+
+has ua => (
+    is        => 'ro',
+    predicate => 'has_ua',
 );
 
 my @supported_searches = qw<
@@ -249,6 +260,11 @@ This is a hopefully-complete API-compliant client to MetaCPAN
 Internal attribute representing the request object making the request to
 MetaCPAN and analyzing the results. You probably don't want to set this, nor
 should you have any usage of it.
+
+=head2 ua
+
+If provided, L<MetaCPAN::Client::Request> will use the user agent object
+instead of the default, which is L<HTTP::Tiny>.
 
 =head1 METHODS
 
