@@ -24,7 +24,7 @@ has request => (
         my $self = shift;
 
         return MetaCPAN::Client::Request->new(
-            $self->has_ua ? ( ua => $self->ua ) : ()
+            ( ua => $self->ua ) x !! $self->has_ua,
         );
     },
 );
