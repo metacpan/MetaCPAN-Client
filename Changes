@@ -3,6 +3,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 1.003000    -
             * Add proper POD fetching from module/file objects.
             * GH #1: Switch from JSON.pm to JSON::MaybeXS.
+            * GH #2: Remove incorrect and unnecessary check for class names.
 
 1.002000    24.04.14
             * Add 'not' support for complex queries

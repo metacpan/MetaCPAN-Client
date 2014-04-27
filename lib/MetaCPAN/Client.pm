@@ -173,8 +173,8 @@ sub _get_or_search {
     ref $arg eq 'HASH' and
         return $self->_search( $type, $arg, $params );
 
-    defined $arg and $arg =~ /^[A-Za-z\-\:]+$/ and
-        return $self->_get($type, $arg);
+    defined $arg and ! ref($arg)
+        and return $self->_get($type, $arg);
 
     croak "$type: invalid args (takes scalar value or search parameters hashref)";
 }

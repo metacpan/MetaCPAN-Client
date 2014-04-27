@@ -37,7 +37,7 @@ $mc->_get_or_search( 'typeB', 'argb' );
 
 # make arg fail check
 like(
-    exception { $mc->_get_or_search( 'type', 'B%h' ) },
+    exception { $mc->_get_or_search( 'type', sub {1} ) },
     qr/^type: invalid args/,
     'Failed execution',
 );
