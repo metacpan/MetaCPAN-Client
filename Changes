@@ -1,12 +1,12 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-1.003000    -
-            * Add 'releases' method to Author
+1.003000    --.04.14
             * Add proper POD fetching from module/file objects.
             * GH #1: Switch from JSON.pm to JSON::MaybeXS.
             * GH #2: Remove incorrect and unnecessary check for class names.
             * Provide "ua" attribute in the main object to override user agent.
-            * Add some use-case examples (examples directory)
+            * Add some use-case examples (examples directory).
+            * Add 'releases' method to Author (not official so no docs yet).
 
 1.002000    24.04.14
             * Add 'not' support for complex queries
