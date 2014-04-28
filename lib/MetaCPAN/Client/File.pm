@@ -29,14 +29,12 @@ sub _known_fields { return \@known_fields }
 
 sub pod {
     my $self   = shift;
-    my $ctype  = shift || "html";
+    my $ctype  = shift || "plain";
     $ctype = lc($ctype);
 
     grep { $ctype eq $_ } qw<html plain x-pod x-markdown>
         or croak "wrong content-type for POD requested";
 
-    # file/module equivallence makes this
-    # weird - TODO: sort this out
     my $name = $self->module->[0]{name};
 
     require MetaCPAN::Client::Request;
