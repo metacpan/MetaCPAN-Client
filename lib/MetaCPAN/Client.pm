@@ -18,25 +18,22 @@ use MetaCPAN::Client::ResultSet;
 
 has request => (
     is      => 'ro',
-    lazy    => 1,
-    handles => [qw<fetch post ssearch>],
-    default => sub {
-        my $self = shift;
-
-        return MetaCPAN::Client::Request->new(
-            ( ua => $self->ua ) x !! $self->has_ua,
-        );
-    },
-);
-
-has ua => (
-    is        => 'ro',
-    predicate => 'has_ua',
+    handles => [qw<ua fetch post ssearch>],
 );
 
 my @supported_searches = qw<
     author distribution favorite module rating release
 >;
+
+sub BUILDARGS {
+    my ( $class, %args ) = @_;
+
+    $args{'request'} ||= MetaCPAN::Client::Request->new(
+        ( ua => $args{'ua'} ) x !! $args{'ua'},
+    );
+
+    return \%args;
+}
 
 sub author {
     my $self   = shift;
@@ -265,6 +262,9 @@ should you have any usage of it.
 
 If provided, L<MetaCPAN::Client::Request> will use the user agent object
 instead of the default, which is L<HTTP::Tiny>.
+
+Then it can be used to fetch the user agent object used by
+L<MetaCPAN::Client::Request>.
 
 =head1 METHODS
 
