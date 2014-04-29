@@ -1,7 +1,6 @@
 use strict;
 use warnings;
-use DDP;
-
+use Data::Printer;
 use MetaCPAN::Client;
 
 my $authors =
@@ -11,7 +10,7 @@ my $authors =
             { name => 'David *' },
         ],
         not => [
-            { name => 'Dave C*' },
+            { name => 'Dave C*'  },
             { name => 'David M*' },
         ]
     });

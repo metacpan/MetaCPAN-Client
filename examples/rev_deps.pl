@@ -1,7 +1,6 @@
 use strict;
 use warnings;
-use DDP;
-
+use Data::Printer;
 use MetaCPAN::Client;
 
 my $deps =
@@ -10,9 +9,9 @@ my $deps =
 my @output = (
     map +{
         name   => $_->name,
-        author => $_->author
+        author => $_->author,
     },
-    @{$deps}
+    @{$deps},
 );
 
 p @output;

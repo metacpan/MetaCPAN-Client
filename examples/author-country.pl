@@ -1,7 +1,6 @@
 use strict;
 use warnings;
-use DDP;
-
+use Data::Printer;
 use MetaCPAN::Client;
 
 my @countries = qw<AT AU BE CA CH DE ES FR GB

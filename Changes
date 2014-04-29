@@ -7,6 +7,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
             * Provide "ua" attribute in the main object to override user agent.
             * Add some use-case examples (examples directory).
             * Add 'releases' method to Author (not official so no docs yet).
+            * GH #3: use Data::Printer in examples instead of short class DDP.
 
 1.002000    24.04.14
             * Add 'not' support for complex queries
