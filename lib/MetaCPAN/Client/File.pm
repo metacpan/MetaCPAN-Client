@@ -108,9 +108,11 @@ __END__
 
 =head2 pod
 
-    my $pod = $module->pod(); # default = html
+    my $pod = $module->pod(); # default = plain
     my $pod = $module->pod($type);
 
 Returns the POD content for the module/file.
-takes a type as argument.
-supported types: 'plain', 'html', 'x-pod', 'x-markdown'
+
+Takes a type as argument.
+
+Supported types: B<plain>, B<html>, B<x-pod>, B<x-markdown>.
