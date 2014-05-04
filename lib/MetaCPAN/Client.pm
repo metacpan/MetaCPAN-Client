@@ -348,6 +348,10 @@ Alias to C<reverse_dependencies> described above.
 
 Not implemented yet.
 
+=head2 BUILDARGS
+
+Internal construction wrapper. Do not use.
+
 =head1 SEARCH SPEC
 
 The hash-based search spec is common to many searches. It is quite
