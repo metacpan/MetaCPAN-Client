@@ -208,10 +208,10 @@ sub _reverse_deps {
         return [];
     };
 
-    return +[
-        map { MetaCPAN::Client::Release->new_from_request($_->{'_source'}) }
-        @{ $res->{'hits'}{'hits'} }
-    ];
+    return MetaCPAN::Client::ResultSet->new(
+        list => $res->{'hits'}{'hits'},
+        type => 'release',
+    );
 }
 
 
