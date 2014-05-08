@@ -6,16 +6,6 @@ package MetaCPAN::Client::ResultSet;
 use Moo;
 use Carp;
 
-has scroller => (
-    is       => 'ro',
-    isa      => sub {
-        ref $_[0] eq 'Search::Elasticsearch::Scroll'
-            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
-    },
-    handles  => ['total'],
-    required => 1,
-);
-
 has type => (
     is       => 'ro',
     isa      => sub {
@@ -24,6 +14,31 @@ has type => (
                                    file module rating release>;
     },
     required => 1,
+);
+
+# in case we're returning from a scrolled search
+has scroller => (
+    is       => 'ro',
+    isa      => sub {
+        ref $_[0] eq 'Search::Elasticsearch::Scroll'
+            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
+    },
+    required => 0,
+);
+
+# in case we're returning from a fetch
+has list => (
+    is       => 'ro',
+    isa      => sub {
+        ref $_[0] eq 'ARRAY'
+            or croak 'list must be an array ref';
+    },
+    required => 0,
+);
+
+has total => (
+    is      => 'ro',
+    default => 0,
 );
 
 has facets => (
@@ -38,10 +53,42 @@ sub _get_facets {
     return $self->scroller->facets || {};
 }
 
+sub BUILDARGS {
+    my ( $class, %args ) = @_;
+
+    exists $args{scroller} or exists $args{list}
+        or croak "wrong args to ResultSet";
+
+    $args{total} = exists $args{scroller}
+        ? $args{scroller}->total
+        : scalar(@{ $args{list} });
+
+    return \%args;
+}
+
+
+sub _total {
+    my $self = shift;
+
+    ref $self->scroller and return $self->scroller->total;
+
+    return scalar(@{ $self->list });
+}
 
 sub next {
-    my $self   = shift;
-    my $result = $self->scroller->next;
+    my $self = shift;
+    my $result;
+
+    # list:
+    if ( ref $self->list ) {
+        scalar @{ $self->list } > 0
+            or return;
+
+        $result = shift @{ $self->list };
+
+    } else {
+        $result = $self->scroller->next;
+    }
 
     defined $result
         or return;
