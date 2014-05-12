@@ -21,6 +21,11 @@ has request => (
     handles => [qw<ua fetch post ssearch>],
 );
 
+has raw_output => (
+    is       => 'ro',
+    required => 0,
+);
+
 my @supported_searches = qw<
     author distribution favorite module rating release
 >;
@@ -143,6 +148,8 @@ sub _get {
     ref $response eq 'HASH'
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
+    $self->raw_output and return $response;
+
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response);
 }
@@ -165,6 +172,8 @@ sub _search {
         or croak 'search type is not supported';
 
     my $scroller = $self->ssearch($type, $args, $params);
+
+    $self->raw_output and return $scroller;
 
     return MetaCPAN::Client::ResultSet->new(
         scroller => $scroller,
@@ -191,10 +200,10 @@ sub _reverse_deps {
     my $self = shift;
     my $dist = shift;
 
-    my $res;
+    my $response;
 
     eval {
-        $res = $self->fetch(
+        my $res = $self->fetch(
             '/search/reverse_dependencies/'.$dist,
             {
                 query  => { match_all => {} },
@@ -203,14 +212,20 @@ sub _reverse_deps {
             }
         );
 
+        $response = $res->{'hits'}{'hits'};
+
+        1;
+
     } or do {
         warn $@;
         return [];
     };
 
+    $self->raw_output and return $response;
+
     return +[
         map { MetaCPAN::Client::Release->new_from_request($_->{'_source'}) }
-        @{ $res->{'hits'}{'hits'} }
+        @{ $response }
     ];
 }
 
