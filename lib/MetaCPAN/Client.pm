@@ -296,8 +296,8 @@ L<MetaCPAN::Client::Module> objects on a complex (search spec based) search.
 
 =head2 distribution
 
-    my $dist = $mcpan->dist('MetaCPAN-Client');
-    my $dist = $mcpan->dist($search_spec);
+    my $dist = $mcpan->distribution('MetaCPAN-Client');
+    my $dist = $mcpan->distribution($search_spec);
 
 Finds a distribution by either its distribution name or by a search spec
 defined by a hash reference. Since it is common to many other searches, it is
