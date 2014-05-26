@@ -13,6 +13,6 @@ while ( my $rel = $deps->next ) {
         name   => $rel->name,
         author => $rel->author,
     };
-};
+}
 
 p @output;

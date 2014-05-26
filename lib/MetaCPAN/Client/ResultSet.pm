@@ -18,86 +18,62 @@ has type => (
 
 # in case we're returning from a scrolled search
 has scroller => (
-    is       => 'ro',
-    isa      => sub {
-        ref $_[0] eq 'Search::Elasticsearch::Scroll'
+    is        => 'ro',
+    isa       => sub {
+        use Safe::Isa;
+        $_[0]->$_isa('Search::Elasticsearch::Scroll')
             or croak 'scroller must be an Search::Elasticsearch::Scroll object';
     },
-    required => 0,
+    predicate => 'has_scroller',
 );
 
 # in case we're returning from a fetch
-has list => (
-    is       => 'ro',
-    isa      => sub {
+has items => (
+    is  => 'ro',
+    isa => sub {
         ref $_[0] eq 'ARRAY'
-            or croak 'list must be an array ref';
+            or croak 'items must be an array ref';
     },
-    required => 0,
 );
 
 has total => (
     is      => 'ro',
-    default => 0,
+    default => sub {
+        my $self = shift;
+
+        return $self->has_scroller ? $self->scroller->total
+                                   : scalar @{ $self->items };
+    },
 );
-
-has facets => (
-    is      => 'ro',
-    lazy    => 1,
-    builder => '_get_facets',
-);
-
-sub _get_facets {
-    my $self = shift;
-
-    return $self->scroller->facets || {};
-}
 
 sub BUILDARGS {
     my ( $class, %args ) = @_;
 
-    exists $args{scroller} or exists $args{list}
-        or croak "wrong args to ResultSet";
+    exists $args{scroller} or exists $args{items}
+        or croak 'ResultSet must get either scroller or items';
 
-    $args{total} = exists $args{scroller}
-        ? $args{scroller}->total
-        : scalar(@{ $args{list} });
+    exists $args{scroller} and exists $args{items}
+        and croak 'ResultSet must get either scroller or items, not both';
 
     return \%args;
 }
 
-
-sub _total {
-    my $self = shift;
-
-    ref $self->scroller and return $self->scroller->total;
-
-    return scalar(@{ $self->list });
-}
-
 sub next {
-    my $self = shift;
-    my $result;
+    my $self   = shift;
+    my $result = $self->has_scroller ? $self->scroller->next
+                                     : shift @{ $self->items };
 
-    # list:
-    if ( ref $self->list ) {
-        scalar @{ $self->list } > 0
-            or return;
-
-        $result = shift @{ $self->list };
-
-    } else {
-        $result = $self->scroller->next;
-    }
-
-    defined $result
-        or return;
+    defined $result or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-
     return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
 }
 
+sub facets {
+    my $self = shift;
+
+    return $self->has_scroller ? $self->scroller->facets : {};
+}
 
 1;
 

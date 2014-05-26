@@ -209,8 +209,8 @@ sub _reverse_deps {
     };
 
     return MetaCPAN::Client::ResultSet->new(
-        list => $res->{'hits'}{'hits'},
-        type => 'release',
+        items => $res->{'hits'}{'hits'},
+        type  => 'release',
     );
 }
 
