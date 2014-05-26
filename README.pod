@@ -1,12 +1,14 @@
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.003000
+version 1.004000
 
 =head1 SYNOPSIS
 
@@ -126,8 +128,8 @@ L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
 
     my $deps = $mcpan->reverse_dependencies('ElasticSearch');
 
-Return an array (ref) of L<MetaCPAN::Client::Release> matching all
-releases that are dependent on a given module.
+all L<MetaCPAN::Client::Release> objects of releases that are dependent
+on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 
 =head2 rev_deps
 
@@ -272,3 +274,4 @@ This software is copyright (c) 2014 by Sawyer X.
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
+=cut

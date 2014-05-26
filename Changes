@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.004000    27.05.14
+            * reworked ResultSet to allow RS in non-scrolled searches.
+
 1.003000    05.05.14
             * Add proper POD fetching from module/file objects.
             * GH #1: Switch from JSON.pm to JSON::MaybeXS.
