@@ -89,7 +89,11 @@ and facets.
 
 =head2 scroller
 
-An L<Search::Elasticsearch::Scroll> object
+An L<Search::Elasticsearch::Scroll> object.
+
+=head2 items
+
+An arrayref of items to manually scroll over, instead of a scroller object.
 
 =head2 type
 
@@ -125,3 +129,6 @@ Iterator call to fetch the next result set object.
 
 Iterator call to fetch the total amount of objects available in result set.
 
+=head2 BUILDARGS
+
+Double checks construction of objects. You should never run this yourself.
