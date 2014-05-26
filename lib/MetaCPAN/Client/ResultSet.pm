@@ -6,16 +6,6 @@ package MetaCPAN::Client::ResultSet;
 use Moo;
 use Carp;
 
-has scroller => (
-    is       => 'ro',
-    isa      => sub {
-        ref $_[0] eq 'Search::Elasticsearch::Scroll'
-            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
-    },
-    handles  => ['total'],
-    required => 1,
-);
-
 has type => (
     is       => 'ro',
     isa      => sub {
@@ -26,31 +16,64 @@ has type => (
     required => 1,
 );
 
-has facets => (
-    is      => 'ro',
-    lazy    => 1,
-    builder => '_get_facets',
+# in case we're returning from a scrolled search
+has scroller => (
+    is        => 'ro',
+    isa       => sub {
+        use Safe::Isa;
+        $_[0]->$_isa('Search::Elasticsearch::Scroll')
+            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
+    },
+    predicate => 'has_scroller',
 );
 
-sub _get_facets {
-    my $self = shift;
+# in case we're returning from a fetch
+has items => (
+    is  => 'ro',
+    isa => sub {
+        ref $_[0] eq 'ARRAY'
+            or croak 'items must be an array ref';
+    },
+);
 
-    return $self->scroller->facets || {};
+has total => (
+    is      => 'ro',
+    default => sub {
+        my $self = shift;
+
+        return $self->has_scroller ? $self->scroller->total
+                                   : scalar @{ $self->items };
+    },
+);
+
+sub BUILDARGS {
+    my ( $class, %args ) = @_;
+
+    exists $args{scroller} or exists $args{items}
+        or croak 'ResultSet must get either scroller or items';
+
+    exists $args{scroller} and exists $args{items}
+        and croak 'ResultSet must get either scroller or items, not both';
+
+    return \%args;
 }
-
 
 sub next {
     my $self   = shift;
-    my $result = $self->scroller->next;
+    my $result = $self->has_scroller ? $self->scroller->next
+                                     : shift @{ $self->items };
 
-    defined $result
-        or return;
+    defined $result or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-
     return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
 }
 
+sub facets {
+    my $self = shift;
+
+    return $self->has_scroller ? $self->scroller->facets : {};
+}
 
 1;
 

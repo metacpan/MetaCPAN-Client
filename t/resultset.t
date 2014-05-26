@@ -7,11 +7,17 @@ use Test::More tests => 3;
 use Test::Fatal;
 use MetaCPAN::Client::ResultSet;
 
+{
+    package MetaCPAN::Client::Test::ScrollerZ;
+    use base 'Search::Elasticsearch::Scroll'; # < 5.10 FTW (except, no)
+    sub total {0}
+}
+
 like(
     exception {
         MetaCPAN::Client::ResultSet->new(
             type     => 'failZZ',
-            scroller => bless {}, 'Search::Elasticsearch::Scroll',
+            scroller => bless {}, 'MetaCPAN::Client::Test::ScrollerZ',
         )
     },
     qr/Invalid type/,
