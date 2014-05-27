@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.004001    27.05.14
+            * correct rev_deps query
+
 1.004000    27.05.14
             * reworked ResultSet to allow RS in non-scrolled searches.
 
