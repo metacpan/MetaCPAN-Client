@@ -197,9 +197,14 @@ sub _reverse_deps {
         $res = $self->fetch(
             '/search/reverse_dependencies/'.$dist,
             {
-                query  => { match_all => {} },
-                filter => { term => { 'release.status' => 'latest' } },
                 size   => 5000,
+                query  => { match_all => {} },
+                filter => {
+                    and => [
+                        { term => { 'release.status' => 'latest' } },
+                        { term => { 'authorized'     => \1       } },
+                    ]
+                },
             }
         );
 
