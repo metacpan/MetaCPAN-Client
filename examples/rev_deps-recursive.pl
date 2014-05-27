@@ -5,7 +5,7 @@ use MetaCPAN::Client;
 
 $|=1;
 
-my $dist  = 'Hijk';
+my $dist  = shift || 'Hijk';
 my $mcpan = MetaCPAN::Client->new;
 
 print "\n\n", colored( "* $dist", 'green' ), "\n";
