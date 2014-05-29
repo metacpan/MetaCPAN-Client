@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use Test::More tests => 5;
-use Test::Fatal;
 
 use t::lib::Functions;
 
