@@ -45,67 +45,31 @@ __END__
 
 =head1 DESCRIPTION
 
+=head1 SYNOPSIS
+
+  use strict;
+  use warnings;
+  use MetaCPAN::Client;
+  
+  my $pod = MetaCPAN::Client->new->pod('Moo');
+  
+  print $pod->html;
+
+
 =head1 ATTRIBUTES
-
-=head2 status
-
-=head2 date
-
-=head2 author
-
-=head2 maturity
-
-=head2 directory
-
-=head2 indexed
-
-=head2 documentation
-
-=head2 id
-
-=head2 module
-
-=head2 authorized
-
-=head2 pod_lines
-
-=head2 version
-
-=head2 binary
 
 =head2 name
 
-=head2 version_numified
+=head2 x_pod
 
-=head2 release
+=head2 html
 
-=head2 path
+=head2 x_markdown
 
-=head2 description
+=head2 plain
 
-=head2 stat
+Get the plaintext version of the documentation
 
-=head2 distribution
+  $pod = MetaCPAN::Client->new->pod( "MetaCPAN::Client" );
+  print $pod->plain;
 
-=head2 level
-
-=head2 sloc
-
-=head2 abstract
-
-=head2 slop
-
-=head2 mime
-
-=head1 METHODS
-
-=head2 pod
-
-    my $pod = $module->pod(); # default = plain
-    my $pod = $module->pod($type);
-
-Returns the POD content for the module/file.
-
-Takes a type as argument.
-
-Supported types: B<plain>, B<html>, B<x-pod>, B<x-markdown>.
