@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.005000    -
+            * Add Pod object to allow direct POD fetching (reneeb)
+
 1.004001    27.05.14
             * correct rev_deps query
 
