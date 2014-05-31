@@ -12,6 +12,7 @@ use MetaCPAN::Client::Distribution;
 use MetaCPAN::Client::Module;
 use MetaCPAN::Client::File;
 use MetaCPAN::Client::Favorite;
+use MetaCPAN::Client::Pod;
 use MetaCPAN::Client::Rating;
 use MetaCPAN::Client::Release;
 use MetaCPAN::Client::ResultSet;
@@ -67,6 +68,13 @@ sub file {
     my $params = shift;
 
     return $self->_get( 'file', $path );
+}
+
+sub pod {
+    my $self = shift;
+    my $name = shift;
+
+    return MetaCPAN::Client::Pod->new({ name => $name });
 }
 
 #
