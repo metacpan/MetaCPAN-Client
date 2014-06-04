@@ -140,6 +140,7 @@ sub _build_query_rec {
 
   KEY: for my $k ( qw/ all either not / ) {
         my $v = delete $args->{$k} || next KEY;
+        ref $v eq 'HASH'  and $v = [ $v ];
         ref $v eq 'ARRAY' or croak "invalid value for key $k";
 
         undef $basic_element;

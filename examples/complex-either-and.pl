@@ -9,9 +9,7 @@ my $authors =
             { name => 'Dave *'  },
             { name => 'David *' },
         ],
-        all => [
-            { email => '*gmail.com' }
-        ],
+        all => { email => '*gmail.com' },
     });
 
 my %output = (
