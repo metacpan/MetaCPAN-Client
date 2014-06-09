@@ -292,7 +292,7 @@ under C<SEARCH SPEC>.
 
 Return a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Author> objects on a complex (search spec based) search.
+L<MetaCPAN::Client::Author> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
 =head2 module
 
@@ -305,7 +305,7 @@ under C<SEARCH SPEC>.
 
 Return a L<MetaCPAN::Client::Module> object on a simple search (module name), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Module> objects on a complex (search spec based) search.
+L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
 =head2 distribution
 
@@ -318,7 +318,7 @@ explained below under C<SEARCH SPEC>.
 
 Return a L<MetaCPAN::Client::Distribution> object on a simple search
 (distribution name), or a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Distribution> objects on a complex (search spec based)
+L<MetaCPAN::Client::Distribution> objects on a complex (L<search spec based|/"SEARCH SPEC">)
 search.
 
 =head2 file
@@ -344,7 +344,7 @@ below under C<SEARCH SPEC>.
 
 Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Release> objects on a complex (search spec based) search.
+L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
 =head2 reverse_dependencies
 
@@ -370,9 +370,7 @@ Internal construction wrapper. Do not use.
 The hash-based search spec is common to many searches. It is quite
 feature-rich and allows to disambiguate different types of searches.
 
-=head2 Simple
-
-Simple searches just contain keys and values:
+Basic search specs just contain a hash of keys and values:
 
     my $author = $mcpan->author( { name => 'Micha Nasriachi' } );
 
