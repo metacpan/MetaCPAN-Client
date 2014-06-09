@@ -370,9 +370,7 @@ Internal construction wrapper. Do not use.
 The hash-based search spec is common to many searches. It is quite
 feature-rich and allows to disambiguate different types of searches.
 
-=head2 Simple
-
-Simple searches just contain keys and values:
+Basic search specs just contain a hash of keys and values:
 
     my $author = $mcpan->author( { name => 'Micha Nasriachi' } );
 
