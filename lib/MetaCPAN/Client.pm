@@ -136,6 +136,23 @@ sub reverse_dependencies {
 
 *rev_deps = *reverse_dependencies;
 
+sub recent {
+    my $self = shift;
+    my $size = shift || 100;
+
+    $size eq 'today'
+        and return $self->_recent(
+            size   => 1000,
+            filter => _filter_today()
+        );
+
+    $size =~ /^[0-9]+$/
+        and return $self->_recent( size => $size );
+
+    croak "recent: invalid size value";
+}
+
+
 ###
 
 sub _get {
@@ -215,13 +232,11 @@ sub _reverse_deps {
                 },
             }
         );
+        1;
 
     } or do {
         warn $@;
-        return MetaCPAN::Client::ResultSet->new(
-            items => [],
-            type  => 'release',
-        );
+        return _empty_result_set('release'),
     };
 
     return MetaCPAN::Client::ResultSet->new(
@@ -230,6 +245,47 @@ sub _reverse_deps {
     );
 }
 
+sub _recent {
+    my $self = shift;
+    my @args = @_;
+
+    my $res;
+
+    eval {
+        $res = $self->fetch(
+            '/release/_search',
+            {
+                from   => 0,
+                query  => { match_all => {} },
+                @args,
+                sort   => [ { 'date' => { order => "desc" } } ],
+            }
+        );
+        1;
+
+    } or do {
+        warn $@;
+        return _empty_result_set('release');
+    };
+
+    return MetaCPAN::Client::ResultSet->new(
+        items => $res->{'hits'}{'hits'},
+        type  => 'release',
+    );
+}
+
+sub _filter_today {
+    return { range => { date => { from => "now/1d+0h" } } };
+}
+
+sub _empty_result_set {
+    my $type = shift;
+
+    return MetaCPAN::Client::ResultSet->new(
+        items => [],
+        type  => $type,
+    );
+}
 
 1;
 
@@ -359,6 +415,15 @@ on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 =head2 rev_deps
 
 Alias to C<reverse_dependencies> described above.
+
+=head2 recent
+
+    my $recent = $mcpan->recent(10);
+    my $recent = $mcpan->recent('today');
+
+return the latest N releases, or all releases from today.
+
+returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 
 =head2 pod
 
