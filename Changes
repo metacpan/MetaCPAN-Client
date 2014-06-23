@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.006000    -
+            * Add 'recent' functionality (latest releases)
+
 1.005000    09.06.14
             * Add Pod object to allow direct POD fetching (reneeb)
             * Support single element without wrapping arrayref in structures
