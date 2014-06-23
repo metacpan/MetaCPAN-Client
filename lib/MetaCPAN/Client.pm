@@ -218,7 +218,10 @@ sub _reverse_deps {
 
     } or do {
         warn $@;
-        return [];
+        return MetaCPAN::Client::ResultSet->new(
+            items => [],
+            type  => 'release',
+        );
     };
 
     return MetaCPAN::Client::ResultSet->new(
