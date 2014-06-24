@@ -6,8 +6,10 @@ use warnings;
 use Data::Printer;
 use MetaCPAN::Client;
 
+my $module = shift || 'Hijk';
+
 my $deps =
-    MetaCPAN::Client->new->rev_deps('Hijk');
+    MetaCPAN::Client->new->rev_deps($module);
 
 my @output;
 
