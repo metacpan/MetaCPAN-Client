@@ -1,3 +1,6 @@
+
+# examples/pod.pl
+
 use strict;
 use warnings;
 use MetaCPAN::Client;

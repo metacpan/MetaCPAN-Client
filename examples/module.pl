@@ -1,3 +1,6 @@
+
+# examples/module.pl
+
 use strict;
 use warnings;
 use DDP;

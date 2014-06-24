@@ -1,3 +1,6 @@
+
+# examples/rev_deps.pl
+
 use strict;
 use warnings;
 use Data::Printer;
@@ -15,4 +18,7 @@ while ( my $rel = $deps->next ) {
     };
 }
 
+print "\n";
+my $title = "Reverse dependencies for 'Hijk':";
+p $title;
 p @output;

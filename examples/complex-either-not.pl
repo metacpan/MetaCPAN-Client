@@ -1,3 +1,6 @@
+
+# examples/complex-either-not.pl
+
 use strict;
 use warnings;
 use Data::Printer;
@@ -16,4 +19,5 @@ my $authors =
     });
 
 print "\n";
-p ( $authors->total );
+my %out = ( TOTAL => $authors->total );
+p %out;
