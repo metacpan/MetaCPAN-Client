@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.005000
+version 1.006000
 
 =head1 SYNOPSIS
 
@@ -134,6 +134,15 @@ on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 =head2 rev_deps
 
 Alias to C<reverse_dependencies> described above.
+
+=head2 recent
+
+    my $recent = $mcpan->recent(10);
+    my $recent = $mcpan->recent('today');
+
+return the latest N releases, or all releases from today.
+
+returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 
 =head2 pod
 
