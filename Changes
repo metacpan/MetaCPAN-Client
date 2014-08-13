@@ -1,4 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
+            * Ensure passing user specified ua values to all parts internally,
+              including to Elasticsearch (kentnl) GH #17 RT#95796
+            * Entity consuming roles now have a 'client' attribute which will lazy build,
+              or reference the MetaCPAN::Client that created them via new_from_request (kentnl) GH #17
 
 1.006000    24.06.14
             * Add 'recent' functionality (latest releases)
