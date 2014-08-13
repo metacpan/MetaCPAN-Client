@@ -30,10 +30,17 @@ has base_url => (
     },
 );
 
+has _user_ua => (
+    init_arg  => 'ua',
+    is        => 'ro',
+    predicate => '_has_user_ua',
+);
+
 has ua => (
-    is      => 'ro',
-    lazy    => 1,
-    builder => '_build_ua',
+    init_arg => undef,
+    is       => 'ro',
+    lazy     => 1,
+    builder  => '_build_ua',
 );
 
 has ua_args => (
@@ -45,6 +52,13 @@ has ua_args => (
 
 sub _build_ua {
     my $self = shift;
+    # This level of indirection is so that if a user has not specified a custom UA
+    # MetaCPAN::Client and ElasticSearch will have their own UA's
+    #
+    # But if the user **has** specified a custom UA, that UA is used for both.
+    if ( $self->_has_user_ua ) {
+      return $self->_user_ua;
+    }
     return HTTP::Tiny->new( @{ $self->ua_args } );
 }
 
