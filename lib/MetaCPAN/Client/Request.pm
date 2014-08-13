@@ -86,6 +86,7 @@ sub ssearch {
         nodes            => $self->domain,
         cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
+        ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
     );
 
     my $scroller = Search::Elasticsearch::Scroll->new(
