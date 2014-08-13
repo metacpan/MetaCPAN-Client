@@ -169,7 +169,7 @@ sub _get {
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
-    return $class->new_from_request($response);
+    return $class->new_from_request($response, $self);
 }
 
 sub _search {
