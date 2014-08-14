@@ -29,10 +29,7 @@ sub releases {
     my $self = shift;
     my $id   = $self->pauseid;
 
-    require MetaCPAN::Client;
-
-    return
-        MetaCPAN::Client->new->release({
+    return $self->client->release({
             all => [
                 { author => $id      },
                 { status => 'latest' },
