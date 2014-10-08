@@ -1,4 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
+
+1.007001
+            * Include 'metadata' in known_fields for ::Release (kentnl, GH #19)
+
 1.007000    14.08.14
             * Ensure passing user specified ua values to all parts internally,
               including to Elasticsearch (kentnl) GH #17 RT#95796
