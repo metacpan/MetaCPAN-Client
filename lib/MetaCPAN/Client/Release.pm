@@ -10,7 +10,7 @@ with 'MetaCPAN::Client::Role::Entity';
 my @known_fields = qw<
     resources status date author maturity dependency id authorized
     download_url first archive version name version_numified license
-    distribution stat provides tests abstract
+    distribution stat provides tests abstract metadata
 >;
 
 foreach my $field (@known_fields) {
@@ -74,3 +74,4 @@ __END__
 
 =head2 abstract
 
+=head2 metadata

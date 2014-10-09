@@ -2,6 +2,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 1.007001
             * GH #18: HTTP::Tiny::Mech and WWW::Mechanize::Cached downgraded to being non-essential for tests (kentnl)
+            * GH #19: Include 'metadata' in known_fields for ::Release (kentnl)
 
 1.007000    14.08.14
             * Ensure passing user specified ua values to all parts internally,
