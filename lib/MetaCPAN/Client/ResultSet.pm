@@ -129,6 +129,10 @@ Iterator call to fetch the next result set object.
 
 Iterator call to fetch the total amount of objects available in result set.
 
+=head2 has_scroller
+
+Predicate for ES scroller presence.
+
 =head2 BUILDARGS
 
 Double checks construction of objects. You should never run this yourself.
