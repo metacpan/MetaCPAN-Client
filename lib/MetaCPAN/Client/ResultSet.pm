@@ -15,7 +15,7 @@ has type => (
             grep { $_ eq $_[0] } qw<author distribution favorite
                                    file module rating release mirror package>;
     },
-    required => 1,
+    lazy => 1,
 );
 
 # in case we're returning from a scrolled search
@@ -45,6 +45,12 @@ has total => (
     },
 );
 
+has 'class' => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_build_class',
+);
+
 sub BUILDARGS {
     my ( $class, %args ) = @_;
 
@@ -54,7 +60,17 @@ sub BUILDARGS {
     exists $args{scroller} and exists $args{items}
         and croak 'ResultSet must get either scroller or items, not both';
 
+    exists $args{type} or exists $args{class}
+        or croak 'Must pass either type or target class to ResultSet';
+
+    exists $args{type} and exists $args{class}
+        and croak 'Must pass either type or target class to ResultSet, not both';
+
     return \%args;
+}
+sub BUILD {
+    my ( $self ) = @_;
+    $self->class; # vifify and validate
 }
 
 sub next {
@@ -64,8 +80,7 @@ sub next {
 
     defined $result or return;
 
-    my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-    return $class->new_from_request( $result->{'_source'} || $result->{'fields'} || $result );
+    return $self->class->new_from_request( $result->{'_source'} || $result->{'fields'} || $result );
 }
 
 sub aggregations {
@@ -74,6 +89,10 @@ sub aggregations {
     return $self->has_scroller ? $self->scroller->aggregations : {};
 }
 
+sub _build_class {
+    my $self = shift;
+    return 'MetaCPAN::Client::' . ucfirst $self->type;
+}
 
 1;
 
