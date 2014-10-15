@@ -3,7 +3,8 @@
 use strict;
 use warnings;
 
-use Test::More tests => 7;
+use Test::More tests => 9;
+use MetaCPAN::Client;
 use MetaCPAN::Client::Request;
 
 my $req = MetaCPAN::Client::Request->new( domain => 'mydomain', version => 'z' );
@@ -27,3 +28,6 @@ is_deeply(
     'Correct UA args',
 );
 
+my $client = MetaCPAN::Client->new( domain => 'foo', version => 'bar' );
+is ( $client->request->domain, 'foo', 'domain set in request' );
+is ( $client->request->version, 'bar', 'version set in request' );
