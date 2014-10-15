@@ -31,6 +31,8 @@ sub BUILDARGS {
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(
         ( ua => $args{'ua'} ) x !! $args{'ua'},
+        $args{domain}  ? ( domain => $args{domain} )   : (),
+        $args{version} ? ( version => $args{version} ) : (),
     );
 
     return \%args;
@@ -296,7 +298,7 @@ __END__
     # simple usage
     my $mcpan  = MetaCPAN::Client->new();
     my $author = $mcpan->author('XSAWYERX');
-    my $dist   = $mcpan->distribuion('MetaCPAN-Client');
+    my $dist   = $mcpan->distribution('MetaCPAN-Client');
 
     # advanced usage with cache (contributed by Kent Fredric)
     use CHI;
