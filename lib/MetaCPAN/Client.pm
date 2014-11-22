@@ -479,6 +479,20 @@ key:
         ]
     } );
 
+If you want to do something even more complicated,
+You can also nest your queries, e.g.:
+
+    my $gmail_daves_or_cpan_sams = $mcpan->author( {
+        either => [
+            { all => [ { name => 'Dave *'  },
+                       { email => '*gmail.com' } ]
+            },
+            { all => [ { name => 'Sam *' },
+                       { email => '*cpan.org' } ]
+            },
+        ],
+    } );
+
 =head2 NOT
 
 If you want to filter out some of the results of an either/all query
