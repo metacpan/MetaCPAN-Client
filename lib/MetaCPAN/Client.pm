@@ -442,7 +442,11 @@ returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 
 =head2 pod
 
-Not implemented yet.
+Get POD for given file/module name.
+returns a L<MetaCPAN::Client::POD> object, which supports various output
+formats (html, plain, x_pod & x_markdown).
+
+    my $pod = $mcpan->pod('Moo')->html;
 
 =head2 all
 
