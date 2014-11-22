@@ -8,14 +8,14 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.007001
+version 1.008000
 
 =head1 SYNOPSIS
 
     # simple usage
     my $mcpan  = MetaCPAN::Client->new();
     my $author = $mcpan->author('XSAWYERX');
-    my $dist   = $mcpan->distribuion('MetaCPAN-Client');
+    my $dist   = $mcpan->distribution('MetaCPAN-Client');
 
     # advanced usage with cache (contributed by Kent Fredric)
     use CHI;
@@ -146,7 +146,17 @@ returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 
 =head2 pod
 
-Not implemented yet.
+Get POD for given file/module name.
+returns a L<MetaCPAN::Client::POD> object, which supports various output
+formats (html, plain, x_pod & x_markdown).
+
+    my $pod = $mcpan->pod('Moo')->html;
+
+=head2 all
+
+Retrieve all matches for authors/modules/distributions or releases.
+
+    my $all_releases = $mcpan->all('releases')
 
 =head2 BUILDARGS
 
@@ -194,6 +204,20 @@ key:
             { name  => 'John *'     },
             { email => '*gmail.com' },
         ]
+    } );
+
+If you want to do something even more complicated,
+You can also nest your queries, e.g.:
+
+    my $gmail_daves_or_cpan_sams = $mcpan->author( {
+        either => [
+            { all => [ { name => 'Dave *'  },
+                       { email => '*gmail.com' } ]
+            },
+            { all => [ { name => 'Sam *' },
+                       { email => '*cpan.org' } ]
+            },
+        ],
     } );
 
 =head2 NOT
