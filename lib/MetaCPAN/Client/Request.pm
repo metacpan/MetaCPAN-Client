@@ -96,7 +96,9 @@ sub ssearch {
         index       => $self->version,
         type        => $type,
         size        => 1000,
+        ( $params->{body} ? () :
         body        => $self->_build_body($args),
+        ),
         %{ $params },
     );
 
