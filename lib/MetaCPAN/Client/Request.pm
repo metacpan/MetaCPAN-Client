@@ -135,7 +135,9 @@ sub _build_body {
     my $self  = shift;
     my $args  = shift;
 
-    my $query = _build_query_rec($args);
+    my $query = $args->{__MATCH_ALL__}
+        ? { match_all => {} }
+        : _build_query_rec($args);
 
     return +{ query => $query };
 }

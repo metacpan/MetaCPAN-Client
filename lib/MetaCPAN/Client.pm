@@ -154,6 +154,19 @@ sub recent {
     croak "recent: invalid size value";
 }
 
+sub all {
+    my $self = shift;
+    my $type = shift;
+
+    my $match_all = { __MATCH_ALL__ => 1 };
+
+    $type eq 'authors'       and return $self->author( $match_all );
+    $type eq 'distributions' and return $self->distribution( $match_all );
+    $type eq 'modules'       and return $self->module( $match_all );
+    $type eq 'releases'      and return $self->release( $match_all );
+
+    croak "all: unsupported type";
+}
 
 ###
 
@@ -430,6 +443,12 @@ returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 =head2 pod
 
 Not implemented yet.
+
+=head2 all
+
+Retrieve all matches for authors/modules/distributions or releases.
+
+    my $all_releases = $mcpan->all('releases')
 
 =head2 BUILDARGS
 
