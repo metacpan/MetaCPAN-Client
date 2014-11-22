@@ -2,6 +2,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 1.008000    -
             * GH #21: make 'domain' and 'version' settable via new() (oalders)
+            * RT #94491: document nested queries (neilb, mickeyn)
 
 1.007001    09.10.14
             * GH #18: HTTP::Tiny::Mech and WWW::Mechanize::Cached downgraded to being non-essential for tests (kentnl)
