@@ -443,7 +443,7 @@ returns a L<MetaCPAN::Client::ResultSet> of L<MetaCPAN::Client::Release>.
 =head2 pod
 
 Get POD for given file/module name.
-returns a L<MetaCPAN::Client::POD> object, which supports various output
+returns a L<MetaCPAN::Client::Pod> object, which supports various output
 formats (html, plain, x_pod & x_markdown).
 
     my $pod = $mcpan->pod('Moo')->html;
