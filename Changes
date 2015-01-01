@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.008001    01.01.15
+            * Happy new year!
+            * Correct Meta resources for the repo.
+            * Correct link in POD for the Pod element. (Alex Vandiver)
+
 1.008000    22.11.14
             * RT #99498: added API for 'match_all' queries via all($type) (oalders, mickeyn)
             * GH #21: make 'domain' and 'version' settable via new() (oalders)
