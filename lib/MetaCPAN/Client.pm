@@ -173,18 +173,45 @@ sub all {
 sub _get {
     my $self = shift;
 
-    scalar(@_) == 2
-        or croak '_get takes type and search string as parameters';
+    ( scalar(@_) == 2
+      or ( scalar(@_) == 3 and ( !defined $_[2] or ref $_[2] eq 'HASH' ) ) )
+        or croak '_get takes type and search string as parameters (and an optional params hash)';
 
-    my $type = shift;
-    my $arg  = shift;
+    my $type   = shift;
+    my $arg    = shift;
+    my $params = shift;
 
-    my $response = $self->fetch("$type/$arg");
+    my $fields_filter = $self->_read_fields( $params );
+
+    my $response = $self->fetch(
+        sprintf("%s/%s%s", $type ,$arg, $fields_filter)
+    );
     ref $response eq 'HASH'
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response, $self);
+}
+
+sub _read_fields {
+    my $self   = shift;
+    my $params = shift;
+    $params or return '';
+
+    my $fields = delete $params->{fields};
+
+    if ( ref $fields eq 'ARRAY' ) {
+        grep { ref $_ } @$fields
+            and croak "fields array should not contain any refs.";
+
+        return sprintf( "?fields=%s", join q{,} => @$fields );
+
+    } elsif ( !ref $fields ) {
+
+        return "?fields=$fields";
+    }
+
+    croak "invalid param: fields";
 }
 
 sub _search {
@@ -222,7 +249,7 @@ sub _get_or_search {
         return $self->_search( $type, $arg, $params );
 
     defined $arg and ! ref($arg)
-        and return $self->_get($type, $arg);
+        and return $self->_get($type, $arg, $params);
 
     croak "$type: invalid args (takes scalar value or search parameters hashref)";
 }
@@ -458,6 +485,22 @@ Retrieve all matches for authors/modules/distributions or releases.
 
 Internal construction wrapper. Do not use.
 
+=head1 SEARCH PARAMS
+
+Most searches take params as an optional hash-ref argument.
+these params will be passed to the search action.
+
+In non-scrolled searches, 'fields' filter is the only supported
+parameter ATM.
+
+=head2 fields
+
+Filter the fields to reduce the amount of data pulled from MetaCPAN.
+can be passed as a csv list or an array ref.
+
+    my $module = $mcpan->module('Moose', { fields => "version,author" });
+    my $module = $mcpan->module('Moose', { fields => [qw/version author/] });
+
 =head1 SEARCH SPEC
 
 The hash-based search spec is common to many searches. It is quite
@@ -579,4 +622,3 @@ You can (and should) read up on the general methods, which will explain how
 their DWIMish nature works, and what searches they run.
 
 =back
-
