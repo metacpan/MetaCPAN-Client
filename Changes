@@ -1,6 +1,6 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-1.009000    -
+1.009000    11.01.15
             * GH #25 (RT #99499): added support for 'fields' filtering (mickeyn, oalders)
 
 1.008001    01.01.15
