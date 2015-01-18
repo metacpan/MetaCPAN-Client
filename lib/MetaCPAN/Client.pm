@@ -30,9 +30,9 @@ sub BUILDARGS {
     my ( $class, %args ) = @_;
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(
-        ( ua => $args{'ua'} ) x !! $args{'ua'},
-        $args{domain}  ? ( domain => $args{domain} )   : (),
-        $args{version} ? ( version => $args{version} ) : (),
+        ( ua      => $args{ua}      )x!! $args{ua},
+        ( domain  => $args{domain}  )x!! $args{domain},
+        ( version => $args{version} )x!! $args{version},
     );
 
     return \%args;
