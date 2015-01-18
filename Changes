@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.010000    -
+            * support wildcard-only value in complex search (mickeyn)
+
 1.009000    11.01.15
             * GH #25 (RT #99499): added support for 'fields' filtering (mickeyn, oalders)
 
