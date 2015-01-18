@@ -181,7 +181,7 @@ sub _build_query_element {
 
     my ($key) = keys %{$args};
 
-    ! ref( $args->{$key} ) and $args->{$key} =~ /\w/
+    ! ref( $args->{$key} ) and $args->{$key} =~ /[\w\*]/
         or croak 'Wrong type of query arguments';
 
     my $wildcard = $args->{$key} =~ /[*?]/;
