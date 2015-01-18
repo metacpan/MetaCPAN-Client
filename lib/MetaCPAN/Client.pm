@@ -155,17 +155,18 @@ sub recent {
 }
 
 sub all {
-    my $self = shift;
-    my $type = shift;
+    my $self   = shift;
+    my $type   = shift;
+    my $params = shift;
 
-    my $match_all = { __MATCH_ALL__ => 1 };
+    grep { $type eq $_ } qw/ authors distributions modules releases /
+        or croak "all: unsupported type";
+    $type =~ s/s$//;
 
-    $type eq 'authors'       and return $self->author( $match_all );
-    $type eq 'distributions' and return $self->distribution( $match_all );
-    $type eq 'modules'       and return $self->module( $match_all );
-    $type eq 'releases'      and return $self->release( $match_all );
+    $params and ref($params) ne 'HASH'
+        and croak "all: params must be a hashref";
 
-    croak "all: unsupported type";
+    return $self->$type( { __MATCH_ALL__ => 1 }, $params );
 }
 
 ###

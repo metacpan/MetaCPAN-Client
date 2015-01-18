@@ -89,6 +89,8 @@ sub ssearch {
         ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
     );
 
+    my $body = $self->_build_body($args, $params);
+
     my $scroller = Search::Elasticsearch::Scroll->new(
         es          => $es,
         search_type => 'scan',
@@ -96,7 +98,7 @@ sub ssearch {
         index       => $self->version,
         type        => $type,
         size        => 1000,
-        body        => $self->_build_body($args),
+        body        => $body,
         %{ $params },
     );
 
@@ -132,14 +134,18 @@ sub _decode_result {
 }
 
 sub _build_body {
-    my $self  = shift;
-    my $args  = shift;
+    my $self   = shift;
+    my $args   = shift;
+    my $params = shift;
 
     my $query = $args->{__MATCH_ALL__}
         ? { match_all => {} }
         : _build_query_rec($args);
 
-    return +{ query => $query };
+    return +{
+        query => $query,
+        _read_filters($params)
+    };
 }
 
 my %key2es = (
@@ -147,6 +153,15 @@ my %key2es = (
     either => 'should',
     not    => 'must_not',
 );
+
+sub _read_filters {
+    my $params = shift;
+
+    my $filter = delete $params->{es_filter};
+    ref($filter) or return ();
+
+    return ( filter => $filter );
+}
 
 sub _build_query_rec {
     my $args  = shift;
@@ -180,11 +195,12 @@ sub _build_query_element {
         or croak 'Wrong number of keys in query element';
 
     my ($key) = keys %{$args};
+    my $val = $args->{$key};
 
-    ! ref( $args->{$key} ) and $args->{$key} =~ /[\w\*]/
+    !ref($val) and $val =~ /[\w\*]/
         or croak 'Wrong type of query arguments';
 
-    my $wildcard = $args->{$key} =~ /[*?]/;
+    my $wildcard = $val =~ /[*?]/;
     my $qtype    = $wildcard ? 'wildcard' : 'term';
 
     return +{ $qtype => $args };
