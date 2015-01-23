@@ -482,6 +482,22 @@ Retrieve all matches for authors/modules/distributions or releases.
 
     my $all_releases = $mcpan->all('releases')
 
+When called with a second parameter containing a hash ref,
+will support the following keys:
+
+=head3 fields
+
+See SEARCH PARAMS.
+
+   my $all_releases = $mcpan->all('releases', { fields => [...] })
+
+=head3 es_filter
+
+Pass a raw ElasticSearch filter structure to reduce the number
+of elements returned by the query.
+
+    my $some_releases = $mcpan->all('releases', { es_filter => {...} })
+
 =head2 BUILDARGS
 
 Internal construction wrapper. Do not use.
