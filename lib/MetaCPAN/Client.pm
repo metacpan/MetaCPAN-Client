@@ -159,7 +159,7 @@ sub all {
     my $type   = shift;
     my $params = shift;
 
-    grep { $type eq $_ } qw/ authors distributions modules releases /
+    grep { $type eq $_ } qw/ authors distributions modules releases favorites /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
@@ -478,7 +478,7 @@ formats (html, plain, x_pod & x_markdown).
 
 =head2 all
 
-Retrieve all matches for authors/modules/distributions or releases.
+Retrieve all matches for authors/modules/distributions/favorites or releases.
 
     my $all_releases = $mcpan->all('releases')
 

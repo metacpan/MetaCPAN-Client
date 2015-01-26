@@ -144,7 +144,8 @@ sub _build_body {
 
     return +{
         query => $query,
-        _read_filters($params)
+        _read_filters($params),
+        _read_facets($params)
     };
 }
 
@@ -153,6 +154,15 @@ my %key2es = (
     either => 'should',
     not    => 'must_not',
 );
+
+sub _read_facets {
+    my $params = shift;
+
+    my $facets = delete $params->{facets};
+    ref($facets) or return ();
+
+    return ( facets => $facets );
+}
 
 sub _read_filters {
     my $params = shift;
