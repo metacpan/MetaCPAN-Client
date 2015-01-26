@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.011000    27.01.15
+            * support 'favorites' type and 'facets' key param in 'all' queries (mickeyn) 
+
 1.010000    23.01.15
             * support wildcard-only value in complex search (mickeyn)
             * support raw ElasticSearch filters in 'all' queries (mickeyn)
