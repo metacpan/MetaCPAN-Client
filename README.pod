@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.010000
+version 1.011000
 
 =head1 SYNOPSIS
 
@@ -154,7 +154,7 @@ formats (html, plain, x_pod & x_markdown).
 
 =head2 all
 
-Retrieve all matches for authors/modules/distributions or releases.
+Retrieve all matches for authors/modules/distributions/favorites or releases.
 
     my $all_releases = $mcpan->all('releases')
 
