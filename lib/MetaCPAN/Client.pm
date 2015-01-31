@@ -79,13 +79,6 @@ sub pod {
     return MetaCPAN::Client::Pod->new({ name => $name });
 }
 
-#
-# $api->rating({ dist => "Moose" })
-#   is equal to http://api.metacpan.org/v0/favorite/_search?q=distribution:Moose
-#
-# $api->rating({ author => "DOY" })
-#   is equal to http://api.metacpan.org/v0/favorite/_search?q=author:DOY
-#
 sub favorite {
     my $self   = shift;
     my $args   = shift;
@@ -97,13 +90,6 @@ sub favorite {
     return $self->_search( 'favorite', $args, $params );
 }
 
-#
-# $api->rating({ rating => "4.0" })
-#   is equal to http://api.metacpan.org/v0/rating/_search?q=rating:4.0
-#
-# $api->rating({ distribution => "Moose" })
-#   is equal to http://api.metacpan.org/v0/rating/_search?q=distribution:Moose
-#
 sub rating {
     my $self   = shift;
     my $args   = shift;
@@ -115,10 +101,6 @@ sub rating {
     return $self->_search( 'rating', $args, $params );
 }
 
-#
-# $api->release({ author => "XSAWYERX" })
-#   is equal to http://api.metacpan.org/v0/release/_search?q=author:XSAWYERX
-#
 sub release {
     my $self   = shift;
     my $arg    = shift;
@@ -429,9 +411,13 @@ Return a L<MetaCPAN::Client::File> object.
 
 =head2 favorite
 
+    my $favorite = $mcpan->favorite({ distribution => 'Moose' });
+
 Return a L<MetaCPAN::Client::Favorite> object.
 
 =head2 rating
+
+    my $rating = $mcpan->rating({ distribution => 'Moose' });
 
 Return a L<MetaCPAN::Client::Rating> object.
 
