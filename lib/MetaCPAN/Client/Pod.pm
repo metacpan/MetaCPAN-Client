@@ -60,13 +60,23 @@ __END__
 
 =head2 name
 
+The name of the module (probably always the value passed to the pod() method)
+
 =head2 x_pod
+
+The raw pod extracted from the file.
 
 =head2 html
 
+Formatted as an HTML chunk (No <html>...<body>)
+
 =head2 x_markdown
 
+Converted to Markdown.
+
 =head2 plain
+
+Formatted as plain text.
 
 Get the plaintext version of the documentation
 
