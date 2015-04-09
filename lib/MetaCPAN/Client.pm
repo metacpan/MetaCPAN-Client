@@ -15,6 +15,7 @@ use MetaCPAN::Client::Favorite;
 use MetaCPAN::Client::Pod;
 use MetaCPAN::Client::Rating;
 use MetaCPAN::Client::Release;
+use MetaCPAN::Client::Mirror;
 use MetaCPAN::Client::ResultSet;
 
 has request => (
@@ -23,7 +24,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release
+    author distribution favorite module rating release mirror
 >;
 
 sub BUILDARGS {
@@ -109,6 +110,14 @@ sub release {
     return $self->_get_or_search( 'release', $arg, $params );
 }
 
+sub mirror {
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
+
+    return $self->_get_or_search( 'mirror', $arg, $params );
+}
+
 sub reverse_dependencies {
     my $self = shift;
     my $dist = shift;
@@ -141,7 +150,8 @@ sub all {
     my $type   = shift;
     my $params = shift;
 
-    grep { $type eq $_ } qw/ authors distributions modules releases favorites ratings /
+    grep { $type eq $_ } qw/ authors distributions modules releases
+                             favorites ratings mirrors /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
@@ -433,6 +443,12 @@ below under C<SEARCH SPEC>.
 Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
+
+=head mirror
+
+    my $mirror = $mcpan->mirror('kr.freebsd.org');
+
+Returns a L<MetaCPAN::Client::Mirror> object.
 
 =head2 reverse_dependencies
 
