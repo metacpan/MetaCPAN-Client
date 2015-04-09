@@ -141,7 +141,7 @@ sub all {
     my $type   = shift;
     my $params = shift;
 
-    grep { $type eq $_ } qw/ authors distributions modules releases favorites /
+    grep { $type eq $_ } qw/ authors distributions modules releases favorites ratings /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
