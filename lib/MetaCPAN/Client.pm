@@ -444,7 +444,7 @@ Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
-=head mirror
+=head2 mirror
 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
