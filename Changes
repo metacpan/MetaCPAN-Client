@@ -1,5 +1,11 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.012000    09.04.15
+            * GH #33 added Mirror type and support for mirrors search in 'all' queries (mickeyn)
+            * GH #33 support 'ratings' search in 'all' queries (mickeyn)
+            * more example scripts: facets, top favorites, all authors blogs (mickeyn)
+            * cleanup & doc updates (Gabor Szabo, mickeyn)
+
 1.011000    27.01.15
             * support 'favorites' type and 'facets' key param in 'all' queries (mickeyn) 
 
