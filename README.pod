@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.011000
+version 1.012000
 
 =head1 SYNOPSIS
 
@@ -105,9 +105,13 @@ Return a L<MetaCPAN::Client::File> object.
 
 =head2 favorite
 
+    my $favorite = $mcpan->favorite({ distribution => 'Moose' });
+
 Return a L<MetaCPAN::Client::Favorite> object.
 
 =head2 rating
+
+    my $rating = $mcpan->rating({ distribution => 'Moose' });
 
 Return a L<MetaCPAN::Client::Rating> object.
 
@@ -123,6 +127,12 @@ below under C<SEARCH SPEC>.
 Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
+
+=head2 mirror
+
+    my $mirror = $mcpan->mirror('kr.freebsd.org');
+
+Returns a L<MetaCPAN::Client::Mirror> object.
 
 =head2 reverse_dependencies
 
