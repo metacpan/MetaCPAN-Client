@@ -28,7 +28,7 @@ on 'test' => sub {
 
 on 'test' => sub {
   recommends "HTTP::Tiny::Mech" => "0";
-  recommends "WWW::Mechanize::Cached" => "0";
+  recommends "WWW::Mechanize::Cached" => "1.48";
 };
 
 on 'configure' => sub {
@@ -41,5 +41,5 @@ on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";
-  requires "WWW::Mechanize::Cached" => "0";
+  requires "WWW::Mechanize::Cached" => "1.48";
 };
