@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.013000    25.04.15
+            * GH #34 Use Travis for CI (oalders)
+            * GH #35 Improve Kwalitee + test improvements (oalders)
+
 1.012000    09.04.15
             * GH #33 added Mirror type and support for mirrors search in 'all' queries (mickeyn)
             * GH #33 support 'ratings' search in 'all' queries (mickeyn)
