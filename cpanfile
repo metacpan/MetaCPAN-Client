@@ -7,6 +7,7 @@ requires "Safe::Isa" => "0";
 requires "Search::Elasticsearch" => "1.10";
 requires "Search::Elasticsearch::Scroll" => "0";
 requires "Try::Tiny" => "0";
+requires "perl" => "5.008";
 requires "strict" => "0";
 requires "warnings" => "0";
 
@@ -22,12 +23,12 @@ on 'test' => sub {
   requires "Test::More" => "0";
   requires "Test::Requires" => "0";
   requires "base" => "0";
-  requires "perl" => "5.006";
+  requires "perl" => "5.008";
 };
 
 on 'test' => sub {
   recommends "HTTP::Tiny::Mech" => "0";
-  recommends "WWW::Mechanize::Cached" => "0";
+  recommends "WWW::Mechanize::Cached" => "1.48";
 };
 
 on 'configure' => sub {
@@ -40,5 +41,5 @@ on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";
-  requires "WWW::Mechanize::Cached" => "0";
+  requires "WWW::Mechanize::Cached" => "1.48";
 };
