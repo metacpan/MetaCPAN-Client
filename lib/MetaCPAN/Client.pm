@@ -146,19 +146,30 @@ sub recent {
 }
 
 sub all {
+    # Variadic number of arguments:
+    # either both $args and $params or $params alone (or no filtering).
     my $self   = shift;
     my $type   = shift;
-    my $params = shift;
+    my ($args, $params);
+    if (@_ > 1) {
+        $args = shift;
+        $params = shift;
+    } else {
+        $args = { __MATCH_ALL__ => 1 };
+        $params = shift;
+    }
 
     grep { $type eq $_ } qw/ authors distributions modules releases
                              favorites ratings mirrors /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
+    # If there is a problem with $args, an exception will be raised
+    # in the method for $type, rather than here.
     $params and ref($params) ne 'HASH'
         and croak "all: params must be a hashref";
 
-    return $self->$type( { __MATCH_ALL__ => 1 }, $params );
+    return $self->$type( $args, $params );
 }
 
 ###
@@ -191,7 +202,7 @@ sub _read_fields {
     my $params = shift;
     $params or return '';
 
-    my $fields = delete $params->{fields};
+    my $fields = delete $params->{fields} or return '';
 
     if ( ref $fields eq 'ARRAY' ) {
         grep { ref $_ } @$fields
@@ -484,8 +495,9 @@ Retrieve all matches for authors/modules/distributions/favorites or releases.
 
     my $all_releases = $mcpan->all('releases')
 
-When called with a second parameter containing a hash ref,
-will support the following keys:
+May be called with one or two additional parameters. In the case of one extra
+parameter, it can both be used for field selection and result filtering and
+must be a hashref containing either or both of the following keys:
 
 =head3 fields
 
@@ -499,6 +511,11 @@ Pass a raw ElasticSearch filter structure to reduce the number
 of elements returned by the query.
 
     my $some_releases = $mcpan->all('releases', { es_filter => {...} })
+
+In the case of two extra parameters to the 'all' method, the first parameter
+will be interpreted as a simple or complex search condition, as described in
+SEARCH PARAMS, while the second will typically be used for field selection
+as described above (although it may be used for additional filtering as well).
 
 =head2 BUILDARGS
 
