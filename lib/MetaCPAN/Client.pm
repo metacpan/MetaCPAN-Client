@@ -177,7 +177,7 @@ sub _get {
     my $fields_filter = $self->_read_fields( $params );
 
     my $response = $self->fetch(
-        sprintf("%s/%s%s", $type ,$arg, $fields_filter)
+        sprintf("%s/%s%s", $type ,$arg, $fields_filter||'')
     );
     ref $response eq 'HASH'
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
@@ -189,9 +189,10 @@ sub _get {
 sub _read_fields {
     my $self   = shift;
     my $params = shift;
-    $params or return '';
+    $params or return;
 
     my $fields = delete $params->{fields};
+    $fields or return;
 
     if ( ref $fields eq 'ARRAY' ) {
         grep { ref $_ } @$fields
