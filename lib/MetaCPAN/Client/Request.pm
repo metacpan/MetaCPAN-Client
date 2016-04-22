@@ -91,8 +91,7 @@ sub ssearch {
 
     my $body = $self->_build_body($args, $params);
 
-    my $scroller = Search::Elasticsearch::Scroll->new(
-        es          => $es,
+    my $scroller = $es->scroll_helper(
         search_type => 'scan',
         scroll      => '5m',
         index       => $self->version,
