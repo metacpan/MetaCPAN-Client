@@ -1,7 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 1.013001    -
-            * fix warning on missing fields param (Mickey, Sawyer X)
+            * Fix warning on missing fields param (Mickey, Sawyer X)
+            * Switch to Search::Elasticsearch 2.0. (Sawyer X)
 
 1.013000    25.04.15
             * GH #34 Use Travis for CI (oalders)
