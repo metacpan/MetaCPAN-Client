@@ -1,8 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-1.013001    -
+1.014000    29.04.15
             * Fix warning on missing fields param (Mickey, Sawyer X)
             * Switch to Search::Elasticsearch 2.0. (Sawyer X)
+            * You can test MetaCPAN::API with a different domain using the
+              environment variable "METACPAN_DOMAIN". (Mickey)
 
 1.013000    25.04.15
             * GH #34 Use Travis for CI (oalders)
