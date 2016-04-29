@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.013000
+version 1.014000
 
 =head1 SYNOPSIS
 
@@ -342,7 +342,7 @@ Mickey Nasriachi <mickey@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2015 by Sawyer X.
+This software is copyright (c) 2016 by Sawyer X.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
