@@ -13,21 +13,18 @@ use HTTP::Tiny;
 
 has domain => (
     is      => 'ro',
-    default => sub {'api.metacpan.org'},
+    default => sub {'api-v1.metacpan.org'},
 );
 
 has version => (
     is      => 'ro',
-    default => sub { 'v0' },
+    default => sub { 'v1' },
 );
 
 has base_url => (
     is      => 'ro',
     lazy    => 1,
-    default => sub {
-        my $self = shift;
-        return sprintf('http://%s/%s', $self->domain, $self->version);
-    },
+    default => sub { 'https://' . $_[0]->domain },
 );
 
 has _user_ua => (
@@ -83,7 +80,7 @@ sub ssearch {
     my $params = shift;
 
     my $es = Search::Elasticsearch->new(
-        nodes            => $self->domain,
+        nodes            => 'https://' . $self->domain,
         cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
         ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
@@ -232,11 +229,11 @@ Default: B<api.metacpan.org>.
 
 =head2 version
 
-    $mcpan = MetaCPAN::Client->new( version => 'v0' );
+    $mcpan = MetaCPAN::Client->new( version => 'v1' );
 
 What version of MetaCPAN should be used?
 
-Default: B<v0>.
+Default: B<v1>.
 
 =head2 base_url
 
@@ -244,10 +241,10 @@ Default: B<v0>.
         base_url => 'http://localhost:9999/v2',
     );
 
-Instead of overriding the C<base_url>, you should override the C<domain> and
-C<version>. The C<base_url> will be set appropriately automatically.
+Instead of overriding the C<base_url>, you should override the C<domain>.
+The C<base_url> will be set appropriately automatically.
 
-Default: I<http://$domain/$version>.
+Default: I<http://$domain>.
 
 =head2 ua
 
