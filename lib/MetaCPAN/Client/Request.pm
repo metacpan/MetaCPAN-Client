@@ -7,13 +7,14 @@ use Moo;
 use Carp;
 use JSON::MaybeXS qw<decode_json encode_json>;
 use Search::Elasticsearch;
-use Search::Elasticsearch::Scroll;
 use Try::Tiny;
 use HTTP::Tiny;
 
 has domain => (
     is      => 'ro',
-    default => sub {'api.metacpan.org'},
+    default => sub {
+        return ( $ENV{METACPAN_DOMAIN} ? $ENV{METACPAN_DOMAIN} : 'api.metacpan.org' );
+    },
 );
 
 has version => (
@@ -304,4 +305,3 @@ Fetches a path from MetaCPAN (post or get), and returns the decoded result.
 
 Calls an Elastic Search query (using L<Search::Elasticsearch> and returns an
 L<Search::Elasticsearch::Scroll> scroller object.
-
