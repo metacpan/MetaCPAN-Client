@@ -45,6 +45,21 @@ sub pod {
         );
 }
 
+sub source {
+    my $self = shift;
+
+    my $author  = $self->author;
+    my $release = $self->release;
+    my $path    = $self->path;
+
+    require MetaCPAN::Client::Request;
+
+    return
+        MetaCPAN::Client::Request->new->fetch(
+            "source/${author}/${release}/${path}"
+        );
+}
+
 
 1;
 
@@ -116,3 +131,10 @@ Returns the POD content for the module/file.
 Takes a type as argument.
 
 Supported types: B<plain>, B<html>, B<x-pod>, B<x-markdown>.
+
+=head2 source
+
+    my $source = $module->source();
+
+Returns the source code for the file.
+
