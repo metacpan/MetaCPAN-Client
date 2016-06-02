@@ -1,6 +1,6 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-1.015000    ???
+1.015000    02.06.15
             * Adding `source` method to MetaCPAN::Client::File (stevan)
 
 1.014000    29.04.15
