@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.016000    27.06.15
+            * Added support for 'all' filters type 'files' (Mickey)
+            * http -> https (Mickey)
+
 1.015000    02.06.15
             * Adding `source` method to MetaCPAN::Client::File (stevan)
 
