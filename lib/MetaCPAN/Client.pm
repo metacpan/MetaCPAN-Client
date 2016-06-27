@@ -24,7 +24,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release mirror
+    author distribution favorite module rating release mirror file
 >;
 
 sub BUILDARGS {
@@ -65,12 +65,10 @@ sub distribution {
 
 sub file {
     my $self   = shift;
-    my $path   = shift
-        or croak 'file takes file path as parameter';
-
+    my $arg    = shift;
     my $params = shift;
 
-    return $self->_get( 'file', $path );
+    return $self->_get_or_search( 'file', $arg, $params );
 }
 
 sub pod {
@@ -151,7 +149,7 @@ sub all {
     my $params = shift;
 
     grep { $type eq $_ } qw/ authors distributions modules releases
-                             favorites ratings mirrors /
+                             favorites ratings mirrors files /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
