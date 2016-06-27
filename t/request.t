@@ -18,7 +18,7 @@ can_ok(
 
 is( $req->domain, 'mydomain', 'Correct domain' );
 is( $req->version, 'z', 'Correct version' );
-is( $req->base_url, 'http://mydomain/z', 'Correct base_url' );
+is( $req->base_url, 'https://mydomain/z', 'Correct base_url' );
 isa_ok( $req->ua, 'HTTP::Tiny' );
 
 my $ver = $MetaCPAN::Client::VERSION || 'xx';

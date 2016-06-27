@@ -27,7 +27,7 @@ has base_url => (
     lazy    => 1,
     default => sub {
         my $self = shift;
-        return sprintf('http://%s/%s', $self->domain, $self->version);
+        return sprintf('https://%s/%s', $self->domain, $self->version);
     },
 );
 
@@ -243,13 +243,13 @@ Default: B<v0>.
 =head2 base_url
 
     my $mcpan = MetaCPAN::Client->new(
-        base_url => 'http://localhost:9999/v2',
+        base_url => 'https://localhost:9999/v2',
     );
 
 Instead of overriding the C<base_url>, you should override the C<domain> and
 C<version>. The C<base_url> will be set appropriately automatically.
 
-Default: I<http://$domain/$version>.
+Default: I<https://$domain/$version>.
 
 =head2 ua
 
