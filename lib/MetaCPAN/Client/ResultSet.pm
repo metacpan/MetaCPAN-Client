@@ -121,6 +121,10 @@ The entity of the result set. Available types:
 
 =back
 
+=head2 aggregations
+
+The aggregations available in the Elastic Search response.
+
 =head2 facets
 
 The facets available in the Elastic Search response.
