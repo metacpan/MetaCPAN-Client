@@ -90,7 +90,7 @@ sub ssearch {
     my $params = shift;
 
     my $es = Search::Elasticsearch->new(
-        nodes            => $self->domain,
+        nodes            => [ 'https://' . $self->domain ],
         cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
         ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
