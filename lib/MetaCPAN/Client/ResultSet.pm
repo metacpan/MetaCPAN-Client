@@ -75,6 +75,12 @@ sub facets {
     return $self->has_scroller ? $self->scroller->facets : {};
 }
 
+sub aggregations {
+    my $self = shift;
+
+    return $self->has_scroller ? $self->scroller->aggregations : {};
+}
+
 1;
 
 __END__

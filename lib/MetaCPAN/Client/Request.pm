@@ -51,6 +51,12 @@ has ua_args => (
     },
 );
 
+has is_agg => (
+    is      => 'ro',
+    default => 0,
+    writer  => '_set_is_agg'
+);
+
 sub _build_ua {
     my $self = shift;
     # This level of indirection is so that if a user has not specified a custom UA
@@ -93,7 +99,7 @@ sub ssearch {
     my $body = $self->_build_body($args, $params);
 
     my $scroller = $es->scroll_helper(
-        search_type => 'scan',
+        ( search_type => 'scan' ) x !$self->is_agg,
         scroll      => '5m',
         index       => $self->version,
         type        => $type,
@@ -146,7 +152,8 @@ sub _build_body {
     return +{
         query => $query,
         _read_filters($params),
-        _read_facets($params)
+        $self->_read_facets($params),
+        $self->_read_aggregations($params)
     };
 }
 
@@ -157,12 +164,25 @@ my %key2es = (
 );
 
 sub _read_facets {
+    my $self   = shift;
     my $params = shift;
 
     my $facets = delete $params->{facets};
     ref($facets) or return ();
 
+    $self->_set_is_agg(1);
     return ( facets => $facets );
+}
+
+sub _read_aggregations {
+    my $self   = shift;
+    my $params = shift;
+
+    my $aggregations = delete $params->{aggregations};
+    ref($aggregations) or return ();
+
+    $self->_set_is_agg(1);
+    return ( aggregations => $aggregations );
 }
 
 sub _read_filters {
