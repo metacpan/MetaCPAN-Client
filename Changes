@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.017000    28.06.15
+            * Fixed nodes list for Search::Elasticsearch (Mickey)
+            * Added support for 'aggregations' (Mickey)
+
 1.016000    27.06.15
             * Added support for 'all' filters type 'files' (Mickey)
             * http -> https (Mickey)
