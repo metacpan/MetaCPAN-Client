@@ -51,7 +51,7 @@ has ua_args => (
     },
 );
 
-has is_agg => (
+has _is_agg => (
     is      => 'ro',
     default => 0,
     writer  => '_set_is_agg'
@@ -99,7 +99,7 @@ sub ssearch {
     my $body = $self->_build_body($args, $params);
 
     my $scroller = $es->scroll_helper(
-        ( search_type => 'scan' ) x !$self->is_agg,
+        ( search_type => 'scan' ) x !$self->_is_agg,
         scroll      => '5m',
         index       => $self->version,
         type        => $type,
