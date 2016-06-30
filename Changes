@@ -1,17 +1,17 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-1.017000    28.06.15
+1.017000    28.06.16
             * Fixed nodes list for Search::Elasticsearch (Mickey)
             * Added support for 'aggregations' (Mickey)
 
-1.016000    27.06.15
+1.016000    27.06.16
             * Added support for 'all' filters type 'files' (Mickey)
             * http -> https (Mickey)
 
-1.015000    02.06.15
+1.015000    02.06.16
             * Adding `source` method to MetaCPAN::Client::File (stevan)
 
-1.014000    29.04.15
+1.014000    29.04.16
             * Fix warning on missing fields param (Mickey, Sawyer X)
             * Switch to Search::Elasticsearch 2.0. (Sawyer X)
             * You can test MetaCPAN::API with a different domain using the
