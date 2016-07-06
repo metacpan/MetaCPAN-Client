@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package MetaCPAN::Client::DownloadURL;
-# ABSTRACT: A Rating data object
+# ABSTRACT: A Download URL data object
 
 use Moo;
 
