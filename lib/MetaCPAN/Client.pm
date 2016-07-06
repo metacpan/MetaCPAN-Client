@@ -30,6 +30,14 @@ my @supported_searches = qw<
 sub BUILDARGS {
     my ( $class, %args ) = @_;
 
+    # default 'domain' for 'version => v0|v1'
+    if ( exists $args{version} ) {
+        $args{domain} //=
+            $args{version} eq 'v0' ? 'api.metacpan.org' :
+            $args{version} eq 'v1' ? 'fastapi.metacpan.org' :
+            undef;
+    }
+
     $args{'request'} ||= MetaCPAN::Client::Request->new(
         ( ua      => $args{ua}      )x!! $args{ua},
         ( domain  => $args{domain}  )x!! $args{domain},
@@ -339,6 +347,8 @@ __END__
     use MetaCPAN::Client;
 
     my $mcpan = MetaCPAN::Client->new(
+      version => 'v1',
+
       ua => HTTP::Tiny::Mech->new(
         mechua => WWW::Mechanize::Cached->new(
           cache => CHI->new(
@@ -371,6 +381,16 @@ instead of the default, which is L<HTTP::Tiny>.
 
 Then it can be used to fetch the user agent object used by
 L<MetaCPAN::Client::Request>.
+
+=head2 version
+
+API version (supported: 'v0', 'v1')
+
+This will also set default value to your 'domain' (unless given)
+
+=head2 domain
+
+If given, will be used to alter the API domain.
 
 =head1 METHODS
 
