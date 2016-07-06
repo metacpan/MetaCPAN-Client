@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.018000    06.07.16
+            * Added support for download_url endpoint (Mickey)
+            * Default domain set by providing 'version' -
+              makes it easy to work with v1 (Mickey)
+
 1.017000    28.06.16
             * Fixed nodes list for Search::Elasticsearch (Mickey)
             * Added support for 'aggregations' (Mickey)

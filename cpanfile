@@ -6,7 +6,7 @@ requires "Moo::Role" => "0";
 requires "Safe::Isa" => "0";
 requires "Search::Elasticsearch" => "2.02";
 requires "Try::Tiny" => "0";
-requires "perl" => "5.008";
+requires "perl" => "5.010";
 requires "strict" => "0";
 requires "warnings" => "0";
 
@@ -19,7 +19,7 @@ on 'test' => sub {
   requires "Test::More" => "0";
   requires "Test::Requires" => "0";
   requires "base" => "0";
-  requires "perl" => "5.008";
+  requires "perl" => "5.010";
 };
 
 on 'test' => sub {
