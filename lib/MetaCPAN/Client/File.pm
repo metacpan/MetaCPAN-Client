@@ -12,6 +12,7 @@ my @known_fields = qw<
     status date author maturity directory indexed documentation id
     module authorized pod_lines version binary name version_numified release
     path description stat distribution level sloc abstract slop mime
+    download_url
 >;
 
 foreach my $field (@known_fields) {
@@ -137,4 +138,3 @@ Supported types: B<plain>, B<html>, B<x-pod>, B<x-markdown>.
     my $source = $module->source();
 
 Returns the source code for the file.
-
