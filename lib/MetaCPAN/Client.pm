@@ -9,6 +9,7 @@ use Carp;
 use MetaCPAN::Client::Request;
 use MetaCPAN::Client::Author;
 use MetaCPAN::Client::Distribution;
+use MetaCPAN::Client::DownloadURL;
 use MetaCPAN::Client::Module;
 use MetaCPAN::Client::File;
 use MetaCPAN::Client::Favorite;
@@ -167,6 +168,16 @@ sub all {
     return $self->$type( { __MATCH_ALL__ => 1 }, $params );
 }
 
+sub download_url {
+    my $self   = shift;
+    my $module = shift;
+
+    $self->request->version eq 'v0'
+        and croak "download_url: not supported in v0 (use version => v1)";
+
+    return $self->_get( 'download_url', $module );
+}
+
 ###
 
 sub _get {
@@ -187,6 +198,8 @@ sub _get {
     );
     ref $response eq 'HASH'
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
+
+    $type = 'DownloadURL' if $type eq 'download_url';
 
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response, $self);
@@ -505,6 +518,14 @@ Retrieve all matches for authors/modules/distributions/favorites or releases.
 
 When called with a second parameter containing a hash ref,
 will support the following keys:
+
+=head2 download_url
+
+Retrieve information from the 'download_url' endpoint (v1 only)
+
+    my $download_url = $mcpan->download_url('Moose')
+
+Returns a L<MetaCPAN::Client::DownloadURL> object
 
 =head3 fields
 
