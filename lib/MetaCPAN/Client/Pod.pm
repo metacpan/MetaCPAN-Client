@@ -7,11 +7,19 @@ use Moo;
 use Carp;
 
 has request => (
-    is      => 'ro',
-    handles => [qw<ua fetch post ssearch>],
+    is       => 'ro',
+    handles  => [qw<ua fetch post ssearch>],
+    required => 1,
 );
 
 has name => ( is => 'ro', required => 1 );
+
+has url_prefix => (
+    is  => 'ro',
+    isa => sub {
+        ref($_[0]) and croak "url_prefix must be a scalar";
+    }
+);
 
 my @known_formats = qw<
     html plain x_pod x_markdown
@@ -34,6 +42,7 @@ sub _request {
     $ctype =~ s/_/-/;
 
     my $url = 'pod/' . $self->name . '?content-type=text/' . $ctype;
+    $self->url_prefix and $url .= '&url_prefix=' . $self->url_prefix;
 
     return $self->request->fetch($url);
 }

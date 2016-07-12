@@ -83,10 +83,12 @@ sub file {
 sub pod {
     my $self   = shift;
     my $name   = shift;
+    my $params = shift || {};
 
     return MetaCPAN::Client::Pod->new({
         request => $self->request,
         name    => $name,
+        %$params
     });
 }
 
@@ -512,6 +514,7 @@ returns a L<MetaCPAN::Client::Pod> object, which supports various output
 formats (html, plain, x_pod & x_markdown).
 
     my $pod = $mcpan->pod('Moo')->html;
+    my $pod = $mcpan->pod('Moo', { url_prefix => $prefix })->html;
 
 =head2 all
 
