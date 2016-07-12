@@ -4,6 +4,12 @@ package MetaCPAN::Client::Pod;
 # ABSTRACT: A Pod object
 
 use Moo;
+use Carp;
+
+has request => (
+    is      => 'ro',
+    handles => [qw<ua fetch post ssearch>],
+);
 
 has name => ( is => 'ro', required => 1 );
 
@@ -23,19 +29,13 @@ foreach my $format (@known_formats) {
 }
 
 sub _request {
-    my $self   = shift;
-    my $ctype  = shift || "plain";
-
+    my $self  = shift;
+    my $ctype = shift || "plain";
     $ctype =~ s/_/-/;
 
-    my $name = $self->name;
+    my $url = 'pod/' . $self->name . '?content-type=text/' . $ctype;
 
-    require MetaCPAN::Client::Request;
-
-    return
-        MetaCPAN::Client::Request->new->fetch(
-            "pod/${name}?content-type=text/${ctype}"
-        );
+    return $self->request->fetch($url);
 }
 
 
@@ -50,9 +50,9 @@ __END__
   use strict;
   use warnings;
   use MetaCPAN::Client;
-  
+
   my $pod = MetaCPAN::Client->new->pod('Moo');
-  
+
   print $pod->html;
 
 
@@ -82,4 +82,3 @@ Get the plaintext version of the documentation
 
   $pod = MetaCPAN::Client->new->pod( "MetaCPAN::Client" );
   print $pod->plain;
-

@@ -81,10 +81,13 @@ sub file {
 }
 
 sub pod {
-    my $self = shift;
-    my $name = shift;
+    my $self   = shift;
+    my $name   = shift;
 
-    return MetaCPAN::Client::Pod->new({ name => $name });
+    return MetaCPAN::Client::Pod->new({
+        request => $self->request,
+        name    => $name,
+    });
 }
 
 sub favorite {
