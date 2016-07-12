@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.020000    12.07.16
+            * Added support for Author->release_count & Author->links methods (Mickey)
+            * Added support for url_prefix parameter for Pod (Mickey)
+
 1.019000    06.07.16
             * Added missing 'download_url' attribute to file/module
               result objects (Mickey)
