@@ -67,9 +67,17 @@ __END__
 
 =head1 ATTRIBUTES
 
+=head2 request
+
+A L<MetaCPAN::Client::Request> object (created in L<MetaCPAN::Client>)
+
 =head2 name
 
 The name of the module (probably always the value passed to the pod() method)
+
+=head2 url_prefix
+
+Prefix to be passed through the url_prefix query parameter to the 'pod' endpoint
 
 =head2 x_pod
 
