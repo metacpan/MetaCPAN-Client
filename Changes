@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.021000    27.07.16
+            * Fix result values in v1 - single valued arrayref in ES
+              result will be turned to a scalar (Mickey)
+
 1.020000    12.07.16
             * Added support for Author->release_count & Author->links methods (Mickey)
             * Added support for url_prefix parameter for Pod (Mickey)

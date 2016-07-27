@@ -3,6 +3,7 @@ requires "HTTP::Tiny" => "0";
 requires "JSON::MaybeXS" => "0";
 requires "Moo" => "0";
 requires "Moo::Role" => "0";
+requires "Ref::Util" => "0";
 requires "Safe::Isa" => "0";
 requires "Search::Elasticsearch" => "2.02";
 requires "Try::Tiny" => "0";
