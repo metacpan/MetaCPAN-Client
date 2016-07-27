@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Fatal;
+use Ref::Util qw< is_arrayref >;
 
 use t::lib::Functions;
 
@@ -72,8 +73,9 @@ my $most_daves;
     ok( $daves->total <= $most_daves, 'Definitely not more Daves' );
 
     while ( my $dave = $daves->next ) {
+        my @emails = is_arrayref $dave->email ? @{ $dave->email } : $dave->email;
         ok(
-            grep( +( $_ =~ /gmail\.com$/ ), @{ $dave->email } ),
+            grep( +( $_ =~ /gmail\.com$/ ), @emails ),
             'This Dave has a Gmail account',
         );
     }
@@ -91,11 +93,11 @@ can_ok( $johns, 'total' );
 ok( $johns->total > 0, 'Got some Johns' );
 
 while ( my $john = $johns->next ) {
+    my @emails = is_arrayref $john->email ? @{ $john->email } : $john->email;
     ok(
-        grep( +( $_ =~ /gmail\.com$/ ), @{ $john->email } ),
+        grep( +( $_ =~ /gmail\.com$/ ), @emails ),
         'This John has a Gmail account',
     );
 }
 
 done_testing;
-
