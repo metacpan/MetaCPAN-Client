@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.022000    04.08.16
+            * Rework type checking - enforce expected types, inc.
+              single-valued array-ref unwrapping; doesn't break
+              types that are expected to be array-refs (Mickey)
+
 1.021000    27.07.16
             * Fix result values in v1 - single valued arrayref in ES
               result will be turned to a scalar (Mickey)
