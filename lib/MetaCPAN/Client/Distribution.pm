@@ -7,7 +7,14 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<name bugs>;
+my %known_fields = (
+    scalar   => [qw< name >],
+    arrayref => [],
+    hashref  => [qw< bugs river >]
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -20,8 +27,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
-
+sub _known_fields { return \%known_fields }
 
 1;
 
@@ -43,3 +49,6 @@ Distribution's name.
 
 Distribution's bug information.
 
+=head2 river
+
+Distribution's river information.

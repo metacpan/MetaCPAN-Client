@@ -8,12 +8,40 @@ use Carp;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<
-    status date author maturity directory indexed documentation id
-    module authorized pod_lines version binary name version_numified release
-    path description stat distribution level sloc abstract slop mime
-    download_url
->;
+my %known_fields = (
+    scalar => [qw<
+        abstract
+        author
+        authorized
+        binary
+        date
+        description
+        directory
+        distribution
+        documentation
+        download_url
+        id
+        indexed
+        level
+        maturity
+        mime
+        name
+        path
+        release
+        sloc
+        slop
+        status
+        version
+        version_numified
+    >],
+
+    arrayref => [qw< module pod_lines >],
+
+    hashref  => [qw< stat >],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -26,7 +54,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
+sub _known_fields { return \%known_fields }
 
 sub pod {
     my $self   = shift;
@@ -60,7 +88,6 @@ sub source {
             "source/${author}/${release}/${path}"
         );
 }
-
 
 1;
 

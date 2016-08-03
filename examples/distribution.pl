@@ -6,12 +6,13 @@ use warnings;
 use Data::Printer;
 use MetaCPAN::Client;
 
-my $dist =
-    MetaCPAN::Client->new->distribution('CPAN-Releases-Latest');
+my $mcpan = MetaCPAN::Client->new( version => 'v1' );
+my $dist  = $mcpan->distribution('Moose');
 
 my %output = (
-    NAME => $dist->name,
-    BUGS => $dist->bugs,
+    NAME  => $dist->name,
+    BUGS  => $dist->bugs,
+    RIVER => $dist->river,
 );
 
 p %output;

@@ -7,11 +7,40 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<
-    resources status date author maturity dependency id authorized
-    download_url first archive version name version_numified license
-    distribution stat provides tests abstract metadata
->;
+my %known_fields = (
+    scalar => [qw<
+        abstract
+        archive
+        author
+        authorized
+        date
+        distribution
+        download_url
+        first
+        id
+        maturity
+        name
+        status
+        version
+        version_numified
+    >],
+
+    arrayref => [qw<
+        dependency
+        license
+        provides
+    >],
+
+    hashref => [qw<
+        metadata
+        resources
+        stat
+        tests
+    >],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -24,7 +53,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
+sub _known_fields { return \%known_fields }
 
 1;
 

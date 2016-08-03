@@ -7,10 +7,23 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<
-    date release author details
-    rating distribution helpful user
->;
+my %known_fields = (
+    scalar => [qw<
+        author
+        date
+        details
+        distribution
+        helpful
+        rating
+        release
+        user
+    >],
+    arrayref => [],
+    hashref  => [],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -23,7 +36,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
+sub _known_fields { return \%known_fields }
 
 1;
 
@@ -48,4 +61,3 @@ __END__
 =head2 helpful
 
 =head2 user
-

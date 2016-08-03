@@ -8,10 +8,36 @@ use Carp;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw< name org ftp contact city rsync src ccode
-                       aka_name tz note dnsrr region inceptdate
-                       country location freq continent http
-                       reitredate A_or_CNAME >;
+my %known_fields = (
+    scalar => [qw<
+        aka_name
+        A_or_CNAME
+        ccode
+        city
+        continent
+        country
+        dnsrr
+        freq
+        ftp
+        http
+        inceptdate
+        name
+        note
+        org
+        region
+        reitredate
+        rsync
+        src
+        tz
+    >],
+
+    arrayref => [qw< contact location >],
+
+    hashref  => [qw<>],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -24,8 +50,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
-
+sub _known_fields { return \%known_fields }
 
 1;
 

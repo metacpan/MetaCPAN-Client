@@ -67,8 +67,6 @@ sub next {
     defined $result or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-    $self->_single_valued_arrayref_to_scalar( $result->{'_source'} );
-    $self->_single_valued_arrayref_to_scalar( $result->{'fields'} );
     return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
 }
 
@@ -82,30 +80,6 @@ sub aggregations {
     my $self = shift;
 
     return $self->has_scroller ? $self->scroller->aggregations : {};
-}
-
-# copied from MetaCPAN::Web::Elasticsearch::Adapter
-sub _single_valued_arrayref_to_scalar {
-    my ( $self, $array, $fields ) = @_;
-    return unless defined $array;
-
-    my $is_arrayref = is_arrayref($array);
-    $array = [$array] unless $is_arrayref;
-
-    my $has_fields = defined $fields ? 1 : 0;
-    $fields ||= [];
-    my %fields_to_extract = map { $_ => 1 } @{$fields};
-    foreach my $hash ( @{$array} ) {
-        foreach my $field ( %{$hash} ) {
-            next if ( $has_fields and not $fields_to_extract{$field} );
-            my $value = $hash->{$field};
-
-            # We only operate when have an ArrayRef of one value
-            next unless is_arrayref($value) && scalar @{$value} == 1;
-            $hash->{$field} = $value->[0];
-        }
-    }
-    return $is_arrayref ? $array : @{$array};
 }
 
 

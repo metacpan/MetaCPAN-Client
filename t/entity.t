@@ -10,6 +10,10 @@ use Test::Fatal;
     package MetaCPAN::Client::FakeEntityEmpty;
     use Moo;
     with 'MetaCPAN::Client::Role::Entity';
+    sub BUILDARGS {
+        my ( $class, %args ) = @_;
+        return \%args;
+    }
 }
 
 {
@@ -17,7 +21,13 @@ use Test::Fatal;
     use Moo;
     with 'MetaCPAN::Client::Role::Entity';
 
-    sub _known_fields { ['this'] }
+    sub _known_fields {
+        +{
+            scalar   => ['this'],
+            arrayref => [],
+            hashref  => [],
+        }
+    }
 }
 
 ok(
@@ -49,4 +59,3 @@ my $fe = MetaCPAN::Client::FakeEntityFull->new_from_request(
 
 isa_ok( $fe, 'MetaCPAN::Client::FakeEntityFull' );
 is_deeply( $fe->{'data'}, { this => 'that' }, 'Correct data' );
-

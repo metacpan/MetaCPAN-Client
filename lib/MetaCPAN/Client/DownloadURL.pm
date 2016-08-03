@@ -7,9 +7,14 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<
-    date download_url status version
->;
+my %known_fields = (
+    scalar   => [qw< date download_url status version >],
+    arrayref => [],
+    hashref  => [],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
 
 foreach my $field (@known_fields) {
     has $field => (
@@ -22,7 +27,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
+sub _known_fields { return \%known_fields }
 
 1;
 

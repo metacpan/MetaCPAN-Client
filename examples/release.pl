@@ -4,7 +4,7 @@ use Data::Printer;
 use MetaCPAN::Client;
 
 my $release =
-    MetaCPAN::Client->new->release('Moo');
+    MetaCPAN::Client->new->release('Devel-NYTProf');
 
 my %output = (
     AUTHOR  => $release->author,

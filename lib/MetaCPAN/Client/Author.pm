@@ -7,12 +7,38 @@ use Moo;
 
 with 'MetaCPAN::Client::Role::Entity';
 
-my @known_fields = qw<
-    blog city country dir email gravatar_url links name
-    pauseid profile release_count updated user website
->;
+my %known_fields = (
+    scalar => [qw<
+        city
+        country
+        dir
+        gravatar_url
+        name
+        pauseid
+        region
+        updated
+        user
+    >],
 
-foreach my $field (@known_fields) {
+    arrayref => [qw<
+        donation
+        email
+        profile
+        website
+    >],
+
+    hashref => [qw<
+        blog
+        extra
+        links
+        release_count
+    >],
+);
+
+my @known_fields =
+    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
+
+foreach my $field ( @known_fields ) {
     has $field => (
         is      => 'ro',
         lazy    => 1,
@@ -23,7 +49,7 @@ foreach my $field (@known_fields) {
     );
 }
 
-sub _known_fields { return \@known_fields }
+sub _known_fields { \%known_fields }
 
 sub releases {
     my $self = shift;
@@ -59,20 +85,18 @@ Author PAUSE ID.
 
 =head2 email
 
-Author's Email.
+Author's Emails (array-ref)
 
 =head2 blog
 
-Array of author's blog addresses.
+Author's blog info (hash-ref)
 
 Example:
 
-    [
-        {
-            url  => "http://blogs.perl.org/users/brian_d_foy/"
-            feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
-        }
-    ]
+    {
+        url  => "http://blogs.perl.org/users/brian_d_foy/"
+        feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
+    }
 
 =head2 city
 
@@ -81,6 +105,10 @@ Author's city.
 =head2 country
 
 Author's country.
+
+=head2 region
+
+Author's region.
 
 =head2 dir
 
@@ -95,7 +123,7 @@ PAUSEID@cpan.org.
 
 =head2 profile
 
-Array of author's user profiles.
+Author's user profiles (array-ref).
 
 Example:
 
@@ -106,11 +134,38 @@ Example:
 
 =head2 website
 
-Array of Author's websites.
+Author's websites (array-ref).
+
+=head2 release_count
+
+Author's release counts (hash-ref).
+
+Example:
+   {
+      latest       => 118,
+      backpan-only => 558,
+      cpan         => 18,
+   }
 
 =head2 updated
 
+timestamp.
+
+=head2 links
+
+hash-ref.
+
+=head2 extra
+
+hahs-ref.
+
+=head2 donation
+
+array-ref.
+
 =head2 user
+
+identification code.
 
 =head1 METHODS
 

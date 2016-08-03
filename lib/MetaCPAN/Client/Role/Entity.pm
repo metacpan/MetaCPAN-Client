@@ -5,6 +5,8 @@ package MetaCPAN::Client::Role::Entity;
 
 use Moo::Role;
 
+use Ref::Util qw< is_ref is_arrayref is_hashref >;
+
 has data => (
     is       => 'ro',
     required => 1,
@@ -21,14 +23,42 @@ sub _build_client {
     return MetaCPAN::Client->new();
 }
 
+sub BUILDARGS {
+    my ( $class, %args ) = @_;
+
+    my $known_fields = $class->_known_fields;
+
+    for my $k ( @{ $known_fields->{scalar} } ) {
+        $args{data}{$k} = $args{data}{$k}->[0]
+            if is_arrayref( $args{data}{$k} ) and @{$args{data}{$k}} == 1;
+
+        delete $args{data}{$k} if is_ref( $args{data}{$k} ); # warn?
+    }
+
+    for my $k ( @{ $known_fields->{arrayref} } ) {
+        delete $args{data}{$k}
+            unless is_arrayref( $args{data}{$k} ); # warn?
+    }
+
+    for my $k ( @{ $known_fields->{hashref} } ) {
+        delete $args{data}{$k}
+            unless is_hashref( $args{data}{$k} ); # warn?
+    }
+
+    return \%args;
+}
+
 sub new_from_request {
     my ( $class, $request, $client ) = @_;
+
+    my $known_fields = $class->_known_fields;
 
     return $class->new(
         ( defined $client ? ( client => $client ) : () ),
         data => {
             map +( defined $request->{$_} ? ( $_ => $request->{$_} ) : () ),
-            @{ $class->_known_fields }
+            map +( @{ $known_fields->{$_} } ),
+            qw< scalar arrayref hashref >
         }
     );
 }
@@ -60,3 +90,6 @@ Required.
 Create a new entity object using a request hash. The hash represents the
 information returned from a MetaCPAN request. This also sets the data attribute.
 
+=head2 BUILDARGS
+
+Perform type checks & conversion for the incoming data.
