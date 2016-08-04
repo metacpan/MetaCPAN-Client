@@ -56,19 +56,21 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
-=head1
-DESCRIPTION
+=head1 SYNOPSIS
 
-=head1
-ATTRIBUTES
+my $mirror = $mcpan->mirror('eutelia.it');
+
+=head1 DESCRIPTION
+
+A MetaCPAN mirror entity object.
+
+=head1 ATTRIBUTES
 
 =head2 name
 
 =head2 org
 
 =head2 ftp
-
-=head2 contact
 
 =head2 city
 
@@ -92,8 +94,6 @@ ATTRIBUTES
 
 =head2 country
 
-=head2 location
-
 =head2 freq
 
 =head2 continent
@@ -104,4 +104,10 @@ ATTRIBUTES
 
 =head2 A_or_CNAME
 
-=head1 METHODS
+=head2 contact
+
+Array-Ref.
+
+=head2 location
+
+Array-Ref.

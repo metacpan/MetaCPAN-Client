@@ -33,13 +33,15 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
+=head1 SYNOPSIS
+
+my $favorite = $mcpan->favorite( {
+    distribution => 'Moose'
+} );
+
 =head1 DESCRIPTION
 
-    my $favorite = $mcpan->favorite( {
-        distribution => 'Moose'
-    } );
-
-This represents a MetaCPAN favorite entity.
+A MetaCPAN favorite entity object.
 
 =head1 ATTRIBUTES
 

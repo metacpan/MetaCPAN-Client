@@ -52,8 +52,6 @@ sub _request {
 
 __END__
 
-=head1 DESCRIPTION
-
 =head1 SYNOPSIS
 
   use strict;
@@ -64,6 +62,9 @@ __END__
 
   print $pod->html;
 
+=head1 DESCRIPTION
+
+A MetaCPAN pod entity object.
 
 =head1 ATTRIBUTES
 

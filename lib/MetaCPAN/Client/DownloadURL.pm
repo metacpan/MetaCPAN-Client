@@ -33,7 +33,15 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
+=head1 SYNOPSIS
+
+my $download_url = $mcpan->download_url('Moose');
+
 =head1 DESCRIPTION
+
+A MetaCPAN download_url entiry object.
+
+Supported for MetaCPAN v1 only.
 
 =head1 ATTRIBUTES
 

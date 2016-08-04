@@ -42,7 +42,13 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
+=head1 SYNOPSIS
+
+my $rating = $mcpan->rating({ distribution => "Moo" });
+
 =head1 DESCRIPTION
+
+A MetaCPAN rating entity object.
 
 =head1 ATTRIBUTES
 

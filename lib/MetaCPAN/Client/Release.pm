@@ -59,11 +59,15 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
+=head1 SYNOPSIS
+
+my $release = $mcpan->release('Moose');
+
 =head1 DESCRIPTION
 
-=head1 ATTRIBUTES
+A MetaCPAN release entity object.
 
-=head2 resources
+=head1 ATTRIBUTES
 
 =head2 status
 
@@ -72,8 +76,6 @@ __END__
 =head2 author
 
 =head2 maturity
-
-=head2 dependency
 
 =head2 id
 
@@ -91,16 +93,34 @@ __END__
 
 =head2 version_numified
 
-=head2 license
-
 =head2 distribution
-
-=head2 stat
-
-=head2 provides
-
-=head2 tests
 
 =head2 abstract
 
+=head2 dependency
+
+Array-Ref.
+
+=head2 license
+
+Array-Ref.
+
+=head2 provides
+
+Array-Ref.
+
 =head2 metadata
+
+Hash-Ref.
+
+=head2 resources
+
+Hash-Ref.
+
+=head2 stat
+
+Hash-Ref.
+
+=head2 tests
+
+Hash-Ref.

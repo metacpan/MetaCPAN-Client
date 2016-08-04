@@ -95,6 +95,8 @@ __END__
 
 =head1 DESCRIPTION
 
+A MetaCPAN file entity object.
+
 =head1 ATTRIBUTES
 
 =head2 status
@@ -113,11 +115,7 @@ __END__
 
 =head2 id
 
-=head2 module
-
 =head2 authorized
-
-=head2 pod_lines
 
 =head2 version
 
@@ -133,8 +131,6 @@ __END__
 
 =head2 description
 
-=head2 stat
-
 =head2 distribution
 
 =head2 level
@@ -146,6 +142,18 @@ __END__
 =head2 slop
 
 =head2 mime
+
+=head2 module
+
+Array-Ref.
+
+=head2 pod_lines
+
+Array-Ref.
+
+=head2 stat
+
+Hash-Ref.
 
 =head1 METHODS
 

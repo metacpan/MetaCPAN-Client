@@ -67,105 +67,93 @@ sub releases {
 
 __END__
 
+=head1 SYNOPSIS
+
+my $author = $mcpan->author('MICKEY');
+
 =head1 DESCRIPTION
 
-    my $author = $mcpan->author('MICKEY');
-
-This represents a MetaCPAN author entity.
+a MetaCPAN author entity object.
 
 =head1 ATTRIBUTES
 
-=head2 name
-
-Author name.
-
 =head2 pauseid
 
-Author PAUSE ID.
-
-=head2 email
-
-Author's Emails (array-ref)
-
-=head2 blog
-
-Author's blog info (hash-ref)
-
-Example:
-
-    {
-        url  => "http://blogs.perl.org/users/brian_d_foy/"
-        feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
-    }
+=head2 name
 
 =head2 city
 
-Author's city.
-
 =head2 country
-
-Author's country.
 
 =head2 region
 
-Author's region.
+=head2 updated
 
 =head2 dir
 
-Author's directory of distribution and files.
+Directory of distribution and files.
 
-Example: C<< id/P/PE/PERLER >>
+e.g. C<< id/P/PE/PERLER >>
 
 =head2 gravatar_url
 
-Author's Gravatar.com user picture URL. This URL is generated using
-PAUSEID@cpan.org.
+Gravatar.com user picture URL.
+
+This URL is generated using PAUSEID@cpan.org.
+
+=head2 user
+
+Identification code.
+
+=head2 donation
+
+Array-Ref.
+
+=head2 email
+
+Array-Ref.
+
+=head2 website
+
+Array-Ref.
 
 =head2 profile
 
-Author's user profiles (array-ref).
+Array-Ref.
 
-Example:
-
+e.g.
     [
         { name => "amazon",        id => "B002MRC39U"  },
         { name => "stackoverflow", id => "brian-d-foy" },
     ]
 
-=head2 website
+=head2 links
 
-Author's websites (array-ref).
+Hash-Ref.
+
+=head2 extra
+
+Hash-Ref.
+
+=head2 blog
+
+Hash-Ref.
+
+  {
+    url  => "http://blogs.perl.org/users/brian_d_foy/"
+    feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
+  }
 
 =head2 release_count
 
-Author's release counts (hash-ref).
+Hash-Ref.
 
-Example:
+e.g.
    {
       latest       => 118,
       backpan-only => 558,
       cpan         => 18,
    }
-
-=head2 updated
-
-timestamp.
-
-=head2 links
-
-hash-ref.
-
-=head2 extra
-
-hahs-ref.
-
-=head2 donation
-
-array-ref.
-
-=head2 user
-
-identification code.
 
 =head1 METHODS
 

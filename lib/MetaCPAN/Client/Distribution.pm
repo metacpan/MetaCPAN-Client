@@ -33,22 +33,22 @@ sub _known_fields { return \%known_fields }
 
 __END__
 
+=head1 SYNOPSIS
+
+my $dist = $mcpan->distribution('MetaCPAN-Client');
+
 =head1 DESCRIPTION
 
-    my $dist = $mcpan->distribution('MetaCPAN-Client');
-
-This represents a MetaCPAN distribution entity.
+A MetaCPAN distribution entity object.
 
 =head1 ATTRIBUTES
 
 =head2 name
 
-Distribution's name.
-
 =head2 bugs
 
-Distribution's bug information.
+Hash-Ref.
 
 =head2 river
 
-Distribution's river information.
+Hash-Ref.
