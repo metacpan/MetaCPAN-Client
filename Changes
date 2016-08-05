@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.022001    05.08.16
+            * check user provided UA for 'get' and 'post' methods (Mickey)
+            * document updates (Mickey)
+
 1.022000    04.08.16
             * Rework type checking - enforce expected types, inc.
               single-valued array-ref unwrapping; doesn't break
