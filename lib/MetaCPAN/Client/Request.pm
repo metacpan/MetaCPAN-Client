@@ -59,13 +59,19 @@ has _is_agg => (
 
 sub _build_ua {
     my $self = shift;
+
     # This level of indirection is so that if a user has not specified a custom UA
     # MetaCPAN::Client and ElasticSearch will have their own UA's
     #
     # But if the user **has** specified a custom UA, that UA is used for both.
     if ( $self->_has_user_ua ) {
-      return $self->_user_ua;
+        my $ua = $self->_user_ua;
+        croak "cannot use given ua (must support 'get' and 'post' methods)"
+            unless $ua->can("get") and $ua->can("post");
+
+        return $self->_user_ua;
     }
+
     return HTTP::Tiny->new( @{ $self->ua_args } );
 }
 
