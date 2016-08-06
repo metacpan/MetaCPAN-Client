@@ -65,6 +65,7 @@ sub pod {
         or croak "wrong content-type for POD requested";
 
     my $name = $self->module->[0]{name};
+    return unless $name;
 
     require MetaCPAN::Client::Request;
 
