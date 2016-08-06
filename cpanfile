@@ -25,6 +25,7 @@ on 'test' => sub {
 
 on 'test' => sub {
   recommends "HTTP::Tiny::Mech" => "0";
+  recommends "LWP::Protocol::https" => "0";
   recommends "WWW::Mechanize::Cached" => "1.48";
 };
 
@@ -34,6 +35,7 @@ on 'configure' => sub {
 
 on 'develop' => sub {
   requires "HTTP::Tiny::Mech" => "0";
+  requires "LWP::Protocol::https" => "0";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";

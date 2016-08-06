@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.022002    06.08.16
+            * Added LWP::Protocol::https as test dependency (Mickey)
+
 1.022001    05.08.16
             * check user provided UA for 'get' and 'post' methods (Mickey)
             * document updates (Mickey)
