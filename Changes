@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.023000    27.08.16
+            * Added support for version by env METACPAN_VERSION (Mickey)
+            * Added tests for version argument (Mickey)
+
 1.022003    06.08.16
             * Fixed a warning in $file->pod (Mickey)
 
