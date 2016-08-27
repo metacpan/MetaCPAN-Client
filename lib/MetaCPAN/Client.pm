@@ -32,10 +32,11 @@ sub BUILDARGS {
     my ( $class, %args ) = @_;
 
     # default 'domain' for 'version => v0|v1'
-    if ( exists $args{version} ) {
-        $args{domain} //=
-            $args{version} eq 'v0' ? 'api.metacpan.org' :
-            $args{version} eq 'v1' ? 'fastapi.metacpan.org' :
+    if ( exists $ENV{METACPAN_VERSION} or exists $args{version} ) {
+        my $version = $ENV{METACPAN_VERSION} || $args{version};
+        $version and $args{domain} //=
+            $version eq 'v0' ? 'api.metacpan.org' :
+            $version eq 'v1' ? 'fastapi.metacpan.org' :
             undef;
     }
 
