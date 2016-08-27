@@ -32,12 +32,16 @@ sub BUILDARGS {
     my ( $class, %args ) = @_;
 
     # default 'domain' for 'version => v0|v1'
-    if ( exists $ENV{METACPAN_VERSION} or exists $args{version} ) {
-        my $version = $ENV{METACPAN_VERSION} || $args{version};
-        $version and $args{domain} //=
+    my $version = exists $ENV{METACPAN_VERSION} ? $ENV{METACPAN_VERSION} : undef;
+    $version  //= exists $args{version}         ? $args{version}         : undef;
+    if ( defined $version ) {
+        $version =~ s/^(?!v)/v/;
+        $version eq 'v0' or $version eq 'v1' or croak "invalid version number";
+        $args{domain} //=
             $version eq 'v0' ? 'api.metacpan.org' :
             $version eq 'v1' ? 'fastapi.metacpan.org' :
             undef;
+        $args{version} = $version;
     }
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(

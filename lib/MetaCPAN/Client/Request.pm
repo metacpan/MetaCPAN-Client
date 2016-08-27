@@ -19,9 +19,7 @@ has domain => (
 
 has version => (
     is      => 'ro',
-    default => sub {
-        return ( $ENV{METACPAN_VERSION} ? $ENV{METACPAN_VERSION} : 'v0' );
-    },
+    default => sub { 'v0' },
 );
 
 has base_url => (

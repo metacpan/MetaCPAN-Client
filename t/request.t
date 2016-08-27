@@ -7,7 +7,7 @@ use Test::More tests => 9;
 use MetaCPAN::Client;
 use MetaCPAN::Client::Request;
 
-my $req = MetaCPAN::Client::Request->new( domain => 'mydomain', version => 'z' );
+my $req = MetaCPAN::Client::Request->new( domain => 'mydomain', version => 'v1' );
 isa_ok( $req, 'MetaCPAN::Client::Request' );
 can_ok(
     $req,
@@ -17,8 +17,8 @@ can_ok(
 );
 
 is( $req->domain, 'mydomain', 'Correct domain' );
-is( $req->version, 'z', 'Correct version' );
-is( $req->base_url, 'https://mydomain/z', 'Correct base_url' );
+is( $req->version, 'v1', 'Correct version' );
+is( $req->base_url, 'https://mydomain/v1', 'Correct base_url' );
 isa_ok( $req->ua, 'HTTP::Tiny' );
 
 my $ver = $MetaCPAN::Client::VERSION || 'xx';
@@ -28,6 +28,6 @@ is_deeply(
     'Correct UA args',
 );
 
-my $client = MetaCPAN::Client->new( domain => 'foo', version => 'bar' );
+my $client = MetaCPAN::Client->new( domain => 'foo', version => 'v1' );
 is ( $client->request->domain, 'foo', 'domain set in request' );
-is ( $client->request->version, 'bar', 'version set in request' );
+is ( $client->request->version, 'v1', 'version set in request' );
