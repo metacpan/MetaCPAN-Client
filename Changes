@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.024000    28.08.16
+            * Try to fetch clientinfo from https://clientinfo.metacpan.org
+              to get default production version (Mickey)
+
 1.023000    27.08.16
             * Added support for version by env METACPAN_VERSION (Mickey)
             * Added tests for version argument (Mickey)
