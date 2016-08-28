@@ -9,6 +9,7 @@ use JSON::MaybeXS qw<decode_json encode_json>;
 use Search::Elasticsearch;
 use Try::Tiny;
 use HTTP::Tiny;
+use Ref::Util qw< is_hashref >;
 
 has domain => (
     is      => 'ro',
@@ -18,8 +19,19 @@ has domain => (
 );
 
 has version => (
+    is       => 'ro',
+    required => 1,
+    default  => sub {
+        my $info = $_[0]->_clientinfo;
+        $info or return 'v0'; # last known production version
+        $info->{production}{version};
+    },
+);
+
+has _clientinfo => (
     is      => 'ro',
-    default => sub { 'v0' },
+    lazy    => 1,
+    builder => '_build_clientinfo',
 );
 
 has base_url => (
@@ -73,6 +85,20 @@ sub _build_ua {
     }
 
     return HTTP::Tiny->new( @{ $self->ua_args } );
+}
+
+sub _build_clientinfo {
+    my $self = shift;
+
+    my $info;
+    eval {
+        $info = $self->ua->get( 'https://clientinfo.metacpan.org' );
+        $info = decode_json( $info->{content} );
+        is_hashref($info) and exists $info->{production} or die;
+        1;
+    } or return undef;
+
+    return $info;
 }
 
 sub fetch {
