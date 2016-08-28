@@ -23,13 +23,15 @@ has version => (
     required => 1,
     default  => sub {
         my $info = $_[0]->_clientinfo;
-        $info or return 'v0'; # last known production version
         $info->{production}{version};
     },
 );
 
 has _clientinfo => (
     is      => 'ro',
+    isa     => sub {
+        is_hashref( $_[0] ) or croak '_clientinfo mush be a hashref';
+    },
     lazy    => 1,
     builder => '_build_clientinfo',
 );
@@ -96,7 +98,12 @@ sub _build_clientinfo {
         $info = decode_json( $info->{content} );
         is_hashref($info) and exists $info->{production} or die;
         1;
-    } or return undef;
+    }
+    or $info = +{
+        production => {
+            version => 'v0'  # last known production version
+        }
+    };
 
     return $info;
 }
