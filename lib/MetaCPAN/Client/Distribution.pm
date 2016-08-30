@@ -13,16 +13,26 @@ my %known_fields = (
     hashref  => [qw< bugs river >]
 );
 
-my @known_fields =
-    map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
+my %__known_fields_ex = (
+    map { my $k = $_; $k => +{ map { $_ => 1 } @{ $known_fields{$k} } } }
+    keys %known_fields
+);
 
-foreach my $field (@known_fields) {
+my @known_fields = map { @{ $known_fields{$_} } } keys %known_fields;
+
+foreach my $field ( @known_fields ) {
     has $field => (
         is      => 'ro',
         lazy    => 1,
         default => sub {
             my $self = shift;
-            return $self->data->{$field};
+            return (
+                exists $self->data->{$field}                ? $self->data->{$field} :
+                exists $__known_fields_ex{hashref}{$field}  ? {} :
+                exists $__known_fields_ex{arrayref}{$field} ? [] :
+                exists $__known_fields_ex{scalar}{$field}   ? '' :
+                undef
+            );
         },
     );
 }
