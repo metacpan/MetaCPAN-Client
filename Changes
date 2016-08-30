@@ -1,5 +1,11 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.025000    30.8.16
+            * Added some version requirements to improve SSL over
+              HTTP::Tiny (Mickey)
+            * Added default values for distribution keys with no content
+              (Mickey, per Tux request)
+
 1.024000    28.08.16
             * Try to fetch clientinfo from https://clientinfo.metacpan.org
               to get default production version (Mickey)
