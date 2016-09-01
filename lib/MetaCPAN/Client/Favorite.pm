@@ -63,7 +63,7 @@ The favorite ID.
 
 =head2 author
 
-The PAUSE ID of the user who favorited.
+The PAUSE ID of the author whose release was favorited.
 
 =head2 distribution
 
