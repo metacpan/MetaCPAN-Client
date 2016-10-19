@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.026001    19.10.16
+            * Fixed version range for Search::Elasticsearch (Mickey)
+
 1.026000    19.10.16
             * Moved distini prereqs to cpanfile (Mickey)
             * Limit Search::Elasticsearch version to 2.02 (Mickey)
