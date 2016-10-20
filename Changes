@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.027000    20.10.16
+            * GH #49 Convert values of JSON::PP::Boolean objects in output
+              so they are not skipped when expeting scalars (Mickey)
+
 1.026001    19.10.16
             * Fixed version range for Search::Elasticsearch (Mickey)
 
