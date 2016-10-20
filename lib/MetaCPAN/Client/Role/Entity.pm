@@ -5,6 +5,7 @@ package MetaCPAN::Client::Role::Entity;
 
 use Moo::Role;
 
+use JSON::PP;
 use Ref::Util qw< is_ref is_arrayref is_hashref >;
 
 has data => (
@@ -32,7 +33,12 @@ sub BUILDARGS {
         $args{data}{$k} = $args{data}{$k}->[0]
             if is_arrayref( $args{data}{$k} ) and @{$args{data}{$k}} == 1;
 
-        delete $args{data}{$k} if is_ref( $args{data}{$k} ); # warn?
+        if ( JSON::PP::is_bool($args{data}{$k}) ) {
+            $args{data}{$k} = JSON::PP::true == $args{data}{$k} ? 1 : 0;
+        }
+        elsif ( is_ref( $args{data}{$k} ) ) {
+            delete $args{data}{$k};
+        }
     }
 
     for my $k ( @{ $known_fields->{arrayref} } ) {

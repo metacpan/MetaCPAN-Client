@@ -2,6 +2,7 @@ requires "Carp" => "0";
 requires "HTTP::Tiny" => "0.056";
 requires "IO::Socket::SSL" => "1.42";
 requires "JSON::MaybeXS" => "0";
+requires "JSON::PP" => "0";
 requires "Moo" => "0";
 requires "Moo::Role" => "0";
 requires "Net::SSLeay" => "1.49";
