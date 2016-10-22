@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.028001    22.10.16
+            * GH #51 Adds eumm_version to dist.ini (Olaf Alders)
+            * GH #52 Stop excluding cpanfile from being copied to
+              build (Olaf Alders)
+
 1.028000    21.10.16
             * GH #50 Remove hard-deps for HTTP::Tiny::Mech and
               WWW::Mechanize::Cached (Paul Howarth)
