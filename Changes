@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+1.028002    23.10.16
+            * GH #53 a few small dist.ini tweaks (Karen Etheridge)
+            * Even more dist.ini tweaks (Mickey, thanks to Grinnz)
+
 1.028001    22.10.16
             * GH #51 Adds eumm_version to dist.ini (Olaf Alders)
             * GH #52 Stop excluding cpanfile from being copied to
