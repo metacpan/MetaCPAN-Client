@@ -8,7 +8,7 @@ use Data::Printer;
 use MetaCPAN::Client;
 
 my $author =
-    MetaCPAN::Client->new( version => 'v1' )->author('XSAWYERX');
+    MetaCPAN::Client->new()->author('XSAWYERX');
 
 my %output = (
     NAME    => $author->name,

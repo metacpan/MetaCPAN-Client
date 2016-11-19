@@ -70,12 +70,6 @@ sub next {
     return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
 }
 
-sub facets {
-    my $self = shift;
-
-    return $self->has_scroller ? $self->scroller->facets : {};
-}
-
 sub aggregations {
     my $self = shift;
 
@@ -91,7 +85,7 @@ __END__
 
 Object representing a result from Elastic Search. This is used for the complex
 (as in L<non-simple/MetaCPAN::Client/"SEARCH SPEC">) queries to MetaCPAN. It
-provides easy access to the scroller and facets.
+provides easy access to the scroller and aggregations.
 
 =head1 ATTRIBUTES
 
@@ -126,10 +120,6 @@ The entity of the result set. Available types:
 =head2 aggregations
 
 The aggregations available in the Elastic Search response.
-
-=head2 facets
-
-The facets available in the Elastic Search response.
 
 =head1 METHODS
 

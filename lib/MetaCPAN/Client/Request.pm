@@ -11,22 +11,6 @@ use Try::Tiny;
 use HTTP::Tiny;
 use Ref::Util qw< is_hashref >;
 
-has domain => (
-    is      => 'ro',
-    default => sub {
-        return ( $ENV{METACPAN_DOMAIN} ? $ENV{METACPAN_DOMAIN} : 'api.metacpan.org' );
-    },
-);
-
-has version => (
-    is       => 'ro',
-    required => 1,
-    default  => sub {
-        my $info = $_[0]->_clientinfo;
-        $info->{production}{version};
-    },
-);
-
 has _clientinfo => (
     is      => 'ro',
     isa     => sub {
@@ -36,12 +20,20 @@ has _clientinfo => (
     builder => '_build_clientinfo',
 );
 
+has domain => (
+    is      => 'ro',
+    default => sub {
+        $ENV{METACPAN_DOMAIN} and return $ENV{METACPAN_DOMAIN};
+        $_[0]->_clientinfo->{production}{domain};
+    },
+);
+
 has base_url => (
     is      => 'ro',
     lazy    => 1,
     default => sub {
-        my $self = shift;
-        return sprintf('https://%s/%s', $self->domain, $self->version);
+        $ENV{METACPAN_DOMAIN} and return $ENV{METACPAN_DOMAIN};
+        $_[0]->_clientinfo->{production}{url};
     },
 );
 
@@ -70,6 +62,12 @@ has _is_agg => (
     default => 0,
     writer  => '_set_is_agg'
 );
+
+sub BUILDARGS {
+    my ( $self, %args ) = @_;
+    $args{domain} and $args{base_url} = $args{domain};
+    return \%args;
+}
 
 sub _build_ua {
     my $self = shift;
@@ -101,7 +99,8 @@ sub _build_clientinfo {
     }
     or $info = +{
         production => {
-            version => 'v0'  # last known production version
+            url => 'https://fastapi.metacpan.org/v1/', # last known production url
+            domain => 'https://fastapi.metacpan.org/'  # last known production domain
         }
     };
 
@@ -129,7 +128,7 @@ sub ssearch {
     my $params = shift;
 
     my $es = Search::Elasticsearch->new(
-        nodes            => [ 'https://' . $self->domain ],
+        nodes            => [ $self->base_url ],
         cxn_pool         => 'Static::NoPing',
         send_get_body_as => 'POST',
         ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
@@ -140,7 +139,7 @@ sub ssearch {
     my $scroller = $es->scroll_helper(
         ( search_type => 'scan' ) x !$self->_is_agg,
         scroll      => '5m',
-        index       => $self->version,
+        index       => 'cpan',
         type        => $type,
         size        => 1000,
         body        => $body,
@@ -191,7 +190,6 @@ sub _build_body {
     return +{
         query => $query,
         _read_filters($params),
-        $self->_read_facets($params),
         $self->_read_aggregations($params)
     };
 }
@@ -201,17 +199,6 @@ my %key2es = (
     either => 'should',
     not    => 'must_not',
 );
-
-sub _read_facets {
-    my $self   = shift;
-    my $params = shift;
-
-    my $facets = delete $params->{facets};
-    ref($facets) or return ();
-
-    $self->_set_is_agg(1);
-    return ( facets => $facets );
-}
 
 sub _read_aggregations {
     my $self   = shift;
@@ -289,15 +276,7 @@ __END__
 
 What domain to use for all requests.
 
-Default: B<api.metacpan.org>.
-
-=head2 version
-
-    $mcpan = MetaCPAN::Client->new( version => 'v0' );
-
-What version of MetaCPAN should be used?
-
-Default: B<v0>.
+Default: B<https://fastapi.metacpan.org>.
 
 =head2 base_url
 
@@ -305,10 +284,10 @@ Default: B<v0>.
         base_url => 'https://localhost:9999/v2',
     );
 
-Instead of overriding the C<base_url>, you should override the C<domain> and
-C<version>. The C<base_url> will be set appropriately automatically.
+Instead of overriding the C<base_url>, you should override the C<domain>.
+The C<base_url> will be set appropriately automatically.
 
-Default: I<https://$domain/$version>.
+Default: I<https://$domain>.
 
 =head2 ua
 
@@ -348,6 +327,8 @@ Arguments sent to the user agent.
 Default: user agent string: B<MetaCPAN::Client/$version>.
 
 =head1 METHODS
+
+=head2 BUILDARGS
 
 =head2 fetch
 

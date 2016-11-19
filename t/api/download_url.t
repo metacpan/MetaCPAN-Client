@@ -7,7 +7,7 @@ use Test::Fatal;
 
 use t::lib::Functions;
 
-my $mc = mcpan( version => 'v1' );
+my $mc = mcpan();
 can_ok( $mc, 'rating' );
 
 my $rs = $mc->download_url( 'Moose' );

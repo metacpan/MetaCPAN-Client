@@ -7,7 +7,7 @@ use Data::Printer;
 use MetaCPAN::Client;
 
 my $author =
-    MetaCPAN::Client->new( version => 'v1' )->all(
+    MetaCPAN::Client->new()->all(
         'authors',
         {
             aggregations => {

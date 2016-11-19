@@ -31,23 +31,9 @@ my @supported_searches = qw<
 sub BUILDARGS {
     my ( $class, %args ) = @_;
 
-    # default 'domain' for 'version => v0|v1'
-    my $version = exists $ENV{METACPAN_VERSION} ? $ENV{METACPAN_VERSION} : undef;
-    $version  //= exists $args{version}         ? $args{version}         : undef;
-    if ( defined $version ) {
-        $version =~ s/^(?!v)/v/;
-        $version eq 'v0' or $version eq 'v1' or croak "invalid version number";
-        $args{domain} //=
-            $version eq 'v0' ? 'api.metacpan.org' :
-            $version eq 'v1' ? 'fastapi.metacpan.org' :
-            undef;
-        $args{version} = $version;
-    }
-
     $args{'request'} ||= MetaCPAN::Client::Request->new(
         ( ua      => $args{ua}      )x!! $args{ua},
         ( domain  => $args{domain}  )x!! $args{domain},
-        ( version => $args{version} )x!! $args{version},
     );
 
     return \%args;
@@ -181,9 +167,6 @@ sub all {
 sub download_url {
     my $self   = shift;
     my $module = shift;
-
-    $self->request->version eq 'v0'
-        and croak "download_url: not supported in v0 (use version => v1)";
 
     return $self->_get( 'download_url', $module );
 }
@@ -370,8 +353,6 @@ __END__
     use MetaCPAN::Client;
 
     my $mcpan = MetaCPAN::Client->new(
-      version => 'v1',
-
       ua => HTTP::Tiny::Mech->new(
         mechua => WWW::Mechanize::Cached->new(
           cache => CHI->new(
@@ -404,12 +385,6 @@ instead of the default, which is L<HTTP::Tiny>.
 
 Then it can be used to fetch the user agent object used by
 L<MetaCPAN::Client::Request>.
-
-=head2 version
-
-API version (supported: 'v0', 'v1')
-
-This will also set default value to your 'domain' (unless given)
 
 =head2 domain
 
@@ -532,7 +507,7 @@ will support the following keys:
 
 =head2 download_url
 
-Retrieve information from the 'download_url' endpoint (v1 only)
+Retrieve information from the 'download_url' endpoint
 
     my $download_url = $mcpan->download_url('Moose')
 

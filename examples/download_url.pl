@@ -7,7 +7,7 @@ use DDP;
 
 use MetaCPAN::Client;
 
-my $mcpan = MetaCPAN::Client->new( version => "v1" );
+my $mcpan = MetaCPAN::Client->new();
 
 my $download_url = $mcpan->download_url('Moose');
 

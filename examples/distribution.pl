@@ -6,7 +6,7 @@ use warnings;
 use Data::Printer;
 use MetaCPAN::Client;
 
-my $mcpan = MetaCPAN::Client->new( version => 'v1' );
+my $mcpan = MetaCPAN::Client->new();
 my $dist  = $mcpan->distribution('Moose');
 
 my %output = (

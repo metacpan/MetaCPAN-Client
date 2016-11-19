@@ -30,5 +30,4 @@ my $rs = MetaCPAN::Client::ResultSet->new(
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
-can_ok( $rs, qw<next facets total type scroller> );
-
+can_ok( $rs, qw<next aggregations total type scroller> );

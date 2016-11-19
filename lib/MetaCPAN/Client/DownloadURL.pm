@@ -41,8 +41,6 @@ my $download_url = $mcpan->download_url('Moose');
 
 A MetaCPAN download_url entiry object.
 
-Supported for MetaCPAN v1 only.
-
 =head1 ATTRIBUTES
 
 =head2 date
