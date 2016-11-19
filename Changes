@@ -1,5 +1,14 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.000000    18.11.16
+            * Major version: v1 full support
+              - removed support and default settings for v0
+              - corrected domain, base_url setting, using clientinfo
+              - code/tests updates and cleanup
+              (Mickey, Brad Lhotsky)
+            * Pinned Search::Elasticsearch version to 2.03 (Mickey)
+            * Use @Starter in dist.ini + cpanfile cleanup (Grinnz)
+
 1.028003    23.10.16
             * Removed AutoPrereqs from dist.ini (Mickey)
 

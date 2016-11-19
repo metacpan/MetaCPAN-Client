@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 1.028003
+version 2.000000
 
 =head1 SYNOPSIS
 
@@ -24,8 +24,6 @@ version 1.028003
     use MetaCPAN::Client;
 
     my $mcpan = MetaCPAN::Client->new(
-      version => 'v1',
-
       ua => HTTP::Tiny::Mech->new(
         mechua => WWW::Mechanize::Cached->new(
           cache => CHI->new(
@@ -58,12 +56,6 @@ instead of the default, which is L<HTTP::Tiny>.
 
 Then it can be used to fetch the user agent object used by
 L<MetaCPAN::Client::Request>.
-
-=head2 version
-
-API version (supported: 'v0', 'v1')
-
-This will also set default value to your 'domain' (unless given)
 
 =head2 domain
 
@@ -186,7 +178,7 @@ will support the following keys:
 
 =head2 download_url
 
-Retrieve information from the 'download_url' endpoint (v1 only)
+Retrieve information from the 'download_url' endpoint
 
     my $download_url = $mcpan->download_url('Moose')
 
