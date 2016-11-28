@@ -32,7 +32,7 @@ has scroller => (
 has items => (
     is  => 'ro',
     isa => sub {
-        ref $_[0] eq 'ARRAY'
+        is_arrayref($_[0])
             or croak 'items must be an array ref';
     },
 );

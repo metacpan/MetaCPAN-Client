@@ -9,7 +9,7 @@ use JSON::MaybeXS qw<decode_json encode_json>;
 use Search::Elasticsearch;
 use Try::Tiny;
 use HTTP::Tiny;
-use Ref::Util qw< is_hashref >;
+use Ref::Util qw< is_arrayref is_hashref >;
 
 has _clientinfo => (
     is      => 'ro',
@@ -154,7 +154,7 @@ sub _decode_result {
     my $result = shift;
     my $url    = shift or croak 'Second argument of a URL must be provided';
 
-    ref $result eq 'HASH'
+    is_hashref($result)
         or croak 'First argument must be hashref';
 
     my $success = $result->{'success'};
@@ -222,15 +222,15 @@ sub _read_filters {
 
 sub _build_query_rec {
     my $args  = shift;
-    ref $args eq 'HASH' or croak 'query args must be a hash';
+    is_hashref($args) or croak 'query args must be a hash';
 
     my %query = ();
     my $basic_element = 1;
 
   KEY: for my $k ( qw/ all either not / ) {
         my $v = delete $args->{$k} || next KEY;
-        ref $v eq 'HASH'  and $v = [ $v ];
-        ref $v eq 'ARRAY' or croak "invalid value for key $k";
+        is_hashref($v)  and $v = [ $v ];
+        is_arrayref($v) or croak "invalid value for key $k";
 
         undef $basic_element;
 

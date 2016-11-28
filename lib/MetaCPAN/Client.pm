@@ -5,6 +5,7 @@ package MetaCPAN::Client;
 
 use Moo;
 use Carp;
+use Ref::Util qw< is_arrayref is_hashref >;
 
 use MetaCPAN::Client::Request;
 use MetaCPAN::Client::Author;
@@ -88,7 +89,7 @@ sub favorite {
     my $args   = shift;
     my $params = shift;
 
-    ref($args) eq 'HASH'
+    is_hashref($args)
         or croak 'favorite takes a hash ref as parameter';
 
     return $self->_search( 'favorite', $args, $params );
@@ -99,7 +100,7 @@ sub rating {
     my $args   = shift;
     my $params = shift;
 
-    ref($args) eq 'HASH'
+    is_hashref($args)
         or croak 'rating takes a hash ref as parameter';
 
     return $self->_search( 'rating', $args, $params );
@@ -158,7 +159,7 @@ sub all {
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
-    $params and ref($params) ne 'HASH'
+    $params and !is_hashref($params)
         and croak "all: params must be a hashref";
 
     return $self->$type( { __MATCH_ALL__ => 1 }, $params );
@@ -177,7 +178,7 @@ sub _get {
     my $self = shift;
 
     ( scalar(@_) == 2
-      or ( scalar(@_) == 3 and ( !defined $_[2] or ref $_[2] eq 'HASH' ) ) )
+      or ( scalar(@_) == 3 and ( !defined $_[2] or is_hashref($_[2]) ) ) )
         or croak '_get takes type and search string as parameters (and an optional params hash)';
 
     my $type   = shift;
@@ -189,7 +190,7 @@ sub _get {
     my $response = $self->fetch(
         sprintf("%s/%s%s", $type ,$arg, $fields_filter||'')
     );
-    ref $response eq 'HASH'
+    is_hashref($response)
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     $type = 'DownloadURL' if $type eq 'download_url';
@@ -206,7 +207,7 @@ sub _read_fields {
     my $fields = delete $params->{fields};
     $fields or return;
 
-    if ( ref $fields eq 'ARRAY' ) {
+    if ( is_arrayref($fields) ) {
         grep { ref $_ } @$fields
             and croak "fields array should not contain any refs.";
 
@@ -226,10 +227,10 @@ sub _search {
     my $args   = shift;
     my $params = shift;
 
-    ref $args eq 'HASH'
+    is_hashref($args)
         or croak '_search takes a hash ref as query';
 
-    ! defined $params or ref $params eq 'HASH'
+    ! defined $params or is_hashref($params)
         or croak '_search takes a hash ref as query parameters';
 
     $params ||= {};
@@ -251,7 +252,7 @@ sub _get_or_search {
     my $arg    = shift;
     my $params = shift;
 
-    ref $arg eq 'HASH' and
+    is_hashref($arg) and
         return $self->_search( $type, $arg, $params );
 
     defined $arg and ! ref($arg)
