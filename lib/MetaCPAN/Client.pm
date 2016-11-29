@@ -497,6 +497,14 @@ formats (html, plain, x_pod & x_markdown).
     my $pod = $mcpan->pod('Moo')->html;
     my $pod = $mcpan->pod('Moo', { url_prefix => $prefix })->html;
 
+=head2 download_url
+
+Retrieve information from the 'download_url' endpoint
+
+    my $download_url = $mcpan->download_url('Moose')
+
+Returns a L<MetaCPAN::Client::DownloadURL> object
+
 =head2 all
 
 Retrieve all matches for authors/modules/distributions/favorites or releases.
@@ -505,14 +513,6 @@ Retrieve all matches for authors/modules/distributions/favorites or releases.
 
 When called with a second parameter containing a hash ref,
 will support the following keys:
-
-=head2 download_url
-
-Retrieve information from the 'download_url' endpoint
-
-    my $download_url = $mcpan->download_url('Moose')
-
-Returns a L<MetaCPAN::Client::DownloadURL> object
 
 =head3 fields
 
