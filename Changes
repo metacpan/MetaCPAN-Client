@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.001000    08.12.16
+            * Distribution: added 'rt' & 'github' methods (Mickey)
+            * Use Ref::Util for ref checks (Mickey)
+
 2.000000    18.11.16
             * Major version: v1 full support
               - removed support and default settings for v0
