@@ -39,6 +39,9 @@ foreach my $field ( @known_fields ) {
 
 sub _known_fields { return \%known_fields }
 
+sub rt     { $_[0]->bugs->{rt}     || {} }
+sub github { $_[0]->bugs->{github} || {} }
+
 1;
 
 __END__
@@ -62,3 +65,13 @@ Hash-Ref.
 =head2 river
 
 Hash-Ref.
+
+=head1 METHODS
+
+=head2 rt
+
+Returns 'bugs.rt' hash ref (defaults to {}).
+
+=head2 github
+
+Returns 'bugs.github' hash ref (defaults to {}).
