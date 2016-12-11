@@ -17,8 +17,6 @@ my $release = MetaCPAN::Client->new->all(
                 { term  => { 'status' => 'latest' } }
             ]
         },
-
-        fields => [qw/ name tests /],
     }
 );
 
