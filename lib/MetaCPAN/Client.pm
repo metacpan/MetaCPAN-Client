@@ -172,6 +172,26 @@ sub download_url {
     return $self->_get( 'download_url', $module );
 }
 
+sub autocomplete {
+    my $self = shift;
+    my $q    = shift;
+
+    my $res;
+
+    eval {
+        $res = $self->fetch("/search/autocomplete?q=$q");
+        1;
+
+    } or do {
+        warn $@;
+        return [];
+    };
+
+    return [
+        map { $_->{fields} } @{ $res->{hits}{hits} }
+    ];
+}
+
 ###
 
 sub _get {
@@ -478,6 +498,14 @@ on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 =head2 rev_deps
 
 Alias to C<reverse_dependencies> described above.
+
+=head2 autocomplete
+
+    my $ac = $mcpan->autocomplete('Danc');
+
+Call the search/autocomplete endpoint with a query string.
+
+Returns an array reference.
 
 =head2 recent
 
