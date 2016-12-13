@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.001000
+version 2.002000
 
 =head1 SYNOPSIS
 
@@ -148,6 +148,14 @@ on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 =head2 rev_deps
 
 Alias to C<reverse_dependencies> described above.
+
+=head2 autocomplete
+
+    my $ac = $mcpan->autocomplete('Danc');
+
+Call the search/autocomplete endpoint with a query string.
+
+Returns an array reference.
 
 =head2 recent
 

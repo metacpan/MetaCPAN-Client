@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.002000    14.12.16
+            * Support 'autocomplete' endpoint (Mickey)
+
 2.001000    08.12.16
             * Distribution: added 'rt' & 'github' methods (Mickey)
             * Use Ref::Util for ref checks (Mickey)
