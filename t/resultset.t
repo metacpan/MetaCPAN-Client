@@ -9,7 +9,7 @@ use MetaCPAN::Client::ResultSet;
 
 {
     package MetaCPAN::Client::Test::ScrollerZ;
-    use base 'Search::Elasticsearch::Scroll'; # < 5.10 FTW (except, no)
+    use base 'MetaCPAN::Client::Scroll'; # < 5.10 FTW (except, no)
     sub total {0}
 }
 
@@ -26,7 +26,7 @@ like(
 
 my $rs = MetaCPAN::Client::ResultSet->new(
     type     => 'author',
-    scroller => bless {}, 'Search::Elasticsearch::Scroll',
+    scroller => bless {}, 'MetaCPAN::Client::Scroll',
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );

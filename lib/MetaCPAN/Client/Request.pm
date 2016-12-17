@@ -6,9 +6,10 @@ package MetaCPAN::Client::Request;
 use Moo;
 use Carp;
 use JSON::MaybeXS qw<decode_json encode_json>;
-use Search::Elasticsearch;
 use HTTP::Tiny;
 use Ref::Util qw< is_arrayref is_hashref >;
+
+use MetaCPAN::Client::Scroll;
 
 has _clientinfo => (
     is      => 'ro',
@@ -72,7 +73,7 @@ sub _build_ua {
     my $self = shift;
 
     # This level of indirection is so that if a user has not specified a custom UA
-    # MetaCPAN::Client and ElasticSearch will have their own UA's
+    # MetaCPAN::Client will have its own UA's
     #
     # But if the user **has** specified a custom UA, that UA is used for both.
     if ( $self->_has_user_ua ) {
@@ -126,23 +127,12 @@ sub ssearch {
     my $args   = shift;
     my $params = shift;
 
-    my $es = Search::Elasticsearch->new(
-        nodes            => [ $self->base_url ],
-        cxn_pool         => 'Static::NoPing',
-        send_get_body_as => 'POST',
-        ( $self->_has_user_ua ? ( handle => $self->_user_ua ) : () )
-    );
-
-    my $body = $self->_build_body($args, $params);
-
-    my $scroller = $es->scroll_helper(
-        ( search_type => 'scan' ) x !$self->_is_agg,
-        scroll      => '5m',
-        index       => 'cpan',
-        type        => $type,
-        size        => 1000,
-        body        => $body,
-        %{ $params },
+    my $scroller = MetaCPAN::Client::Scroll->new(
+        ua       => $self->ua,
+        size     => 500,
+        base_url => $self->base_url,
+        type     => $type,
+        body     => $self->_build_body($args, $params),
     );
 
     return $scroller;
@@ -347,5 +337,5 @@ Fetches a path from MetaCPAN (post or get), and returns the decoded result.
 
 =head2 ssearch
 
-Calls an Elastic Search query (using L<Search::Elasticsearch> and returns an
-L<Search::Elasticsearch::Scroll> scroller object.
+Calls an ElasticSearch query and returns an L<MetaCPAN::Client::Scroll>
+scroller object.

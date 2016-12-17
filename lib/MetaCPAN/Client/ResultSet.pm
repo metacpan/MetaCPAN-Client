@@ -22,8 +22,8 @@ has scroller => (
     is        => 'ro',
     isa       => sub {
         use Safe::Isa;
-        $_[0]->$_isa('Search::Elasticsearch::Scroll')
-            or croak 'scroller must be an Search::Elasticsearch::Scroll object';
+        $_[0]->$_isa('MetaCPAN::Client::Scroll')
+            or croak 'scroller must be an MetaCPAN::Client::Scroll object';
     },
     predicate => 'has_scroller',
 );
@@ -91,7 +91,7 @@ provides easy access to the scroller and aggregations.
 
 =head2 scroller
 
-An L<Search::Elasticsearch::Scroll> object.
+An L<MetaCPAN::Client::Scroll> object.
 
 =head2 items
 
