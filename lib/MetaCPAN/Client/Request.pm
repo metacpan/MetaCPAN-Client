@@ -7,7 +7,6 @@ use Moo;
 use Carp;
 use JSON::MaybeXS qw<decode_json encode_json>;
 use Search::Elasticsearch;
-use Try::Tiny;
 use HTTP::Tiny;
 use Ref::Util qw< is_arrayref is_hashref >;
 
@@ -172,8 +171,12 @@ sub _decode_result {
     $url =~ m|/source/| and return $content;
 
     my $decoded_result;
-    try   { $decoded_result = decode_json $content }
-    catch { croak "Couldn't decode '$content': $_" };
+    eval {
+        $decoded_result = decode_json $content;
+        1;
+    } or do {
+        croak "Couldn't decode '$content': $@";
+    };
 
     return $decoded_result;
 }
