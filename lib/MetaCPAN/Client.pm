@@ -6,6 +6,7 @@ package MetaCPAN::Client;
 use Moo;
 use Carp;
 use Ref::Util qw< is_arrayref is_hashref >;
+use URI::Escape qw< uri_escape_utf8 >;
 
 use MetaCPAN::Client::Request;
 use MetaCPAN::Client::Author;
@@ -179,7 +180,7 @@ sub autocomplete {
     my $res;
 
     eval {
-        $res = $self->fetch("/search/autocomplete?q=$q");
+        $res = $self->fetch( '/search/autocomplete?q=' . uri_escape_utf8($q) );
         1;
 
     } or do {

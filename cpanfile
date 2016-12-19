@@ -9,6 +9,7 @@ requires "Net::SSLeay" => "1.49";
 requires "Ref::Util" => "0";
 requires "Safe::Isa" => "0";
 requires "Search::Elasticsearch" => "== 2.03"; # pinned
+requires "URI::Escape";
 requires "perl" => "5.010";
 requires "strict" => "0";
 requires "warnings" => "0";
