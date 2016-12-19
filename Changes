@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.003000    19.12.16
+            * Escaped query to autocomplete (Mickey)
+            * Removed dependency: Try::Tiny (Mickey)
+
 2.002000    14.12.16
             * Support 'autocomplete' endpoint (Mickey)
 
