@@ -5,8 +5,10 @@ package MetaCPAN::Client::Scroll;
 
 use Moo;
 use Carp;
-use Ref::Util qw< is_arrayref is_hashref is_ref >;
+use Ref::Util qw< is_hashref >;
 use JSON::MaybeXS qw< decode_json encode_json >;
+
+use MetaCPAN::Client::Types qw< Str Int Time ArrayRef HashRef >;
 
 has ua => (
     is       => 'ro',
@@ -15,82 +17,60 @@ has ua => (
 
 has size => (
     is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) and croak 'size must be a scalar';
-    },
+    isa => Str,
 );
 
 has time => (
     is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) and croak 'time must be a scalar';
-    },
+    isa => Time,
 );
 
 has base_url => (
-    is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) and croak 'base_url must be a scalar';
-    },
+    is       => 'ro',
+    isa      => Str,
     required => 1,
 );
 
 has type => (
-    is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) and croak 'type must be a scalar';
-    },
+    is       => 'ro',
+    isa      => Str,
     required => 1,
 );
 
 has body => (
-    is  => 'ro',
-    isa => sub {
-        is_hashref($_[0]) or croak 'body must be a hashref';
-    },
+    is       => 'ro',
+    isa      => HashRef,
     required => 1,
 );
 
 has _id => (
-    is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) and croak 'id must be a scalar';
-    },
+    is       => 'ro',
+    isa      => Str,
     required => 1,
 );
 
 has total => (
-    is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) or $_[0] =~ /[^0-9]/
-            and croak 'total must be a number';
-    },
+    is       => 'ro',
+    isa      => Int,
     required => 1,
 );
 
 has _read => (
-    is  => 'ro',
-    isa => sub {
-        is_ref($_[0]) or $_[0] =~ /[^0-9]/
-            and croak 'total must be a number';
-    },
+    is      => 'ro',
+    isa     => Int,
     default => sub { 0 },
     writer  => '_set_read',
 );
 
 has _buffer => (
-    is  => 'ro',
-    isa => sub {
-        is_arrayref($_[0]) or croak 'buffer must be an array ref';
-    },
+    is      => 'ro',
+    isa     => ArrayRef,
     default => sub { [] },
 );
 
 has aggregations => (
-    is  => 'ro',
-    isa => sub {
-        is_hashref($_[0]) or croak 'aggregations must be an hash ref';
-    },
+    is      => 'ro',
+    isa     => HashRef,
     default => sub { +{} },
 );
 

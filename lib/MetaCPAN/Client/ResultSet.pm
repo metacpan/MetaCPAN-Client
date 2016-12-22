@@ -5,7 +5,8 @@ package MetaCPAN::Client::ResultSet;
 
 use Moo;
 use Carp;
-use Ref::Util qw< is_arrayref >;
+
+use MetaCPAN::Client::Types qw< ArrayRef >;
 
 has type => (
     is       => 'ro',
@@ -31,10 +32,7 @@ has scroller => (
 # in case we're returning from a fetch
 has items => (
     is  => 'ro',
-    isa => sub {
-        is_arrayref($_[0])
-            or croak 'items must be an array ref';
-    },
+    isa => ArrayRef,
 );
 
 has total => (

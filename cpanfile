@@ -8,6 +8,7 @@ requires "Moo::Role" => "0";
 requires "Net::SSLeay" => "1.49";
 requires "Ref::Util" => "0";
 requires "Safe::Isa" => "0";
+requires "Type::Tiny" => "0";
 requires "URI::Escape";
 requires "perl" => "5.010";
 requires "strict" => "0";

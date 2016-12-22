@@ -6,6 +6,8 @@ package MetaCPAN::Client::Pod;
 use Moo;
 use Carp;
 
+use MetaCPAN::Client::Types qw< Str >;
+
 has request => (
     is       => 'ro',
     handles  => [qw<ua fetch post ssearch>],
@@ -16,9 +18,7 @@ has name => ( is => 'ro', required => 1 );
 
 has url_prefix => (
     is  => 'ro',
-    isa => sub {
-        ref($_[0]) and croak "url_prefix must be a scalar";
-    }
+    isa => Str,
 );
 
 my @known_formats = qw<

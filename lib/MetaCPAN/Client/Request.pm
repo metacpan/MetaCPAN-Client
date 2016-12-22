@@ -10,12 +10,11 @@ use HTTP::Tiny;
 use Ref::Util qw< is_arrayref is_hashref >;
 
 use MetaCPAN::Client::Scroll;
+use MetaCPAN::Client::Types qw< HashRef >;
 
 has _clientinfo => (
     is      => 'ro',
-    isa     => sub {
-        is_hashref( $_[0] ) or croak '_clientinfo mush be a hashref';
-    },
+    isa     => HashRef,
     lazy    => 1,
     builder => '_build_clientinfo',
 );
