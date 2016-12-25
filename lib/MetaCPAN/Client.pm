@@ -296,8 +296,8 @@ sub _reverse_deps {
                 query  => { match_all => {} },
                 filter => {
                     and => [
-                        { term => { 'release.status' => 'latest' } },
-                        { term => { 'authorized'     => \1       } },
+                        { term => { 'status'     => 'latest' } },
+                        { term => { 'authorized' => 1        } },
                     ]
                 },
             }
