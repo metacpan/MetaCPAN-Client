@@ -62,8 +62,15 @@ has _read => (
     writer  => '_set_read',
 );
 
-has _buffer => (
+has _idx => (
     is      => 'ro',
+    isa     => Int,
+    default => sub { 0 },
+    writer  => '_set_idx',
+);
+
+has _buffer => (
+    is      => 'rw',
     isa     => ArrayRef,
     default => sub { [] },
 );
@@ -109,12 +116,20 @@ sub BUILDARGS {
 
 sub next {
     my $self = shift;
-    return if $self->_read >= $self->total;
+    my $read = $self->_read;
+    return if $read >= $self->total;
 
-    $self->_fetch_next unless @{ $self->_buffer };
+    my $idx = $self->_idx;
 
-    $self->_set_read( $self->_read + 1 );
-    return shift @{ $self->_buffer };
+    if ( $idx >= $self->size ) {
+        $self->_fetch_next;
+        $self->_set_idx(0);
+        $idx = 0;
+    }
+
+    $self->_set_idx( $idx + 1 );
+    $self->_set_read( $read + 1 );
+    return $self->_buffer->[ $idx ];
 }
 
 sub _fetch_next {
@@ -130,7 +145,7 @@ sub _fetch_next {
 
     my $content = decode_json $res->{content};
 
-    push @{ $self->_buffer } => @{ $content->{hits}{hits} };
+    $self->_set_buffer( $content->{hits}{hits} );
 }
 
 sub DEMOLISH {
