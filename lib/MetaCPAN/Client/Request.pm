@@ -128,7 +128,7 @@ sub ssearch {
 
     my $scroller = MetaCPAN::Client::Scroll->new(
         ua       => $self->ua,
-        size     => 500,
+        size     => 1000,
         base_url => $self->base_url,
         type     => $type,
         body     => $self->_build_body($args, $params),

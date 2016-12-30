@@ -46,39 +46,39 @@ has body => (
 has _id => (
     is       => 'ro',
     isa      => Str,
-    required => 1,
+);
+
+has _read => (
+    init_arg => undef,
+    is       => 'ro',
+    isa      => Int,
+    default  => sub { 0 },
+    writer   => '_set_read',
+);
+
+has _idx => (
+    init_arg => undef,
+    is       => 'ro',
+    isa      => Int,
+    default  => sub { 0 },
+    writer   => '_set_idx',
+);
+
+has _buffer => (
+    is       => 'ro',
+    isa      => ArrayRef,
+    default  => sub { [] },
 );
 
 has total => (
     is       => 'ro',
     isa      => Int,
-    required => 1,
-);
-
-has _read => (
-    is      => 'ro',
-    isa     => Int,
-    default => sub { 0 },
-    writer  => '_set_read',
-);
-
-has _idx => (
-    is      => 'ro',
-    isa     => Int,
-    default => sub { 0 },
-    writer  => '_set_idx',
-);
-
-has _buffer => (
-    is      => 'rw',
-    isa     => ArrayRef,
-    default => sub { [] },
 );
 
 has aggregations => (
-    is      => 'ro',
-    isa     => HashRef,
-    default => sub { +{} },
+    is       => 'ro',
+    isa      => HashRef,
+    default  => sub { +{} },
 );
 
 sub BUILDARGS {
@@ -103,10 +103,9 @@ sub BUILDARGS {
 
     # read response content --> object params
 
-    $args{_id}   = $content->{_scroll_id};
-    $args{total} = $content->{hits}{total};
-
-    push @{ $args{_buffer} } => @{ $content->{hits}{hits} };
+    $args{_id}     = $content->{_scroll_id};
+    $args{total}   = $content->{hits}{total};
+    $args{_buffer} = $content->{hits}{hits};
 
     $args{aggregations} = $content->{aggregations}
         if $content->{aggregations} and is_hashref( $content->{aggregations} );
@@ -121,11 +120,12 @@ sub next {
 
     my $idx = $self->_idx;
 
-    if ( $idx >= $self->size ) {
-        $self->_fetch_next;
-        $self->_set_idx(0);
+    if ( $idx >= ($self->size * 10) ) {
+        @{ $self->_buffer } = ();
         $idx = 0;
     }
+
+    $self->_fetch_next if $read % $self->size == 0;
 
     $self->_set_idx( $idx + 1 );
     $self->_set_read( $read + 1 );
@@ -145,7 +145,7 @@ sub _fetch_next {
 
     my $content = decode_json $res->{content};
 
-    $self->_set_buffer( $content->{hits}{hits} );
+    push @{ $self->_buffer } => @{ $content->{hits}{hits} };
 }
 
 sub DEMOLISH {
