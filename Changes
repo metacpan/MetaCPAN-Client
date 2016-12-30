@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.004000    30.12.16
+            * Speed up own scroller (Mickey)
+            * Fixed rev_deps (Mickey)
+
 2.004000-TRIAL 24.12.16
             * Removed dependency: Search::Elasticsearch
               in favor of an internal scroller (Mickey)
