@@ -190,7 +190,7 @@ The request body.
 
 =head2 size
 
-The numebr of docs to pull from each shard per request.
+The number of docs to pull from each shard per request.
 
 =head2 time
 
