@@ -579,7 +579,7 @@ can be passed as a csv list or an array ref.
 =head1 SEARCH SPEC
 
 The hash-based search spec is common to many searches. It is quite
-feature-rich and allows to disambiguate different types of searches.
+feature-rich and allows you to disambiguate different types of searches.
 
 Basic search specs just contain a hash of keys and values:
 
