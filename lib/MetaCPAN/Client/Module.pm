@@ -12,7 +12,7 @@ __END__
 
 =head1 SYNOPSIS
 
-my $module = MetaCPAN::Client->new->module('Moo');
+    my $module = MetaCPAN::Client->new->module('Moo');
 
 =head1 DESCRIPTION
 

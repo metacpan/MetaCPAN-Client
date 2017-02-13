@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+            * Added the ascii_name and perlmongers fields to the Author object
+              (Dave Rolsky, GH #)
+            * Fixed Author->dir to actually return something (Dave Rolsky, GH
+              #66)
+
 2.004000    30.12.16
             * Speed up own scroller (Mickey)
             * Fixed rev_deps (Mickey)

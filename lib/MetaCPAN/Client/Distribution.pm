@@ -48,7 +48,7 @@ __END__
 
 =head1 SYNOPSIS
 
-my $dist = $mcpan->distribution('MetaCPAN-Client');
+    my $dist = $mcpan->distribution('MetaCPAN-Client');
 
 =head1 DESCRIPTION
 
@@ -58,20 +58,48 @@ A MetaCPAN distribution entity object.
 
 =head2 name
 
+The distribution's name.
+
 =head2 bugs
 
-Hash-Ref.
+A hashref containing information about bugs reported in various issue
+trackers. The top-level keys are issue tracker names like C<rt> or
+C<github>. Each value is itself a hashref containing information about the
+bugs in that tracker. The keys vary between trackers, but this will always
+contain a C<source> key, which is a URL for the tracker. There may also be
+keys containing counts such as C<active>, C<closed>, etc.
 
 =head2 river
 
-Hash-Ref.
+A hashref containing L<"CPAN
+River"|http://neilb.org/2015/04/20/river-of-cpan.html> information about the
+distro. The hashref contains the following keys:
+
+=over 4
+
+=item * bucket
+
+A positive or zero integer. The higher the number the farther upstream this
+distribution is.
+
+=item * immediate
+
+The number of distributions that directly depend on this one.
+
+=item * total
+
+The number of distributions that depend on this one, directly or indirectly.
+
+=back
 
 =head1 METHODS
 
 =head2 rt
 
-Returns 'bugs.rt' hash ref (defaults to {}).
+Returns the hashref of data for the rt bug tracker. This defaults to an empty
+hashref.
 
 =head2 github
 
-Returns 'bugs.github' hash ref (defaults to {}).
+Returns the hashref of data for the github bug tracker. This defaults to an
+empty hashref.

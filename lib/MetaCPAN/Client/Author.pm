@@ -11,9 +11,9 @@ my %known_fields = (
     scalar => [qw<
         city
         country
-        dir
         gravatar_url
         name
+        ascii_name
         pauseid
         region
         updated
@@ -23,6 +23,7 @@ my %known_fields = (
     arrayref => [qw<
         donation
         email
+        perlmongers
         profile
         website
     >],
@@ -63,13 +64,15 @@ sub releases {
         });
 }
 
+sub dir { $_[0]->links->{cpan_directory} }
+
 1;
 
 __END__
 
 =head1 SYNOPSIS
 
-my $author = $mcpan->author('MICKEY');
+    my $author = $mcpan->author('MICKEY');
 
 =head1 DESCRIPTION
 
@@ -79,81 +82,169 @@ a MetaCPAN author entity object.
 
 =head2 pauseid
 
+The author's pause id, which is a string like C<MICKEY> or C<XSAWYERX>.
+
 =head2 name
+
+The author's full name, if they've provided this in their MetaCPAN
+profile. This may contain Unicode characters.
+
+=head2 ascii_name
+
+An ASCII-only version of the author's full name, if they've provided this in
+their MetaCPAN profile.
 
 =head2 city
 
-=head2 country
+The author's city, if they've provided this in their MetaCPAN profile.
 
 =head2 region
 
+The author's region, if they've provided this in their MetaCPAN profile.
+
+=head2 country
+
+The author's country, if they've provided this in their MetaCPAN profile.
+
 =head2 updated
+
+An ISO8601 datetime string like C<2016-11-19T12:41:46> indicating when the
+author last updated their MetaCPAN profile. This is always provided in UTC.
 
 =head2 dir
 
-Directory of distribution and files.
-
-e.g. C<< id/P/PE/PERLER >>
+The author's CPAN directory, which is something like C<id/P/PE/PERLER>.
 
 =head2 gravatar_url
 
-Gravatar.com user picture URL.
-
-This URL is generated using PAUSEID@cpan.org.
+The author's gravatar.com user URL, if they have one. This URL is generated
+using PAUSEID@cpan.org.
 
 =head2 user
 
-Identification code.
+The user's internal MetaCPAN id.
 
 =head2 donation
 
-Array-Ref.
+This is an arrayref containing zero or more hashrefs. Each hashref contains
+two keys, C<name> and C<id>. The known names are currently C<paypal>,
+C<wishlist>, and C<flattr>. The id will be an appropriate id or URL for the
+thing in question.
+
+This may be empty if the author has not provided this information in their
+MetaCPAN profile.
+
+For example:
+
+    [
+        { "name" => "paypal",   "id" => "brian.d.foy@gmail.com" },
+        { "name" => "wishlist", "id" => "http://amzn.com/w/4O7IX9ZNQJR" },
+    ],
 
 =head2 email
 
-Array-Ref.
+This is an arrayref containing zero or more email addresses that the author
+has added to their MetaCPAN profile. Note that this does I<not> include the
+C<AUTHOR@cpan.org> email address that all CPAN authors have.
 
 =head2 website
 
-Array-Ref.
+This is an arrayref of website URLs provided by the author in their MetaCPAN
+profile.
 
 =head2 profile
 
-Array-Ref.
+This is an arrayref containing zero or more hashrefs. Each hashref contains
+two keys, C<name> and C<id>. The names are things like C<github> or
+C<stackoverflow>. The id will be an appropriate id for the site in question.
 
-e.g.
+For example:
+
     [
         { name => "amazon",        id => "B002MRC39U"  },
         { name => "stackoverflow", id => "brian-d-foy" },
     ]
 
+This may be empty if the author has not provided this information in their
+MetaCPAN profile.
+
+=head2 perlmongers
+
+This is an arrayref containing zero or more hashrefs. Each hashref contains
+two keys, C<name> and C<url>. The names are things like C<Minneapolis.pm>.
+
+This may be empty if the author has not provided this information in their
+MetaCPAN profile.
+
 =head2 links
 
-Hash-Ref.
+This is a hashref where the keys are a link type, and the values are URLs. The
+currently known keys are:
 
-=head2 extra
+=over 4
 
-Hash-Ref.
+=item * cpan_directory
+
+The author's CPAN directory.
+
+=item * backpan_directory
+
+The author's BackCPAN directory.
+
+=item * cpantesters_reports
+
+The author's CPAN Testers Reports page.
+
+=item * cpantesters_matrix
+
+The author's CPAN Testers matrix page.
+
+=item * cpants
+
+The author's CPANTS page.
+
+=item * metacpan_explorer
+
+A link to the MetaCPAN explorer site pre-populated with a request for the
+author's profile.
+
+=back
 
 =head2 blog
 
-Hash-Ref.
+This is an arrayref containing zer or more hashrefs. Each hashref contains two
+keys, C<url> and C<feed>. For example:
 
-  {
-    url  => "http://blogs.perl.org/users/brian_d_foy/"
-    feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
-  }
+    {
+        url  => "http://blogs.perl.org/users/brian_d_foy/",
+        feed => "http://blogs.perl.org/users/brian_d_foy/atom.xml",
+    }
 
 =head2 release_count
 
-Hash-Ref.
+This is a hashref containing counts for various types of releases. The known
+keys are:
 
-e.g.
-   {
-      latest       => 118,
-      backpan-only => 558,
-      cpan         => 18,
-   }
+=over 4
+
+=item * cpan
+
+The total number of distribution uplaods the author currently has on CPAN.
+
+=item * latest
+
+The total number of unique distributions the author currently has on CPAN.
+
+=item * backpan-only
+
+The number of distribution uploads currently only available via BackPAN.
+
+=back
+
+=head2 extra
+
+Returns a hashref. The contents of this are entirely arbitrary and will vary
+by author.
 
 =head1 METHODS
 
@@ -161,5 +252,6 @@ e.g.
 
     my $releases = $author->releases();
 
-Search all releases of current author's object.
-will return a ResultSet of MetaCPAN::Client::Release objects.
+This method returns a L<MetaCPAN::Client::ResultSet> of
+L<MetaCPAN::Client::Release> objects. It includes all of the author's releases
+with the C<latest> status.

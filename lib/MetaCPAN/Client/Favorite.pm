@@ -35,9 +35,10 @@ __END__
 
 =head1 SYNOPSIS
 
-my $favorite = $mcpan->favorite( {
-    distribution => 'Moose'
-} );
+    my $favorites = $mcpan->favorite( {
+        distribution => 'Moose'
+    } );
+    while ( my $fav = $favorites->next ) { ... }
 
 =head1 DESCRIPTION
 
@@ -47,11 +48,13 @@ A MetaCPAN favorite entity object.
 
 =head2 date
 
-Date of the favorite.
+An ISO8601 datetime string like C<2016-11-19T12:41:46> indicating when the
+favorite was created.
 
 =head2 user
 
-The user ID (B<not> PAUSE ID) of who favorited.
+The user ID (B<not> PAUSE ID) of the person who favorited the thing in
+question.
 
 =head2 release
 
