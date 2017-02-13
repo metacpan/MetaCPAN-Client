@@ -423,7 +423,7 @@ Finds an author by either its PAUSE ID or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
 under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
+Returns a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Author> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
@@ -436,7 +436,7 @@ Finds a module by either its module name or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
 under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::Client::Module> object on a simple search (module name), or
+Returns a L<MetaCPAN::Client::Module> object on a simple search (module name), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
@@ -449,26 +449,28 @@ Finds a distribution by either its distribution name or by a search spec
 defined by a hash reference. Since it is common to many other searches, it is
 explained below under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::Client::Distribution> object on a simple search
+Returns a L<MetaCPAN::Client::Distribution> object on a simple search
 (distribution name), or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Distribution> objects on a complex (L<search spec based|/"SEARCH SPEC">)
 search.
 
 =head2 file
 
-Return a L<MetaCPAN::Client::File> object.
+Returns a L<MetaCPAN::Client::File> object.
 
 =head2 favorite
 
     my $favorite = $mcpan->favorite({ distribution => 'Moose' });
 
-Return a L<MetaCPAN::Client::Favorite> object.
+Returns a L<MetaCPAN::Client::ResultSet> object containing
+L<MetaCPAN::Client::Favorite> results.
 
 =head2 rating
 
     my $rating = $mcpan->rating({ distribution => 'Moose' });
 
-Return a L<MetaCPAN::Client::Rating> object.
+Returns a L<MetaCPAN::Client::ResultSet> object containing
+L<MetaCPAN::Client::Rating> results.
 
 =head2 release
 
@@ -479,7 +481,7 @@ Finds a release by either its distribution name or by a search spec defined by
 a hash reference. Since it is common to many other searches, it is explained
 below under C<SEARCH SPEC>.
 
-Return a L<MetaCPAN::Client::Release> object on a simple search (release name),
+Returns a L<MetaCPAN::Client::Release> object on a simple search (release name),
 or a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 

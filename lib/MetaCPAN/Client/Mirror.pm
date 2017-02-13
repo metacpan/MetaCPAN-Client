@@ -58,7 +58,7 @@ __END__
 
 =head1 SYNOPSIS
 
-my $mirror = $mcpan->mirror('eutelia.it');
+    my $mirror = $mcpan->mirror('eutelia.it');
 
 =head1 DESCRIPTION
 
@@ -68,17 +68,33 @@ A MetaCPAN mirror entity object.
 
 =head2 name
 
+The name of the mirror, which is what you passed
+
 =head2 org
+
+The organization that maintains the mirror.
 
 =head2 ftp
 
-=head2 city
+An FTP url for the mirror.
 
 =head2 rsync
 
+An rsync url for the mirror.
+
 =head2 src
 
+=head2 city
+
+The city where the mirror is located.
+
+=head2 country
+
+The name of the country where the mirror is located.
+
 =head2 ccode
+
+The ISO country code for the mirror's country.
 
 =head2 aka_name
 
@@ -91,8 +107,6 @@ A MetaCPAN mirror entity object.
 =head2 region
 
 =head2 inceptdate
-
-=head2 country
 
 =head2 freq
 

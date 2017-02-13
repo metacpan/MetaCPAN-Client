@@ -44,7 +44,8 @@ __END__
 
 =head1 SYNOPSIS
 
-my $rating = $mcpan->rating({ distribution => "Moo" });
+    my $ratings = $mcpan->rating({ distribution => "Moo" });
+    while ( my $rat = $ratings->next ) { ... }
 
 =head1 DESCRIPTION
 
@@ -53,6 +54,9 @@ A MetaCPAN rating entity object.
 =head1 ATTRIBUTES
 
 =head2 date
+
+An ISO8601 datetime string like C<2016-11-19T12:41:46> indicating when the
+rating was created.
 
 =head2 release
 
