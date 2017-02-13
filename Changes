@@ -1,7 +1,7 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
             * Added the ascii_name and perlmongers fields to the Author object
-              (Dave Rolsky, GH #)
+              (Dave Rolsky, GH #66)
             * Fixed Author->dir to actually return something (Dave Rolsky, GH
               #66)
 
