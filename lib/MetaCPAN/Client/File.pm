@@ -221,7 +221,7 @@ Whether or not the module is part of an authorized upload.
 
 The version of the module that this file contains.
 
-=head2 version_numified
+=head2 * version_numified
 
 The numified version of the module that this file contains.
 

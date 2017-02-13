@@ -88,7 +88,7 @@ The PAUSE ID of the author who uploaded the release.
 
 =head2 maturity
 
-This will be either C<released or C<developer>.
+This will be either C<released> or C<developer>.
 
 =head2 id
 
