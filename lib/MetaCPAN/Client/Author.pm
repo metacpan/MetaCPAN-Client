@@ -14,6 +14,7 @@ my %known_fields = (
         dir
         gravatar_url
         name
+        ascii_name
         pauseid
         region
         updated
@@ -23,6 +24,7 @@ my %known_fields = (
     arrayref => [qw<
         donation
         email
+        perlmongers
         profile
         website
     >],
@@ -81,6 +83,8 @@ a MetaCPAN author entity object.
 
 =head2 name
 
+=head2 ascii_name
+
 =head2 city
 
 =head2 country
@@ -126,6 +130,10 @@ e.g.
         { name => "amazon",        id => "B002MRC39U"  },
         { name => "stackoverflow", id => "brian-d-foy" },
     ]
+
+=head2 perlmongers
+
+Array-Ref.
 
 =head2 links
 
