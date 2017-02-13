@@ -11,7 +11,6 @@ my %known_fields = (
     scalar => [qw<
         city
         country
-        dir
         gravatar_url
         name
         ascii_name
@@ -64,6 +63,8 @@ sub releases {
             ]
         });
 }
+
+sub dir { $_[0]->links->{cpan_directory} }
 
 1;
 
