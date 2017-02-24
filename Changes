@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.006000    24.2.17
+            * Support '_source' filtering (Mickey, GH#70)
+            * Support debug-mode for detailed error messages (Mickey)
+
 2.005000    13.2.17
             * Added the ascii_name and perlmongers fields to the Author object
               (Dave Rolsky, GH #66)
