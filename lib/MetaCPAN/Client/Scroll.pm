@@ -96,8 +96,11 @@ sub BUILDARGS {
         { content => encode_json $body }
     );
 
-    croak "failed to create a scrolled search"
-        unless $res->{status} == 200;
+    if ( $res->{status} != 200 ) {
+        my $msg = "failed to create a scrolled search";
+        $args{debug} and $msg .= "\n(" . $res->{content} . ")";
+        croak $msg;
+    }
 
     my $content = decode_json $res->{content};
 

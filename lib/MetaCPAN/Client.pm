@@ -34,8 +34,9 @@ sub BUILDARGS {
     my ( $class, %args ) = @_;
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(
-        ( ua      => $args{ua}      )x!! $args{ua},
-        ( domain  => $args{domain}  )x!! $args{domain},
+        ( ua     => $args{ua}     )x!! $args{ua},
+        ( domain => $args{domain} )x!! $args{domain},
+        ( debug  => $args{debug}  )x!! $args{debug},
     );
 
     return \%args;
@@ -411,6 +412,10 @@ L<MetaCPAN::Client::Request>.
 =head2 domain
 
 If given, will be used to alter the API domain.
+
+=head2 debug
+
+If given, errors will include some low-level detailed message.
 
 =head1 METHODS
 

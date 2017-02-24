@@ -10,7 +10,7 @@ use HTTP::Tiny;
 use Ref::Util qw< is_arrayref is_hashref >;
 
 use MetaCPAN::Client::Scroll;
-use MetaCPAN::Client::Types qw< HashRef >;
+use MetaCPAN::Client::Types qw< HashRef Int >;
 
 has _clientinfo => (
     is      => 'ro',
@@ -60,6 +60,12 @@ has _is_agg => (
     is      => 'ro',
     default => 0,
     writer  => '_set_is_agg'
+);
+
+has debug => (
+    is      => 'ro',
+    isa     => Int,
+    default => 0,
 );
 
 sub BUILDARGS {
@@ -132,6 +138,7 @@ sub ssearch {
         base_url => $self->base_url,
         type     => $type,
         body     => $self->_build_body($args, $params),
+        debug    => $self->debug,
     );
 
     return $scroller;
