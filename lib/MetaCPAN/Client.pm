@@ -556,6 +556,12 @@ See SEARCH PARAMS.
 
    my $all_releases = $mcpan->all('releases', { fields => [...] })
 
+=head3 _source
+
+See SEARCH PARAMS.
+
+   my $all_releases = $mcpan->all('releases', { _source => [...] })
+
 =head3 es_filter
 
 Pass a raw ElasticSearch filter structure to reduce the number
@@ -582,6 +588,22 @@ can be passed as a csv list or an array ref.
 
     my $module = $mcpan->module('Moose', { fields => "version,author" });
     my $module = $mcpan->module('Moose', { fields => [qw/version author/] });
+
+=head2 _source
+
+Note: this param and its description are a bit too ElasticSearch specific.
+just like 'es_filter' - use only if you know what you're dealing with.
+
+Some fields are not indexed in ElasticSearch but stored as part of
+the entire document.
+
+These fields can still be read, but without the internal ElasticSearch
+optimizations and the server will interally read the whole document.
+
+Why do we even need those? because we don't index everything and some things
+we can't to begin with (like non-leaf fields that hold a structure)
+
+    my $module = $mcpan->all('releases', { _source => "stat" });
 
 =head1 SEARCH SPEC
 

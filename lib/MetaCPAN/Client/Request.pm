@@ -7,7 +7,7 @@ use Moo;
 use Carp;
 use JSON::MaybeXS qw<decode_json encode_json>;
 use HTTP::Tiny;
-use Ref::Util qw< is_arrayref is_hashref >;
+use Ref::Util qw< is_arrayref is_hashref is_ref >;
 
 use MetaCPAN::Client::Scroll;
 use MetaCPAN::Client::Types qw< HashRef Int >;
@@ -188,7 +188,8 @@ sub _build_body {
 
     return +{
         query => $query,
-        _read_filters($params),
+        $self->_read_filters($params),
+        $self->_read_fields($params),
         $self->_read_aggregations($params)
     };
 }
@@ -198,6 +199,30 @@ my %key2es = (
     either => 'should',
     not    => 'must_not',
 );
+
+sub _read_fields {
+    my $self   = shift;
+    my $params = shift;
+
+    my $fields  = delete $params->{fields};
+    my $_source = delete $params->{_source};
+
+    my @ret;
+
+    if ( $fields ) {
+        is_arrayref($fields) or
+            croak "fields must be an arrayref";
+        push @ret => ( fields => $fields );
+    }
+
+    if ( $_source ) {
+        is_arrayref($_source) or !is_ref($_source) or
+            croak "_source must be an arrayref or a string";
+        push @ret => ( _source => $_source );
+    }
+
+    return @ret;
+}
 
 sub _read_aggregations {
     my $self   = shift;
@@ -211,6 +236,7 @@ sub _read_aggregations {
 }
 
 sub _read_filters {
+    my $self   = shift;
     my $params = shift;
 
     my $filter = delete $params->{es_filter};
