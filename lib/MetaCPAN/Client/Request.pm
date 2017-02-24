@@ -351,6 +351,10 @@ Arguments sent to the user agent.
 
 Default: user agent string: B<MetaCPAN::Client/$version>.
 
+=head2 debug
+
+debug-mode for more detailed error messages.
+
 =head1 METHODS
 
 =head2 BUILDARGS
