@@ -132,9 +132,13 @@ sub ssearch {
     my $args   = shift;
     my $params = shift;
 
+    my $time = delete $params->{'scroller_time'} || '5m';
+    my $size = delete $params->{'scroller_size'} || '1000';
+
     my $scroller = MetaCPAN::Client::Scroll->new(
         ua       => $self->ua,
-        size     => 1000,
+        size     => $size,
+        time     => $time,
         base_url => $self->base_url,
         type     => $type,
         body     => $self->_build_body($args, $params),

@@ -605,6 +605,30 @@ we can't to begin with (like non-leaf fields that hold a structure)
 
     my $module = $mcpan->all('releases', { _source => "stat" });
 
+=head2 scroller_time
+
+Note: please use with caution.
+
+This parameter will set the max. lifetime of the ElasticSearch scroller
+on the server (default = '5m').
+Normally you do not need to set this value (as tweaking this value can
+affect resources on the server);
+in case you do - you probably need to check the efficiency of your
+code/queries (feel free to reach out to us for assistance).
+
+    my $module = $mcpan->all('releases', { scroller_time => "3m" });
+
+=head2 scroller_size
+
+Note: please use with caution.
+
+This parameter will set the buffer size to be pulled from ElasticSearch
+when scrolling (default = 1000).
+This will affect query performance and memory usage, but you will still
+get an iterator back to fetch one object at a time.
+
+    my $module = $mcpan->all('releases', { scroller_size => 500 });
+
 =head1 SEARCH SPEC
 
 The hash-based search spec is common to many searches. It is quite
