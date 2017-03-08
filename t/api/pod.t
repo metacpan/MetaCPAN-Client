@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use Test::More tests => 5;
 
+use lib '.';
 use t::lib::Functions;
 
 my $mc = mcpan();
