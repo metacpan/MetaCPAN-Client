@@ -6,6 +6,7 @@ use Test::More;
 use Test::Fatal;
 use Ref::Util qw< is_arrayref >;
 
+use lib '.';
 use t::lib::Functions;
 
 my $mc = mcpan();

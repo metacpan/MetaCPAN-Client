@@ -5,6 +5,7 @@ use warnings;
 use Test::More tests => 10;
 use Test::Fatal;
 
+use lib '.';
 use t::lib::Functions;
 
 my $mc = mcpan();

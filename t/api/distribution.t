@@ -6,6 +6,7 @@ use Test::More tests => 9;
 use Test::Fatal;
 use Ref::Util qw< is_hashref >;
 
+use lib '.';
 use t::lib::Functions;
 
 my $mc = mcpan();
