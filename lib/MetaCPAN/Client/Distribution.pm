@@ -42,6 +42,8 @@ sub _known_fields { return \%known_fields }
 sub rt     { $_[0]->bugs->{rt}     || {} }
 sub github { $_[0]->bugs->{github} || {} }
 
+sub metacpan_url { "https://metacpan.org/release/" . $_[0]->name }
+
 1;
 
 __END__
@@ -103,3 +105,7 @@ hashref.
 
 Returns the hashref of data for the github bug tracker. This defaults to an
 empty hashref.
+
+=head2 metacpan_url
+
+Returns a link to the distribution page on MetaCPAN.

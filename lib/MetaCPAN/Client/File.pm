@@ -90,6 +90,12 @@ sub source {
         );
 }
 
+sub metacpan_url {
+    my $self = shift;
+    sprintf("https://metacpan.org/source/%s/%s/%s",
+            $self->author, $self->release, $self->path );
+}
+
 1;
 
 __END__
@@ -279,3 +285,7 @@ Supported types: B<plain>, B<html>, B<x-pod>, B<x-markdown>.
     my $source = $module->source();
 
 Returns the source code for the file.
+
+=head2 metacpan_url
+
+Returns a link to the file source page on MetaCPAN.
