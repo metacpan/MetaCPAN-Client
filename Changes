@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.008000    22.3.17
+            * Added metacpan_url method to the entity objects
+              (Mickey, #GH69)
+
 2.007000    8.3.17
             * Update tests for newer Perl versions, to run without
               '.' in @INC (Sawyer X, GH#72)
