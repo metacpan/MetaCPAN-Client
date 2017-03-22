@@ -55,6 +55,11 @@ foreach my $field (@known_fields) {
 
 sub _known_fields { return \%known_fields }
 
+sub metacpan_url {
+    my $self = shift;
+    sprintf( "https://metacpan.org/release/%s/%s", $self->author, $self->name )
+}
+
 1;
 
 __END__
@@ -199,3 +204,9 @@ The file's size in bytes.
 Returns a hashref of information about CPAN testers results for this
 release. The keys are C<pass>, C<fail>, C<unknown>, and C<na>. The values are
 the count of that particular result on CPAN Testers for this release.
+
+=head1 METHODS
+
+=head2 metacpan_url
+
+Returns a link to the release page on MetaCPAN.

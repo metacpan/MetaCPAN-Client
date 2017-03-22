@@ -66,6 +66,8 @@ sub releases {
 
 sub dir { $_[0]->links->{cpan_directory} }
 
+sub metacpan_url { "https://metacpan.org/author/" . $_[0]->pauseid }
+
 1;
 
 __END__
@@ -255,3 +257,7 @@ by author.
 This method returns a L<MetaCPAN::Client::ResultSet> of
 L<MetaCPAN::Client::Release> objects. It includes all of the author's releases
 with the C<latest> status.
+
+=head2 metacpan_url
+
+Returns a link to the author's page on MetaCPAN.
