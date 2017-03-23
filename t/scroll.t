@@ -14,7 +14,7 @@ my $scroller = MetaCPAN::Client::Scroll->new(
    base_url => 'https://fastapi.metacpan.org/v1/',
    type     => 'release',
    body     => { query => { term => { distribution => 'MetaCPAN-Client' } } },
-   size     => 5,
+   size     => 50,
 );
 isa_ok( $scroller, 'MetaCPAN::Client::Scroll' );
 
@@ -33,6 +33,6 @@ isa_ok( $rel, 'MetaCPAN::Client::Release' );
 is( $rel->distribution, 'MetaCPAN-Client', 'release object can be created from next doc' );
 
 while ( my $n = $scroller->next ) { 1 }
-is( $scroller->total, $scroller->_read, 'can read all matching docs' );
+is( $scroller->_read, $scroller->total, 'can read all matching docs' );
 
 1;
