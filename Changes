@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.008001    23.3.17
+            * Fixed a test (Mickey)
+
 2.008000    22.3.17
             * Added metacpan_url method to the entity objects
               (Mickey, #GH69)
