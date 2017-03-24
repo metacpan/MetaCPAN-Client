@@ -67,8 +67,8 @@ sub _build_clientinfo {
     }
     or $info = +{
         production => {
-            url => 'https://fastapi.metacpan.org/v1/', # last known production url
-            domain => 'https://fastapi.metacpan.org/'  # last known production domain
+            url    => 'https://fastapi.metacpan.org/', # last known production url
+            domain => 'https://fastapi.metacpan.org/', # last known production domain
         }
     };
 
