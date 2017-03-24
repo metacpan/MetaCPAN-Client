@@ -1,6 +1,11 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-            * Bump WWW::Mechanize::Cached version to 1.50 (GH#76)
+2.009000    24.3.17
+            * Bump WWW::Mechanize::Cached version to 1.50 (Olaf Alders, GH#76)
+            * Require LWP::Protocol::https in tests (Mickey, GH#79)
+            * Added 'changes' method for Release objects (Mickey, GH#57)
+            * Cleaner URLs - removed redundant slashes and 'v1' (Mickey)
+            * Created a role for user-agent handling for reuse (Mickey)
 
 2.008001    23.3.17
             * Fixed a test (Mickey)
