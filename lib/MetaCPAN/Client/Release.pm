@@ -4,8 +4,11 @@ package MetaCPAN::Client::Release;
 # ABSTRACT: A Release data object
 
 use Moo;
+use Ref::Util qw< is_hashref >;
+use JSON::MaybeXS qw< decode_json >;
 
-with 'MetaCPAN::Client::Role::Entity';
+with 'MetaCPAN::Client::Role::Entity',
+     'MetaCPAN::Client::Role::HasUA';
 
 my %known_fields = (
     scalar => [qw<
@@ -54,6 +57,15 @@ foreach my $field (@known_fields) {
 }
 
 sub _known_fields { return \%known_fields }
+
+sub changes {
+    my $self = shift;
+    my $url  = sprintf "https://fastapi.metacpan.org/changes/%s/%s", $self->author, $self->name;
+    my $res = $self->ua->get($url);
+    return unless is_hashref($res);
+    my $content = decode_json $res->{'content'};
+    return $content->{'content'};
+}
 
 sub metacpan_url {
     my $self = shift;
@@ -206,6 +218,10 @@ release. The keys are C<pass>, C<fail>, C<unknown>, and C<na>. The values are
 the count of that particular result on CPAN Testers for this release.
 
 =head1 METHODS
+
+=head2 changes
+
+Returns the Changes text for the release.
 
 =head2 metacpan_url
 
