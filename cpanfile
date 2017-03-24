@@ -20,8 +20,8 @@ on 'test' => sub {
   requires "Test::Requires" => "0";
   requires "base" => "0";
   requires "blib" => "1.01";
+  requires "LWP::Protocol::https" => "0";
   recommends "HTTP::Tiny::Mech" => "0";
-  recommends "LWP::Protocol::https" => "0";
   recommends "WWW::Mechanize::Cached" => "1.50";
 };
 
