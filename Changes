@@ -1,5 +1,7 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+            * Bump WWW::Mechanize::Cached version to 1.50 (GH#76)
+
 2.008001    23.3.17
             * Fixed a test (Mickey)
 
