@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.009000
+version 2.009001
 
 =head1 SYNOPSIS
 

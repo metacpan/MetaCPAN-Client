@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.009001    29.3.17
+            * Use Test::Needs to force a minimum
+              WWW::Mechanize::Cached version (Olaf Alders, GH#76)
+
 2.009000    24.3.17
             * Bump WWW::Mechanize::Cached version to 1.50 (Olaf Alders, GH#76)
             * Require LWP::Protocol::https in tests (Mickey, GH#79)
