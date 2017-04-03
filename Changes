@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.010000    3.4.17
+            * Added support for new 'permission' type (Mickey)
+
 2.009001    29.3.17
             * Use Test::Needs to force a minimum
               WWW::Mechanize::Cached version (Olaf Alders, GH#76)

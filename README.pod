@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.009001
+version 2.010000
 
 =head1 SYNOPSIS
 
@@ -143,6 +143,12 @@ L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
 Returns a L<MetaCPAN::Client::Mirror> object.
+
+=head2 permission
+
+    my $permission = $mcpan->permission('MooseX::Types');
+
+Returns a L<MetaCPAN::Client::Permission> object.
 
 =head2 reverse_dependencies
 
