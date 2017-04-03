@@ -19,6 +19,7 @@ use MetaCPAN::Client::Pod;
 use MetaCPAN::Client::Rating;
 use MetaCPAN::Client::Release;
 use MetaCPAN::Client::Mirror;
+use MetaCPAN::Client::Permission;
 use MetaCPAN::Client::ResultSet;
 
 has request => (
@@ -27,7 +28,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release mirror file
+    author distribution favorite module rating release mirror file permission
 >;
 
 sub BUILDARGS {
@@ -72,6 +73,14 @@ sub file {
     my $params = shift;
 
     return $self->_get_or_search( 'file', $arg, $params );
+}
+
+sub permission {
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
+
+    return $self->_get_or_search( 'permission', $arg, $params );
 }
 
 sub pod {
@@ -495,6 +504,12 @@ L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
 Returns a L<MetaCPAN::Client::Mirror> object.
+
+=head2 permission
+
+    my $permission = $mcpan->permission('MooseX::Types');
+
+Returns a L<MetaCPAN::Client::Permission> object.
 
 =head2 reverse_dependencies
 
