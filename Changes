@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+-           -
+            * Removed warning of scroller deletion failure (Mickey, GH#81)
+
 2.010000    3.4.17
             * Added support for new 'permission' type (Mickey)
 

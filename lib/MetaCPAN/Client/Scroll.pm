@@ -154,13 +154,10 @@ sub _fetch_next {
 sub DEMOLISH {
     my $self = shift;
 
-    my $res = $self->ua->delete(
+    $self->ua->delete(
         sprintf( '%s/_search/scroll?scroll=%s', $self->base_url, $self->time ),
         { content => $self->_id }
     );
-
-    warn "failed to delete scroller"
-        unless $res->{status} == 200;
 }
 
 1;
