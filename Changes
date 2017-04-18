@@ -1,6 +1,6 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
--           -
+2.011000    18.4.17
             * Added support for scroller time/size params (Mickey)
             * Removed warning of scroller deletion failure (Mickey, GH#81)
 
