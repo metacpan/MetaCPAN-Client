@@ -202,7 +202,7 @@ The total number of matches.
 
 =head2 type
 
-The ElasticSearch type to query.
+The Elasticsearch type to query.
 
 =head2 ua
 

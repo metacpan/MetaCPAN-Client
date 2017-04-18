@@ -95,9 +95,13 @@ sub ssearch {
     my $args   = shift;
     my $params = shift;
 
+    my $time = delete $params->{'scroller_time'} || '5m';
+    my $size = delete $params->{'scroller_size'} || 1000;
+
     my $scroller = MetaCPAN::Client::Scroll->new(
         ua       => $self->ua,
-        size     => 1000,
+        size     => $size,
+        time     => $time,
         base_url => $self->base_url,
         type     => $type,
         body     => $self->_build_body($args, $params),
@@ -299,5 +303,5 @@ Fetches a path from MetaCPAN (post or get), and returns the decoded result.
 
 =head2 ssearch
 
-Calls an ElasticSearch query and returns an L<MetaCPAN::Client::Scroll>
+Calls an Elasticsearch query and returns an L<MetaCPAN::Client::Scroll>
 scroller object.
