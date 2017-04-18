@@ -146,7 +146,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
 1.010000    23.01.15
             * support wildcard-only value in complex search (mickeyn)
-            * support raw ElasticSearch filters in 'all' queries (mickeyn)
+            * support raw Elasticsearch filters in 'all' queries (mickeyn)
 
 1.009000    11.01.15
             * GH #25 (RT #99499): added support for 'fields' filtering (mickeyn, oalders)
@@ -226,7 +226,7 @@ Revision history for MetaCPAN-Client (previously MetaCPAN-API)
                 * Simple queries return entity objects
                 * Complex queries return resultset objects (with iterator)
                 * Support for scrolled searches
-                * Inline support for ElasticSearch facets
+                * Inline support for Elasticsearch facets
                 * Documentation, tests - all cleaned, rewritten
 
 0.43        05.04.12

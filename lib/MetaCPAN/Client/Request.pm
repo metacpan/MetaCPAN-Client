@@ -377,5 +377,5 @@ Fetches a path from MetaCPAN (post or get), and returns the decoded result.
 
 =head2 ssearch
 
-Calls an ElasticSearch query and returns an L<MetaCPAN::Client::Scroll>
+Calls an Elasticsearch query and returns an L<MetaCPAN::Client::Scroll>
 scroller object.

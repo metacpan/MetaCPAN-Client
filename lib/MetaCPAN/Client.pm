@@ -498,7 +498,7 @@ Returns a L<MetaCPAN::Client::Mirror> object.
 
 =head2 reverse_dependencies
 
-    my $deps = $mcpan->reverse_dependencies('ElasticSearch');
+    my $deps = $mcpan->reverse_dependencies('Search::Elasticsearch');
 
 all L<MetaCPAN::Client::Release> objects of releases that are dependent
 on a given module, returned as L<MetaCPAN::Client::ResultSet>.
@@ -564,7 +564,7 @@ See SEARCH PARAMS.
 
 =head3 es_filter
 
-Pass a raw ElasticSearch filter structure to reduce the number
+Pass a raw Elasticsearch filter structure to reduce the number
 of elements returned by the query.
 
     my $some_releases = $mcpan->all('releases', { es_filter => {...} })
@@ -591,13 +591,13 @@ can be passed as a csv list or an array ref.
 
 =head2 _source
 
-Note: this param and its description are a bit too ElasticSearch specific.
+Note: this param and its description are a bit too Elasticsearch specific.
 just like 'es_filter' - use only if you know what you're dealing with.
 
-Some fields are not indexed in ElasticSearch but stored as part of
+Some fields are not indexed in Elasticsearch but stored as part of
 the entire document.
 
-These fields can still be read, but without the internal ElasticSearch
+These fields can still be read, but without the internal Elasticsearch
 optimizations and the server will interally read the whole document.
 
 Why do we even need those? because we don't index everything and some things
@@ -621,7 +621,7 @@ reach out to us for assistance).
 
 Note: please use with caution.
 
-This parameter will set the buffer size to be pulled from ElasticSearch
+This parameter will set the buffer size to be pulled from Elasticsearch
 when scrolling (default = 1000).
 This will affect query performance and memory usage, but you will still
 get an iterator back to fetch one object at a time.
