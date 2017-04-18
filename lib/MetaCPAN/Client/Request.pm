@@ -133,7 +133,7 @@ sub ssearch {
     my $params = shift;
 
     my $time = delete $params->{'scroller_time'} || '5m';
-    my $size = delete $params->{'scroller_size'} || '1000';
+    my $size = delete $params->{'scroller_size'} || 1000;
 
     my $scroller = MetaCPAN::Client::Scroll->new(
         ua       => $self->ua,

@@ -609,14 +609,13 @@ we can't to begin with (like non-leaf fields that hold a structure)
 
 Note: please use with caution.
 
-This parameter will set the max. lifetime of the ElasticSearch scroller
-on the server (default = '5m').
-Normally you do not need to set this value (as tweaking this value can
-affect resources on the server);
-in case you do - you probably need to check the efficiency of your
-code/queries (feel free to reach out to us for assistance).
+This parameter will set the maximum lifetime of the Elasticsearch scroller on
+the server (default = '5m').  Normally you do not need to set this value (as
+tweaking this value can affect resources on the server).  In case you do, you
+probably need to check the efficiency of your code/queries.  (Feel free to
+reach out to us for assistance).
 
-    my $module = $mcpan->all('releases', { scroller_time => "3m" });
+    my $module = $mcpan->all('releases', { scroller_time => '3m' });
 
 =head2 scroller_size
 
