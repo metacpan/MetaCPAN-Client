@@ -4,6 +4,7 @@ package MetaCPAN::Client::Author;
 # ABSTRACT: An Author data object
 
 use Moo;
+use Ref::Util qw< is_arrayref >;
 
 with 'MetaCPAN::Client::Role::Entity';
 
@@ -35,6 +36,16 @@ my %known_fields = (
         release_count
     >],
 );
+
+sub BUILDARGS {
+    my ( $class, %args ) = @_;
+
+    my $email = $args{'email'} || [];
+    $args{'email'} = [ $email ]
+        unless is_arrayref($email);
+
+    return \%args;
+}
 
 my @known_fields =
     map { @{ $known_fields{$_} } } qw< scalar arrayref hashref >;
@@ -249,6 +260,10 @@ Returns a hashref. The contents of this are entirely arbitrary and will vary
 by author.
 
 =head1 METHODS
+
+=head2 BUILDARGS
+
+Ensures format of the input.
 
 =head2 releases
 
