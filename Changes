@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.013000    9.5.17
+            * Added support for new 'packages' type (Mickey)
+
 2.012000    27.4.17
             * Fixed 'email' field handling in Author objects (Mickey, GH#83)
 
