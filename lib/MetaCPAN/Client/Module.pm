@@ -12,6 +12,11 @@ sub metacpan_url {
             $self->author, $self->release, $self->path );
 }
 
+sub package {
+    my $self = shift;
+    return $self->client->package( $self->documentation );
+}
+
 sub permission {
     my $self = shift;
     return $self->client->permission( $self->documentation );
@@ -40,6 +45,10 @@ Whatever L<MetaCPAN::Client::File> has.
 =head2 metacpan_url
 
 Returns a link to the module page on MetaCPAN.
+
+=head2 package
+
+Returns an L<MetaCPAN::Client::Package> object for the module.
 
 =head2 permission
 

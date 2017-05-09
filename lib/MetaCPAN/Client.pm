@@ -19,6 +19,7 @@ use MetaCPAN::Client::Pod;
 use MetaCPAN::Client::Rating;
 use MetaCPAN::Client::Release;
 use MetaCPAN::Client::Mirror;
+use MetaCPAN::Client::Package;
 use MetaCPAN::Client::Permission;
 use MetaCPAN::Client::ResultSet;
 
@@ -73,6 +74,14 @@ sub file {
     my $params = shift;
 
     return $self->_get_or_search( 'file', $arg, $params );
+}
+
+sub package {
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
+
+    return $self->_get_or_search( 'packages', $arg, $params );
 }
 
 sub permission {
@@ -225,6 +234,7 @@ sub _get {
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     $type = 'DownloadURL' if $type eq 'download_url';
+    $type = 'Package'     if $type eq 'packages';
 
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response, $self);
@@ -504,6 +514,12 @@ L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
 Returns a L<MetaCPAN::Client::Mirror> object.
+
+=head2 package
+
+    my $package = $mcpan->package('MooseX::Types');
+
+Returns a L<MetaCPAN::Client::Package> object.
 
 =head2 permission
 
