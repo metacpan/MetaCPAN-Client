@@ -81,7 +81,7 @@ sub package {
     my $arg    = shift;
     my $params = shift;
 
-    return $self->_get_or_search( 'packages', $arg, $params );
+    return $self->_get_or_search( 'package', $arg, $params );
 }
 
 sub permission {
@@ -234,7 +234,6 @@ sub _get {
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     $type = 'DownloadURL' if $type eq 'download_url';
-    $type = 'Package'     if $type eq 'packages';
 
     my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response, $self);

@@ -8,7 +8,7 @@ use Moo;
 with 'MetaCPAN::Client::Role::Entity';
 
 my %known_fields = (
-    scalar   => [qw< author distribution file module_name version >],
+    scalar   => [qw< author distribution dist_version file module_name version >],
     arrayref => [qw<>],
     hashref  => [],
 );
@@ -35,11 +35,11 @@ __END__
 
 =head1 SYNOPSIS
 
-    my $package = $mcpan->packages('MooseX::Types');
+    my $package = $mcpan->package('MooseX::Types');
 
 =head1 DESCRIPTION
 
-A MetaCPAN packages entity object.
+A MetaCPAN package (02packages.details) entity object.
 
 =head1 ATTRIBUTES
 
@@ -56,6 +56,10 @@ The file path in CPAN for the module (latest release)
 The distribution in which the module exist
 
 =head2 version
+
+The (latest) version of the module
+
+=head2 dist_version
 
 The (latest) version of the distribution
 

@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 9;
+use Test::More tests => 10;
 use Ref::Util qw< is_arrayref is_ref >;
 
 use lib '.';
@@ -18,4 +18,5 @@ ok( !is_ref($pack->module_name),  "module_name is not a ref");
 ok( !is_ref($pack->file),         "file is not a ref");
 ok( !is_ref($pack->distribution), "distribution is not a ref");
 ok( !is_ref($pack->version),      "version is not a ref");
+ok( !is_ref($pack->dist_version), "version is not a ref");
 ok( !is_ref($pack->author),       "author is not a ref");
