@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.014000    12.5.17
+            * Fixed single-value case for expected arrayref (Mickey, GH#84)
+            * Added support for new release/contributors endpoint (Mickey)
+
 2.013001    12.5.17
             * Updated endpoint name following API change (Mickey)
 
