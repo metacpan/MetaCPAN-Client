@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.013001    12.5.17
+            * Updated endpoint name following API change (Mickey)
+
 2.013000    9.5.17
             * Added support for new 'packages' type (Mickey)
 
