@@ -72,6 +72,15 @@ sub metacpan_url {
     sprintf( "https://metacpan.org/release/%s/%s", $self->author, $self->name )
 }
 
+sub contributors {
+    my $self = shift;
+    my $url = sprintf( "https://fastapi.metacpan.org/release/contributors/%s/%s", $self->author, $self->name );
+    my $res = $self->ua->get($url);
+    return unless is_hashref($res);
+    my $content = decode_json $res->{'content'};
+    return $content->{'contributors'};
+}
+
 1;
 
 __END__
@@ -226,3 +235,7 @@ Returns the Changes text for the release.
 =head2 metacpan_url
 
 Returns a link to the release page on MetaCPAN.
+
+=head2 contributors
+
+Returns a structure with release contributors info.
