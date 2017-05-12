@@ -42,6 +42,12 @@ sub BUILDARGS {
     }
 
     for my $k ( @{ $known_fields->{arrayref} } ) {
+        # fix the case when we expect an array ref but get a scalar because
+        # the result array had one element and we received a scalar
+        if ( defined($args{data}{$k}) and !is_ref($args{data}{$k}) ) {
+            $args{data}{$k} = [ $args{data}{$k} ]
+        }
+
         delete $args{data}{$k}
             unless is_arrayref( $args{data}{$k} ); # warn?
     }
