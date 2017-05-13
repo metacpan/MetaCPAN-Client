@@ -530,8 +530,8 @@ Returns a L<MetaCPAN::Client::Permission> object.
 
     my $deps = $mcpan->reverse_dependencies('Search::Elasticsearch');
 
-all L<MetaCPAN::Client::Release> objects of releases that are dependent
-on a given module, returned as L<MetaCPAN::Client::ResultSet>.
+all L<MetaCPAN::Client::Release> objects of releases that are directly
+dependent on a given module, returned as L<MetaCPAN::Client::ResultSet>.
 
 =head2 rev_deps
 
