@@ -22,6 +22,7 @@ my %known_fields = (
         first
         id
         maturity
+        main_module
         name
         status
         version
@@ -115,6 +116,10 @@ The PAUSE ID of the author who uploaded the release.
 =head2 maturity
 
 This will be either C<released> or C<developer>.
+
+=head2 main_module
+
+The release's main module name.
 
 =head2 id
 
