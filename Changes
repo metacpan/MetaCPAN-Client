@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.015000    14.5.17
+            * Added 'main_module' field to the Release object (Mickey)
+            * Updated doc (Matthew Horsfall, GH#85)
+
 2.014000    12.5.17
             * Fixed single-value case for expected arrayref (Mickey, GH#84)
             * Added support for new release/contributors endpoint (Mickey)
