@@ -182,6 +182,10 @@ sub all {
     $params and !is_hashref($params)
         and croak "all: params must be a hashref";
 
+    if ( $params->{fields} and !is_arrayref($params->{fields}) ) {
+        $params->{fields} = [ split /,/ => $params->{fields} ];
+    }
+
     return $self->$type( { __MATCH_ALL__ => 1 }, $params );
 }
 
