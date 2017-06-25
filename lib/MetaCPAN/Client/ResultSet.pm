@@ -65,7 +65,7 @@ sub next {
     defined $result or return;
 
     my $class = 'MetaCPAN::Client::' . ucfirst $self->type;
-    return $class->new_from_request( $result->{'_source'} || $result->{'fields'} );
+    return $class->new_from_request( $result->{'_source'} || $result->{'fields'} || $result );
 }
 
 sub aggregations {

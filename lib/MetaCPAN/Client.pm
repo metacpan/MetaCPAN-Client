@@ -313,7 +313,7 @@ sub _reverse_deps {
 
     eval {
         $res = $self->fetch(
-            '/search/reverse_dependencies/'.$dist,
+            "/reverse_dependencies/dist/$dist",
             {
                 size   => 5000,
                 query  => { match_all => {} },
@@ -333,7 +333,7 @@ sub _reverse_deps {
     };
 
     return MetaCPAN::Client::ResultSet->new(
-        items => $res->{'hits'}{'hits'},
+        items => $res->{'data'},
         type  => 'release',
     );
 }
