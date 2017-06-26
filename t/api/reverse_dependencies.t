@@ -5,7 +5,6 @@ use warnings;
 use Test::More tests => 45;
 use Test::Fatal;
 use Ref::Util qw< is_hashref >;
-use feature 'say';
 
 use lib '.';
 use t::lib::Functions;
