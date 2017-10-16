@@ -79,6 +79,7 @@ sub fetch {
     my $self    = shift;
     my $url     = shift or croak 'fetch must be called with a URL parameter';
     my $params  = shift || {};
+    $url =~ s{^/}{};
     my $req_url = sprintf '%s/%s', $self->base_url, $url;
     my $ua      = $self->ua;
 
