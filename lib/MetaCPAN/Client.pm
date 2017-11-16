@@ -29,7 +29,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release mirror file permission
+    author distribution favorite module rating release mirror file permission package
 >;
 
 sub BUILDARGS {
@@ -175,7 +175,7 @@ sub all {
     my $params = shift;
 
     grep { $type eq $_ } qw/ authors distributions modules releases
-                             favorites ratings mirrors files /
+                             favorites ratings mirrors files package /
         or croak "all: unsupported type";
     $type =~ s/s$//;
 
