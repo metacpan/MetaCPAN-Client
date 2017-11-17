@@ -216,6 +216,24 @@ sub autocomplete {
     ];
 }
 
+sub autocomplete_suggest {
+    my $self = shift;
+    my $q    = shift;
+
+    my $res;
+
+    eval {
+        $res = $self->fetch( '/search/autocomplete/suggest?q=' . uri_escape_utf8($q) );
+        1;
+
+    } or do {
+        warn $@;
+        return [];
+    };
+
+    return $res->{suggestions};
+}
+
 ###
 
 sub _get {
