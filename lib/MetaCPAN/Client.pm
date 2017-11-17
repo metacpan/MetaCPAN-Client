@@ -567,6 +567,14 @@ Call the search/autocomplete endpoint with a query string.
 
 Returns an array reference.
 
+=head2 autocomplete_suggest
+
+    my $ac = $mcpan->autocomplete_suggest('Moo');
+
+Call the search/autocomplete/suggest endpoint with a query string.
+
+Returns an array reference.
+
 =head2 recent
 
     my $recent = $mcpan->recent(10);
