@@ -174,9 +174,10 @@ sub all {
     my $type   = shift;
     my $params = shift;
 
-    grep { $type eq $_ } qw/ authors distributions modules releases
-                             favorites ratings mirrors files package /
-        or croak "all: unsupported type";
+    # This endpoint used to support only pluralized types (mostly) and convert
+    # to singular types before redispatching.  Now it accepts both plural and
+    # unplural forms directly and relies on the underlying methods it
+    # dispatches to to check types (using the global supported types array).
     $type =~ s/s$//;
 
     $params and !is_hashref($params)
