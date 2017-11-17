@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.020000    17.11.17
+            * Added support for /search/autocomplete/suggest (Mickey)
+
 2.019000    16.11.17
             * Added 'package' type support for scrolled searches (Mickey)
 
