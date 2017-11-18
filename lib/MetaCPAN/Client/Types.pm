@@ -8,12 +8,13 @@ use Types::Standard ();
 use Ref::Util qw< is_ref >;
 
 use parent 'Exporter';
-our @EXPORT_OK = qw< Str Int Time ArrayRef HashRef >;
+our @EXPORT_OK = qw< Str Int Time ArrayRef HashRef Bool >;
 
 sub Str      { Types::Standard::Str      }
 sub Int      { Types::Standard::Int      }
 sub ArrayRef { Types::Standard::ArrayRef }
 sub HashRef  { Types::Standard::HashRef  }
+sub Bool     { Types::Standard::Bool     }
 
 sub Time {
     return Type::Tiny->new(
