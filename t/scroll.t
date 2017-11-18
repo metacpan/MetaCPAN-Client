@@ -22,7 +22,7 @@ can_ok(
     $scroller,
     qw< aggregations base_url body _buffer
         BUILDARGS DEMOLISH _fetch_next _id
-        next _read size time total type ua >
+        next size time total type ua >
 );
 
 my $next = $scroller->next;
@@ -32,7 +32,8 @@ my $rel = MetaCPAN::Client::Release->new_from_request( $next->{'_source'} );
 isa_ok( $rel, 'MetaCPAN::Client::Release' );
 is( $rel->distribution, 'MetaCPAN-Client', 'release object can be created from next doc' );
 
-while ( my $n = $scroller->next ) { 1 }
-is( $scroller->_read, $scroller->total, 'can read all matching docs' );
+my $got = 1;  # we call ->next once above
+while ( my $n = $scroller->next ) { $got++ }
+is( $got, $scroller->total, 'can read all matching docs' );
 
 1;

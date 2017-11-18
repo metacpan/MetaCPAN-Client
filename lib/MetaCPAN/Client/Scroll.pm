@@ -8,7 +8,7 @@ use Carp;
 use Ref::Util qw< is_hashref >;
 use JSON::MaybeXS qw< decode_json encode_json >;
 
-use MetaCPAN::Client::Types qw< Str Int Time ArrayRef HashRef >;
+use MetaCPAN::Client::Types qw< Str Int Time ArrayRef HashRef Bool >;
 
 has ua => (
     is       => 'ro',
@@ -48,26 +48,16 @@ has _id => (
     isa      => Str,
 );
 
-has _read => (
-    init_arg => undef,
-    is       => 'ro',
-    isa      => Int,
-    default  => sub { 0 },
-    writer   => '_set_read',
-);
-
-has _idx => (
-    init_arg => undef,
-    is       => 'ro',
-    isa      => Int,
-    default  => sub { 0 },
-    writer   => '_set_idx',
-);
-
 has _buffer => (
     is       => 'ro',
     isa      => ArrayRef,
     default  => sub { [] },
+);
+
+has _done => (
+    is       => 'rw',
+    isa      => Bool,
+    default  => sub { 0 },
 );
 
 has total => (
@@ -117,22 +107,23 @@ sub BUILDARGS {
 }
 
 sub next {
-    my $self = shift;
-    my $read = $self->_read;
-    return if $read >= $self->total;
+    my $self   = shift;
+    my $buffer = $self->_buffer;
 
-    my $idx = $self->_idx;
+    # We're exhausted and will do no more.
+    return if $self->_done;
 
-    if ( $idx >= ($self->size * 10) ) {
-        @{ $self->_buffer } = ();
-        $idx = 0;
-    }
+    # Refill the buffer if it's empty.
+    @$buffer = @{ $self->_fetch_next }
+        unless @$buffer;
 
-    $self->_fetch_next if $read % $self->size == 0;
+    # Grab the next result from the buffer.  If there's no result, then that's
+    # all, folks!
+    my $next = shift @$buffer;
 
-    $self->_set_idx( $idx + 1 );
-    $self->_set_read( $read + 1 );
-    return $self->_buffer->[ $idx ];
+    $self->_done(1) unless $next;
+
+    return $next;
 }
 
 sub _fetch_next {
@@ -148,7 +139,7 @@ sub _fetch_next {
 
     my $content = decode_json $res->{content};
 
-    push @{ $self->_buffer } => @{ $content->{hits}{hits} };
+    return $content->{hits}{hits};
 }
 
 sub DEMOLISH {
