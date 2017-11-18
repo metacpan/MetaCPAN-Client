@@ -689,6 +689,15 @@ get an iterator back to fetch one object at a time.
 
     my $module = $mcpan->all('releases', { scroller_size => 500 });
 
+=head3 sort
+
+Pass a raw Elasticsearch sort specification for the query.
+
+    my $some_releases = $mcpan->all('releases', { sort => [{ date => { order => 'desc' } }] })
+
+Note: this param and is a bit too specific to Elasticsearch.  Just like
+L</es_filter>, only use this if you know what you're dealing with.
+
 =head1 SEARCH SPEC
 
 The hash-based search spec is common to many searches. It is quite

@@ -158,7 +158,8 @@ sub _build_body {
         query => $query,
         $self->_read_filters($params),
         $self->_read_fields($params),
-        $self->_read_aggregations($params)
+        $self->_read_aggregations($params),
+        $self->_read_sort($params)
     };
 }
 
@@ -211,6 +212,16 @@ sub _read_filters {
     ref($filter) or return ();
 
     return ( filter => $filter );
+}
+
+sub _read_sort {
+    my $self   = shift;
+    my $params = shift;
+
+    my $sort = delete $params->{sort};
+    ref($sort) or return ();
+
+    return ( sort => $sort );
 }
 
 sub _build_query_rec {
