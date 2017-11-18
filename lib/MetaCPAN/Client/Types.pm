@@ -31,6 +31,8 @@ __END__
 
 =head2 ArrayRef
 
+=head2 Bool
+
 =head2 HashRef
 
 =head2 Int
