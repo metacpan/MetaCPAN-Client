@@ -5,7 +5,7 @@ package MetaCPAN::Client;
 
 use Moo;
 use Carp;
-use Ref::Util qw< is_arrayref is_hashref >;
+use Ref::Util qw< is_arrayref is_hashref is_ref >;
 use URI::Escape qw< uri_escape_utf8 >;
 
 use MetaCPAN::Client::Request;
@@ -318,7 +318,7 @@ sub _get_or_search {
     is_hashref($arg) and
         return $self->_search( $type, $arg, $params );
 
-    defined $arg and ! ref($arg)
+    defined $arg and !is_ref($arg)
         and return $self->_get($type, $arg, $params);
 
     croak "$type: invalid args (takes scalar value or search parameters hashref)";
