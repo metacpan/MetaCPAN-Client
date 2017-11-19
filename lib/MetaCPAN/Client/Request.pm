@@ -198,7 +198,7 @@ sub _read_aggregations {
     my $params = shift;
 
     my $aggregations = delete $params->{aggregations};
-    ref($aggregations) or return ();
+    is_ref($aggregations) or return ();
 
     $self->_set_is_agg(1);
     return ( aggregations => $aggregations );
@@ -209,7 +209,7 @@ sub _read_filters {
     my $params = shift;
 
     my $filter = delete $params->{es_filter};
-    ref($filter) or return ();
+    is_ref($filter) or return ();
 
     return ( filter => $filter );
 }
@@ -219,7 +219,7 @@ sub _read_sort {
     my $params = shift;
 
     my $sort = delete $params->{sort};
-    ref($sort) or return ();
+    is_ref($sort) or return ();
 
     return ( sort => $sort );
 }
@@ -258,7 +258,7 @@ sub _build_query_element {
     my ($key) = keys %{$args};
     my $val = $args->{$key};
 
-    !ref($val) and $val =~ /[\w\*]/
+    !is_ref($val) and $val =~ /[\w\*]/
         or croak 'Wrong type of query arguments';
 
     my $wildcard = $val =~ /[*?]/;
