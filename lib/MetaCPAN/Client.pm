@@ -659,7 +659,7 @@ Some fields are not indexed in Elasticsearch but stored as part of
 the entire document.
 
 These fields can still be read, but without the internal Elasticsearch
-optimizations and the server will interally read the whole document.
+optimizations and the server will internally read the whole document.
 
 Why do we even need those? because we don't index everything and some things
 we can't to begin with (like non-leaf fields that hold a structure)
