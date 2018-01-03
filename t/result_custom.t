@@ -30,7 +30,7 @@ my $rs = MetaCPAN::Client::ResultSet->new(
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
-can_ok( $rs, qw<next facets total type scroller> );
+can_ok( $rs, qw<next aggregations total type scroller> );
 my $item;
 is( exception { $item = $rs->next; 1 }, undef, "no fail on next" );
 isa_ok( $item, 'Test::Result' );
