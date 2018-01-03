@@ -19,6 +19,8 @@ use MetaCPAN::Client::ResultSet;
         return $class->new( ( defined $client ? ( client => $client ) : () ),
             data => $request, );
     }
+
+    sub _known_fields { +{} }
 }
 
 my $client = MetaCPAN::Client->new();
