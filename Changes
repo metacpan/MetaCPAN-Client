@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.022000    3.1.18
+            * Allow user-defined target classes in ResultSet (Kent Fredric, Sawyer)
+            * Added test for reverse dependencies (Sawyer)
+            * Switched ref() checks to Ref::Util::is_ref (Mickey)
+
 2.021000    18.11.17
             * Scroller fix for page skipping (Thomas Sibley)
             * Sorting in scrolled searches (Thomas Sibley)

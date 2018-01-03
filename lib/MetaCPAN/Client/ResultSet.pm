@@ -155,3 +155,7 @@ Predicate for ES scroller presence.
 =head2 BUILDARGS
 
 Double checks construction of objects. You should never run this yourself.
+
+=head2 BUILD
+
+Validates the object. You should never run this yourself.
