@@ -36,11 +36,7 @@ can_ok( $rs, qw<next aggregations total type scroller> );
 my $item;
 is( exception { $item = $rs->next; 1 }, undef, "no fail on next" );
 isa_ok( $item, 'Test::Result' );
-note explain $item;
 
 my $ex;
 isnt( $ex = exception { MetaCPAN::Client::ResultSet->new( scroller => $scroll ) },
       undef, 'Must fail is neither class or type are passed' );
-note $ex;
-
-1;
