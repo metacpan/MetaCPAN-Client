@@ -15,6 +15,7 @@ my %known_fields = (
         authorized
         binary
         date
+        deprecated
         description
         directory
         distribution
@@ -174,6 +175,10 @@ the archive.
 
 If the file contains POD with a C<NAME> section, then this attribute will
 include the abstract portion of the name.
+
+=head2 deprecated
+
+The deprecated field value for this file.
 
 =head2 description
 

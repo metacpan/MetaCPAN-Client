@@ -17,6 +17,7 @@ my %known_fields = (
         author
         authorized
         date
+        deprecated
         distribution
         download_url
         first
@@ -149,6 +150,10 @@ The release's version.
 =head2 version_numified
 
 The numified form of the release's version.
+
+=head2 deprecated
+
+The deprecated field value for this release.
 
 =head2 distribution
 
