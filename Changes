@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.023000    26.1.18
+            * Support the new 'deprecated' field in File and Release types (Mickey)
+
 2.022000    3.1.18
             * Allow user-defined target classes in ResultSet (Kent Fredric, Sawyer)
             * Added test for reverse dependencies (Sawyer)
