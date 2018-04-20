@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.024000    20.4.18
+            * Fix warning on a JSON::PP::Boolean check (Mickey)
+
 2.023000    26.1.18
             * Support the new 'deprecated' field in File and Release types (Mickey)
 
