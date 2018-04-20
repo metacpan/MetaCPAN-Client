@@ -34,7 +34,7 @@ sub BUILDARGS {
             if is_arrayref( $args{data}{$k} ) and @{$args{data}{$k}} == 1;
 
         if ( JSON::PP::is_bool($args{data}{$k}) ) {
-            $args{data}{$k} = JSON::PP::true == $args{data}{$k} ? 1 : 0;
+            $args{data}{$k} = !!$args{data}{$k};
         }
         elsif ( is_ref( $args{data}{$k} ) ) {
             delete $args{data}{$k};
