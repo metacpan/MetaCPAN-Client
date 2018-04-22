@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.025000    22.4.18
+            * Added support for the new 'cover' index - cpancover.org info (Mickey)
+
 2.024000    20.4.18
             * Fix warning on a JSON::PP::Boolean check (Mickey)
 

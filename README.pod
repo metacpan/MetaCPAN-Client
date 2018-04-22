@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.024000
+version 2.025000
 
 =head1 SYNOPSIS
 
@@ -80,18 +80,11 @@ Returns a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Author> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
-=head2 module
+=head2 cover
 
-    my $module = $mcpan->module('MetaCPAN::Client');
-    my $module = $mcpan->module($search_spec);
+    my $cover = $mcpan->cover('Moose-2.2007');
 
-Finds a module by either its module name or by a search spec defined by a hash
-reference. Since it is common to many other searches, it is explained below
-under C<SEARCH SPEC>.
-
-Returns a L<MetaCPAN::Client::Module> object on a simple search (module name), or
-a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
+Returns a L<MetaCPAN::Client::Cover> object.
 
 =head2 distribution
 
@@ -143,6 +136,19 @@ L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
 Returns a L<MetaCPAN::Client::Mirror> object.
+
+=head2 module
+
+    my $module = $mcpan->module('MetaCPAN::Client');
+    my $module = $mcpan->module($search_spec);
+
+Finds a module by either its module name or by a search spec defined by a hash
+reference. Since it is common to many other searches, it is explained below
+under C<SEARCH SPEC>.
+
+Returns a L<MetaCPAN::Client::Module> object on a simple search (module name), or
+a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
 =head2 package
 
