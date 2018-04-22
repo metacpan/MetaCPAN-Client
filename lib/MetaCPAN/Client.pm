@@ -22,6 +22,7 @@ use MetaCPAN::Client::Mirror;
 use MetaCPAN::Client::Package;
 use MetaCPAN::Client::Permission;
 use MetaCPAN::Client::ResultSet;
+use MetaCPAN::Client::Cover;
 
 has request => (
     is      => 'ro',
@@ -29,7 +30,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release mirror file permission package
+    author distribution favorite module rating release mirror file permission package cover
 >;
 
 sub BUILDARGS {
@@ -90,6 +91,14 @@ sub permission {
     my $params = shift;
 
     return $self->_get_or_search( 'permission', $arg, $params );
+}
+
+sub cover {
+    my $self   = shift;
+    my $arg    = shift;
+    my $params = shift;
+
+    return $self->_get_or_search( 'cover', $arg, $params );
 }
 
 sub pod {
@@ -473,18 +482,11 @@ Returns a L<MetaCPAN::Client::Author> object on a simple search (PAUSE ID), or
 a L<MetaCPAN::Client::ResultSet> object propagated with
 L<MetaCPAN::Client::Author> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
-=head2 module
+=head2 cover
 
-    my $module = $mcpan->module('MetaCPAN::Client');
-    my $module = $mcpan->module($search_spec);
+    my $cover = $mcpan->cover('Moose-2.2007');
 
-Finds a module by either its module name or by a search spec defined by a hash
-reference. Since it is common to many other searches, it is explained below
-under C<SEARCH SPEC>.
-
-Returns a L<MetaCPAN::Client::Module> object on a simple search (module name), or
-a L<MetaCPAN::Client::ResultSet> object propagated with
-L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
+Returns a L<MetaCPAN::Client::Cover> object.
 
 =head2 distribution
 
@@ -536,6 +538,19 @@ L<MetaCPAN::Client::Release> objects on a complex (L<search spec based|/"SEARCH 
     my $mirror = $mcpan->mirror('kr.freebsd.org');
 
 Returns a L<MetaCPAN::Client::Mirror> object.
+
+=head2 module
+
+    my $module = $mcpan->module('MetaCPAN::Client');
+    my $module = $mcpan->module($search_spec);
+
+Finds a module by either its module name or by a search spec defined by a hash
+reference. Since it is common to many other searches, it is explained below
+under C<SEARCH SPEC>.
+
+Returns a L<MetaCPAN::Client::Module> object on a simple search (module name), or
+a L<MetaCPAN::Client::ResultSet> object propagated with
+L<MetaCPAN::Client::Module> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
 
 =head2 package
 
