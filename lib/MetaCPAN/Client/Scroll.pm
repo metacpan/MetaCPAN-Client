@@ -134,7 +134,7 @@ sub _fetch_next {
         { content => $self->_id }
     );
 
-    croak "failed to fetch next scolled batch"
+    croak "failed to fetch next scrolled batch"
         unless $res->{status} == 200;
 
     my $content = decode_json $res->{content};
