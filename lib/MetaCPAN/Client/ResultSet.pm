@@ -101,7 +101,7 @@ __END__
 =head1 DESCRIPTION
 
 Object representing a result from Elastic Search. This is used for the complex
-(as in L<non-simple/MetaCPAN::Client/"SEARCH SPEC">) queries to MetaCPAN. It
+(as in L<non-simple|MetaCPAN::Client/"SEARCH SPEC">) queries to MetaCPAN. It
 provides easy access to the scroller and aggregations.
 
 =head1 ATTRIBUTES
