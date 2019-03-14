@@ -1,5 +1,12 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.026000    14.3.19
+            * Added (back, syntax modified for ES2.x) example script
+              top20_favorites (Mickey)
+            * Updated SYNOPSIS for Favorite (Mickey, Olaf Alders)
+            * Fixed link to Search Spec (Renee Baecker, GH#101)
+            * Fixed typo in error message (Johann Rolschewski, GH#100)
+
 2.025000    22.4.18
             * Added support for the new 'cover' index - cpancover.org info (Mickey)
 
