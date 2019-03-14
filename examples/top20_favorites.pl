@@ -12,7 +12,8 @@ my $top20_fav =
             aggregations => {
                 aggs => {
                     terms => {
-                        field => "distribution"
+                        field => "distribution",
+                        size => 20,
                     }
                 }
             }
