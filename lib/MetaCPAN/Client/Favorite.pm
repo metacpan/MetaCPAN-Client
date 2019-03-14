@@ -35,10 +35,22 @@ __END__
 
 =head1 SYNOPSIS
 
+    # Query favorites for a given distribution:
+
     my $favorites = $mcpan->favorite( {
         distribution => 'Moose'
     } );
+
+
+    # Total number of matches ("how many favorites does the dist have?"):
+
+    print $favorites->total;
+
+
+    # Iterate over the favorite matches
+
     while ( my $fav = $favorites->next ) { ... }
+
 
 =head1 DESCRIPTION
 
