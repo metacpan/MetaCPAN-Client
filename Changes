@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.027000    -
+            * Run Travis tests with more Perls (Olaf Alders, GH#102)
+
 2.026000    14.3.19
             * Added (back, syntax modified for ES2.x) example script
               top20_favorites (Mickey)
