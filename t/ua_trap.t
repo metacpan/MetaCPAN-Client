@@ -14,6 +14,7 @@ use Test::Fatal qw( exception );
 {
 
     package TrapUA;
+    our $VERSION = '0.01';
     use Moo;
     extends 'HTTP::Tiny::Mech';
 
