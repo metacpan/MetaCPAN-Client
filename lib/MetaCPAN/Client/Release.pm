@@ -103,7 +103,7 @@ The release's status, C<latest>, C<cpan>, or C<backpan>.
 
 =head2 name
 
-The release's name, something like C<Moose>.
+The release's name, something like C<Moose-1.23>.
 
 =head2 date
 
@@ -157,7 +157,7 @@ The deprecated field value for this release.
 
 =head2 distribution
 
-The name of the distribution to which this release belongs.
+The name of the distribution to which this release belongs. Something like C<Moose>
 
 =head2 abstract
 
