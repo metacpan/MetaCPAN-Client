@@ -6,7 +6,7 @@ use Test::More;
 # ABSTRACT: Make sure passed value of UA gets used for things.
 
 use Test::Needs {
-    'WWW::Mechanize::Cached' => 1.50,
+    'WWW::Mechanize::Cached' => 1.54,
     'HTTP::Tiny::Mech'       => 1.001002,
 };
 use Test::Fatal qw( exception );

@@ -22,11 +22,11 @@ on 'test' => sub {
   requires "blib" => "1.01";
   requires "LWP::Protocol::https" => "0";
   recommends "HTTP::Tiny::Mech" => "1.001002";
-  recommends "WWW::Mechanize::Cached" => "1.50";
+  recommends "WWW::Mechanize::Cached" => "1.54";
 };
 
 on 'develop' => sub {
   requires "HTTP::Tiny::Mech" => "1.001002";
   requires "LWP::Protocol::https" => "0";
-  requires "WWW::Mechanize::Cached" => "1.50";
+  requires "WWW::Mechanize::Cached" => "1.54";
 };
