@@ -1,7 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-2.027000    -
+2.027000    10.8.20
             * Run Travis tests with more Perls (Olaf Alders, GH#102)
+            * Show example of result (GH#105) (Gabor Szabo)
+            * Bump minimum version of WWW::Mechanize::Cached to 1.54 (GH#104)
+              (Olaf Alders)
 
 2.026000    14.3.19
             * Added (back, syntax modified for ES2.x) example script
