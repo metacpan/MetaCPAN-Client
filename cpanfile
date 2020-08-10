@@ -1,3 +1,6 @@
+use strict;
+use warnings;
+
 requires "Carp" => "0";
 requires "HTTP::Tiny" => "0.056";
 requires "IO::Socket::SSL" => "1.42";
