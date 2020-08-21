@@ -200,10 +200,36 @@ sub all {
 }
 
 sub download_url {
-    my $self   = shift;
-    my $module = shift;
+    my $self             = shift;
+    my $module           = shift;
+    my $version_or_range = shift;
+    my $dev              = shift;
 
-    return $self->_get( 'download_url', $module );
+    my $uri = $module;
+    my @extra;
+    if ( defined $version_or_range ) {
+
+        my @valid_ranges =  qw{ == != <= >= < > ! };
+        my $is_using_range;
+        foreach my $range ( @valid_ranges ) {
+            if ( index( $version_or_range, $range ) >= 0 ) {
+                $is_using_range = 1;
+                last;
+            }
+        }
+        # by default use the '==' operator when no range set
+        $version_or_range = '==' . $version_or_range unless $is_using_range;
+
+        # version=>0.21,<0.27,!=0.26&dev=1
+        push @extra, 'version=' .uri_escape_utf8($version_or_range);
+    }
+    if ( defined $dev ) {
+        push @extra, 'dev=' . uri_escape_utf8($dev);
+    }
+
+    $uri .= '?'.join('&', @extra) if scalar @extra;
+
+    return $self->_get( 'download_url', $uri );
 }
 
 sub autocomplete {
@@ -613,7 +639,24 @@ formats (html, plain, x_pod & x_markdown).
 
 Retrieve information from the 'download_url' endpoint
 
-    my $download_url = $mcpan->download_url('Moose')
+    my $download_url = $mcpan->download_url($distro, [$version_or_range, $dev]);
+
+    # request the last available version
+    my $download_url = $mcpan->download_url('Moose');
+
+    # request an older version
+    my $download_url = $mcpan->download_url('Moose', '1.01');
+
+    # using a range
+    my $download_url = $mcpan->download_url('Moose', '<=1.01');
+    my $download_url = $mcpan->download_url('Moose', '>1.01,<=2.00');
+
+Range operators are '== != <= >= < > !'.
+You can use a comma ',' to add multiple rules.
+
+    # requesting dev release
+    my $download_url = $mcpan->download_url('Moose', '>1.01', 1);
+
 
 Returns a L<MetaCPAN::Client::DownloadURL> object
 
