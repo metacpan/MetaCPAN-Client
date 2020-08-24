@@ -1,6 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-2.027000    -
+2.028000    24.8.20
+            * Support specific versions in download_url (Nicolas R (atoomic), GH#107)
+
+2.027000    11.8.20
             * Run Travis tests with more Perls (Olaf Alders, GH#102)
 
 2.026000    14.3.19

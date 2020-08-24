@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.026000
+version 2.028000
 
 =head1 SYNOPSIS
 
@@ -211,7 +211,23 @@ formats (html, plain, x_pod & x_markdown).
 
 Retrieve information from the 'download_url' endpoint
 
-    my $download_url = $mcpan->download_url('Moose')
+    my $download_url = $mcpan->download_url($distro, [$version_or_range, $dev]);
+
+    # request the last available version
+    my $download_url = $mcpan->download_url('Moose');
+
+    # request an older version
+    my $download_url = $mcpan->download_url('Moose', '1.01');
+
+    # using a range
+    my $download_url = $mcpan->download_url('Moose', '<=1.01');
+    my $download_url = $mcpan->download_url('Moose', '>1.01,<=2.00');
+
+Range operators are '== != <= >= < > !'.
+You can use a comma ',' to add multiple rules.
+
+    # requesting dev release
+    my $download_url = $mcpan->download_url('Moose', '>1.01', 1);
 
 Returns a L<MetaCPAN::Client::DownloadURL> object
 
