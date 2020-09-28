@@ -800,6 +800,15 @@ key:
         ]
     } );
 
+Or, to get either the given version of a release, or the latest:
+
+    my $releases = $mcpan->release( {
+        all => [
+          { distribution => 'GraphViz2' },
+          ($version ? { version => $version } : { status => 'latest' }),
+        ],
+    } );
+
 If you want to do something even more complicated,
 You can also nest your queries, e.g.:
 
