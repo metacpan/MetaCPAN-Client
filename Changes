@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+-           -
+            * Cleanup old files (Mickey)
+
 2.028000    24.8.20
             * Support specific versions in download_url (Nicolas R (atoomic), GH#107)
 
