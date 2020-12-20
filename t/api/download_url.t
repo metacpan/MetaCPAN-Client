@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 15;
+use Test::More tests => 17;
 use Test::Fatal;
 
 use lib '.';
@@ -29,6 +29,12 @@ can_ok( $mc, 'rating' );
     is $rs->download_url(),
         q[https://cpan.metacpan.org/authors/id/F/FL/FLORA/Moose-1.01.tar.gz],
         'download_url for Moose-1.01';
+    is $rs->checksum_sha256(),
+        q[f4424f4d709907dea8bc9de2a37b9d3fef4f87775a8c102f432c48a1fdf8067b],
+        'sha256 for Moose-1.0.1.tar.gz';
+    is $rs->checksum_md5(),
+        q[f13f9c203d099f5dc6117f59bda96340],
+        'md5 for Moose-1.0.1.tar.gz';
 }
 
 {

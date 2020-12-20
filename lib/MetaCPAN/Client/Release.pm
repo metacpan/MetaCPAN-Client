@@ -16,6 +16,8 @@ my %known_fields = (
         archive
         author
         authorized
+        checksum_md5
+        checksum_sha256
         date
         deprecated
         distribution
@@ -133,6 +135,14 @@ A boolean indicating whether or not this was an authorized release.
 =head2 download_url
 
 A URL for this release's distribution archive file.
+
+=head2 checksum_sha256
+
+The sha256 hexdigest for this release's distribution archive file.
+
+=head2 checksum_md5
+
+The md5 hexdigest for this release's distribution archive file.
 
 =head2 first
 
