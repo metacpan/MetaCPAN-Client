@@ -8,7 +8,7 @@ use Moo;
 with 'MetaCPAN::Client::Role::Entity';
 
 my %known_fields = (
-    scalar   => [qw< date download_url status version >],
+    scalar   => [qw< checksum_md5 checksum_sha256 date download_url status version >],
     arrayref => [],
     hashref  => [],
 );
@@ -42,6 +42,14 @@ __END__
 A MetaCPAN download_url entity object.
 
 =head1 ATTRIBUTES
+
+=head2 checksum_sha256
+
+The sha256 hexdigest for the file.
+
+=head2 checksum_md5
+
+The md5 hexdigest for the file.
 
 =head2 date
 
