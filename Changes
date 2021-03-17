@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.030000    -
+            * Updated docs (Dave Rolsky, GH#111)
+
 2.029000    20.12.20
             * Added checksum_sha256 & checksum_md5 fields support (stigo, GH#110)
             * Cleanup old files (Mickey)
