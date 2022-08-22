@@ -1,6 +1,7 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
-2.030000    -
+2.030000    22.08.22
+            * Set verify_SSL=>1 for default HTTP::Tiny user agent (Stig Palmquist, GH#113)
             * Updated docs (Dave Rolsky, GH#111)
 
 2.029000    20.12.20
