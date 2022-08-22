@@ -23,7 +23,8 @@ has ua => (
 has ua_args => (
     is      => 'ro',
     default => sub {
-        [ agent => 'MetaCPAN::Client/'.($MetaCPAN::Client::VERSION||'xx') ]
+        [ agent => 'MetaCPAN::Client/'.($MetaCPAN::Client::VERSION||'xx'),
+          verify_SSL => 1 ]
     },
 );
 

@@ -23,7 +23,8 @@ isa_ok( $req->ua, 'HTTP::Tiny' );
 my $ver = $MetaCPAN::Client::VERSION || 'xx';
 is_deeply(
     $req->ua_args,
-    [ agent => "MetaCPAN::Client/$ver" ],
+    [ agent => "MetaCPAN::Client/$ver",
+      verify_SSL => 1 ],
     'Correct UA args',
 );
 
