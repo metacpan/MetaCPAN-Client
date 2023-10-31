@@ -3,7 +3,7 @@
 
 use strict;
 use warnings;
-use DDP;
+use Data::Printer;
 
 use MetaCPAN::Client;
 
@@ -20,4 +20,3 @@ my %output = (
 );
 
 p %output;
-
