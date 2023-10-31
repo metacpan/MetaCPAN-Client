@@ -30,13 +30,10 @@ while ( my $release = $rs->next ) {
 ok( @revdeps > 2, 'revdep count for MetaCPAN::Client seems ok' );
 
 foreach my $dep (@revdeps) {
-    $dep =~ s/-/::/g;
-
     my $ok = eval {
-        $mc->module($dep)->name;
+        $mc->distribution($dep)->name;
         1;
     };
-
     is( $ok, 1, "$dep is a valid reverse dependency" );
 }
 
