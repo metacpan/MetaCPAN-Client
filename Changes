@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.031000    31.10.23
+            * Fix reverse-dependencies distributions check (Mickey)
+            * 'use Data::Printer' instead of shortened 'use DDP' (Mickey)
+
 2.030000    22.08.22
             * Set verify_SSL=>1 for default HTTP::Tiny user agent (Stig Palmquist, GH#113)
             * Updated docs (Dave Rolsky, GH#111)
