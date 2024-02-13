@@ -125,8 +125,10 @@ sub _decode_result {
     defined $success
         or croak 'Missing success in return value';
 
-    $success
-        or croak "Failed to fetch '$url': " . $result->{'reason'};
+    if (!$success) {
+        my $reason_field = $result->{status} == 599 ? 'content' : 'reason';
+        croak "Failed to fetch '$url': " . $result->{$reason_field};
+    }
 
     my $content = $result->{'content'}
         or croak 'Missing content in return value';
