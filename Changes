@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.031001    11.03.24
+            * Show a real error for internal errors (haarg)
+
 2.031000    31.10.23
             * Fix reverse-dependencies distributions check (Mickey)
             * 'use Data::Printer' instead of shortened 'use DDP' (Mickey)
