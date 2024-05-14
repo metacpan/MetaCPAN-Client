@@ -143,11 +143,21 @@ sub _fetch_next {
 }
 
 sub DEMOLISH {
-    my $self = shift;
+    my ( $self, $gd ) = @_;
+    return
+        if $gd;
+    my $ua = $self->ua
+        or return;
+    my $base_url = $self->base_url
+        or return;
+    my $id = $self->_id
+        or return;
+    my $time = $self->time
+        or return;
 
-    $self->ua->delete(
-        sprintf( '%s/_search/scroll?scroll=%s', $self->base_url, $self->time ),
-        { content => $self->_id }
+    $ua->delete(
+        sprintf( '%s/_search/scroll?scroll=%s', $base_url, $time ),
+        { content => $id }
     );
 }
 
