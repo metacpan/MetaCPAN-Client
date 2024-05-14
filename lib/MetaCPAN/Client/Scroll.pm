@@ -54,9 +54,9 @@ has _buffer => (
     default  => sub { [] },
 );
 
-has _done => (
+has _remaining => (
     is       => 'rw',
-    isa      => Bool,
+    isa      => Int,
     default  => sub { 0 },
 );
 
@@ -99,6 +99,7 @@ sub BUILDARGS {
     $args{_id}     = $content->{_scroll_id};
     $args{total}   = $content->{hits}{total};
     $args{_buffer} = $content->{hits}{hits};
+    $args{_remaining} = $content->{hits}{total};
 
     $args{aggregations} = $content->{aggregations}
         if $content->{aggregations} and is_hashref( $content->{aggregations} );
@@ -109,21 +110,27 @@ sub BUILDARGS {
 sub next {
     my $self   = shift;
     my $buffer = $self->_buffer;
+    my $remaining = $self->_remaining;
 
-    # We're exhausted and will do no more.
-    return if $self->_done;
+    if (!$remaining) {
+        # We're exhausted and will do no more.
+        return undef;
+    }
+    elsif (!@$buffer) {
+        # Refill the buffer if it's empty.
+        @$buffer = @{ $self->_fetch_next };
 
-    # Refill the buffer if it's empty.
-    @$buffer = @{ $self->_fetch_next }
-        unless @$buffer;
+        if (!@$buffer) {
+            # we weren't able to refill for some reason
+            $self->_remaining(0);
+            return undef;
+        }
+    }
 
-    # Grab the next result from the buffer.  If there's no result, then that's
-    # all, folks!
-    my $next = shift @$buffer;
-
-    $self->_done(1) unless $next;
-
-    return $next;
+    # One less result to return
+    $self->_remaining($remaining - 1);
+    # Return the next result
+    return shift @$buffer;
 }
 
 sub _fetch_next {
