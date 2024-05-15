@@ -38,6 +38,7 @@ sub BUILDARGS {
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(
         ( ua     => $args{ua}     )x!! $args{ua},
+        ( ua_args => $args{ua_args} )x!! $args{ua_args},
         ( domain => $args{domain} )x!! $args{domain},
         ( debug  => $args{debug}  )x!! $args{debug},
     );
