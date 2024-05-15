@@ -133,7 +133,7 @@ sub rating {
     is_hashref($args)
         or croak 'rating takes a hash ref as parameter';
 
-    return $self->_search( 'rating', $args, $params );
+    return _empty_result_set('rating');
 }
 
 sub release {
