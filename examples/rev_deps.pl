@@ -21,6 +21,6 @@ while ( my $rel = $deps->next ) {
 }
 
 print "\n";
-my $title = "Reverse dependencies for 'Hijk':";
+my $title = "Reverse dependencies for '$module':";
 p $title;
 p @output;
