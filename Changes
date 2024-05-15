@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.032000    15.05.24
+            * Fix scroller issues (haarg, GH#123)
+            * Removed rating fetching (haarg, GH#124)
+            * Fix example script (Mickey)
+
 2.031001    11.03.24
             * Show a real error for internal errors (haarg)
 
