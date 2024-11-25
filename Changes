@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.033000    25.11.24
+            * Remove backpan_directory option (Leo Lapworth, GH#127)
+
 2.032000    15.05.24
             * Fix scroller issues (haarg, GH#123)
             * Removed rating fetching (haarg, GH#124)
