@@ -200,10 +200,6 @@ currently known keys are:
 
 The author's CPAN directory.
 
-=item * backpan_directory
-
-The author's BackCPAN directory.
-
 =item * cpantesters_reports
 
 The author's CPAN Testers Reports page.
