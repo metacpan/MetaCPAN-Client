@@ -15,6 +15,7 @@ my %output = (
     VERSION      => $download_url->version,
     STATUS       => $download_url->status,
     DATE         => $download_url->date,
+    DISTRIBUTION => $download_url->distribution,
     DOWNLOAD_URL => $download_url->download_url,
 );
 
