@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.034000    03.12.25
+            * Add distribution to list of known fields in DownloadURL response (Mark Gallagher, #129)
+
 2.033000    25.11.24
             * Remove backpan_directory option (Leo Lapworth, GH#127)
 
