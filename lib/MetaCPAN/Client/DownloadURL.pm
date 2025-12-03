@@ -8,7 +8,7 @@ use Moo;
 with 'MetaCPAN::Client::Role::Entity';
 
 my %known_fields = (
-    scalar   => [qw< checksum_md5 checksum_sha256 date download_url status version >],
+    scalar   => [qw< checksum_md5 checksum_sha256 date distribution download_url status version >],
     arrayref => [],
     hashref  => [],
 );
@@ -54,6 +54,10 @@ The md5 hexdigest for the file.
 =head2 date
 
 Returns the date of the release that this URL refers to.
+
+=head2 distribution
+
+The name of the distribution.
 
 =head2 download_url
 
