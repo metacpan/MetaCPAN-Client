@@ -96,10 +96,15 @@ sub BUILDARGS {
 
     # read response content --> object params
 
-    $args{_id}     = $content->{_scroll_id};
-    $args{total}   = $content->{hits}{total};
-    $args{_buffer} = $content->{hits}{hits};
-    $args{_remaining} = $content->{hits}{total};
+    my $total = is_hashref($content->{hits}{total})
+        ? $content->{hits}{total}{value}
+        : $content->{hits}{total};
+
+    $args{_remaining} = $total;
+    $args{total}      = $total;
+
+    $args{_id}        = $content->{_scroll_id};
+    $args{_buffer}    = $content->{hits}{hits};
 
     $args{aggregations} = $content->{aggregations}
         if $content->{aggregations} and is_hashref( $content->{aggregations} );
