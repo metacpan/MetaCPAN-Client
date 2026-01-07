@@ -12,10 +12,12 @@ my $release = MetaCPAN::Client->new->all(
     'releases',
     {
         es_filter => {
-            and => [
-                { range => { 'tests.fail' => { gte => 700 } } },
-                { term  => { 'status' => 'latest' } }
-            ]
+            bool => {
+                must => [
+                    { range => { 'tests.fail' => { gte => 700 } } },
+                    { term  => { 'status' => 'latest' } }
+                ]
+            }
         },
     }
 );
