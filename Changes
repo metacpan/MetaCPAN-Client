@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.036000    07.01.26
+            * Fix es_filter to merge into query (haarg, GH#132)
+
 2.035000    07.01.26
             * Fix a compatibility issue for ES 8 in scroller setting (Mickey, GH#131)
 
