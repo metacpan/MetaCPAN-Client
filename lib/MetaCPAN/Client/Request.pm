@@ -156,9 +156,10 @@ sub _build_body {
         ? { match_all => {} }
         : _build_query_rec($args);
 
+    $query = $self->_apply_filters($query, $params);
+
     return +{
         query => $query,
-        $self->_read_filters($params),
         $self->_read_fields($params),
         $self->_read_aggregations($params),
         $self->_read_sort($params)
@@ -206,14 +207,15 @@ sub _read_aggregations {
     return ( aggregations => $aggregations );
 }
 
-sub _read_filters {
+sub _apply_filters {
     my $self   = shift;
+    my $query  = shift;
     my $params = shift;
 
     my $filter = delete $params->{es_filter};
-    is_ref($filter) or return ();
+    is_ref($filter) or return $query;
 
-    return ( filter => $filter );
+    return { bool => { must => [ $filter, $query ] } };
 }
 
 sub _read_sort {

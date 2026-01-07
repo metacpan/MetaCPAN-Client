@@ -101,4 +101,21 @@ while ( my $john = $johns->next ) {
     );
 }
 
+{
+    my $daves = $mc->author( {
+        either => [
+            { name => 'Dave *'  },
+            { name => 'David *' },
+        ],
+    }, {
+        es_filter => {
+            wildcard => { 'name' => 'Dave S*' },
+        }
+    } );
+
+    isa_ok( $daves, 'MetaCPAN::Client::ResultSet' );
+    can_ok( $daves, 'total' );
+    ok( $daves->total < $most_daves, 'Definitely less Daves' );
+}
+
 done_testing;
