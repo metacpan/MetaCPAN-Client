@@ -8,7 +8,6 @@ use Data::Printer;
 use MetaCPAN::Client;
 
 my $mirrors =
-    MetaCPAN::Client->new->mirror('eutelia.it');
+    MetaCPAN::Client->new->mirror('www.cpan.org');
 
 p $mirrors;
-
