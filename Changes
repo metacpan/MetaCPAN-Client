@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.037000    07.01.26
+            * More ES 8 related fixes (Mickey, GH#133)
+            * Updated scripts in examples/ (Mickey, GH#133)
+
 2.036000    07.01.26
             * Fix es_filter to merge into query (haarg, GH#132)
 
