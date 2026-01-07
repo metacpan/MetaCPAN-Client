@@ -170,7 +170,11 @@ sub recent {
     $size eq 'today'
         and return $self->_recent(
             size   => 1000,
-            filter => _filter_today()
+            query => {
+                bool => {
+                    filter => _filter_today()
+                }
+            }
         );
 
     $size =~ /^[0-9]+$/
@@ -371,12 +375,13 @@ sub _reverse_deps {
             "/reverse_dependencies/dist/$dist",
             {
                 size   => 5000,
-                query  => { match_all => {} },
-                filter => {
-                    and => [
-                        { term => { 'status'     => 'latest' } },
-                        { term => { 'authorized' => 1        } },
-                    ]
+                query  => {
+                    bool => {
+                        must => [
+                            { term => { 'status'     => 'latest' } },
+                            { term => { 'authorized' => 1        } },
+                        ]
+                    }
                 },
             }
         );
