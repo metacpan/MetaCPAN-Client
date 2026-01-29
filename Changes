@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.038000    29.01.26
+            * Support CVE index (Mickey)
+
 2.037000    07.01.26
             * More ES 8 related fixes (Mickey, GH#133)
             * Updated scripts in examples/ (Mickey, GH#133)
