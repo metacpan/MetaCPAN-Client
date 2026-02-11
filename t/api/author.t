@@ -74,9 +74,9 @@ my $most_daves;
     ok( $daves->total <= $most_daves, 'Definitely not more Daves' );
 
     while ( my $dave = $daves->next ) {
-        my @emails = is_arrayref $dave->email ? @{ $dave->email } : $dave->email;
-        ok(
-            grep( +( $_ =~ /gmail\.com$/ ), @emails ),
+        my $emails = join "\n", is_arrayref $dave->email ? @{ $dave->email } : $dave->email;
+        like(
+            $emails, qr/\bgmail\.com$/m,
             'This Dave has a Gmail account',
         );
     }
@@ -94,9 +94,9 @@ can_ok( $johns, 'total' );
 ok( $johns->total > 0, 'Got some Johns' );
 
 while ( my $john = $johns->next ) {
-    my @emails = is_arrayref $john->email ? @{ $john->email } : $john->email;
-    ok(
-        grep( +( $_ =~ /gmail\.com$/ ), @emails ),
+    my $emails = join "\n", is_arrayref $john->email ? @{ $john->email } : $john->email;
+    like(
+        $emails, qr/\bgmail\.com$/m,
         'This John has a Gmail account',
     );
 }
