@@ -143,7 +143,7 @@ sub _fetch_next {
 
     my $res = $self->ua->post(
         sprintf( '%s/_search/scroll?scroll=%s&size=%s', $self->base_url, $self->time, $self->size ),
-        { content => $self->_id }
+        { content => encode_json { scroll_id => $self->_id } }
     );
 
     croak "failed to fetch next scrolled batch"
