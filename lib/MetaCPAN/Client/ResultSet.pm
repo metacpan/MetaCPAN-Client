@@ -12,8 +12,8 @@ has type => (
     is       => 'ro',
     isa      => sub {
         croak 'Invalid type' unless
-            grep { $_ eq $_[0] } qw<author distribution favorite
-                                   file module rating release mirror package>;
+            grep { $_ eq $_[0] } qw<author cover cve distribution favorite
+                                   file module permission rating release mirror package>;
     },
     lazy => 1,
 );
