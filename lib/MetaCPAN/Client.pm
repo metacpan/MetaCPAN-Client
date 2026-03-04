@@ -5,6 +5,7 @@ package MetaCPAN::Client;
 
 use Moo;
 use Carp;
+use JSON::MaybeXS qw< JSON >;
 use Ref::Util qw< is_arrayref is_hashref is_ref >;
 use URI::Escape qw< uri_escape_utf8 >;
 
@@ -393,7 +394,7 @@ sub _reverse_deps {
                     bool => {
                         must => [
                             { term => { 'status'     => 'latest' } },
-                            { term => { 'authorized' => 1        } },
+                            { term => { 'authorized' => JSON->true } },
                         ]
                     }
                 },
