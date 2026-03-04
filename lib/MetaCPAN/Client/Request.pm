@@ -5,7 +5,7 @@ package MetaCPAN::Client::Request;
 
 use Moo;
 use Carp;
-use JSON::MaybeXS qw<decode_json encode_json>;
+use JSON::MaybeXS qw<decode_json encode_json is_bool>;
 use Ref::Util qw< is_arrayref is_hashref is_ref >;
 
 use MetaCPAN::Client::Scroll;
@@ -262,7 +262,7 @@ sub _build_query_element {
     my ($key) = keys %{$args};
     my $val = $args->{$key};
 
-    !is_ref($val) and $val =~ /[\w\*]/
+    is_bool($val) or !is_ref($val) and $val =~ /[\w\*]/
         or croak 'Wrong type of query arguments';
 
     my $wildcard = $val =~ /[*?]/;
