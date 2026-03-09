@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.040000    09.03.26
+            * Use a boolean in reverse_deps term (Olaf Alders, GH#136)
+            * Allow JSON->true and JSON->false (Olaf Alders, GH#137)
+
 2.039000    28.02.26
             * Add more types that we can scroll (Olaf Alders, GH#134)
             * Fix 'all' fetching from CVE + example scripts (Mickey, GH#135)
