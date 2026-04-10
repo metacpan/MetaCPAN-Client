@@ -39,10 +39,11 @@ sub BUILDARGS {
     my ( $class, %args ) = @_;
 
     $args{'request'} ||= MetaCPAN::Client::Request->new(
-        ( ua     => $args{ua}     )x!! $args{ua},
-        ( ua_args => $args{ua_args} )x!! $args{ua_args},
-        ( domain => $args{domain} )x!! $args{domain},
-        ( debug  => $args{debug}  )x!! $args{debug},
+        ( ua         => $args{ua}         )x!! $args{ua},
+        ( ua_args    => $args{ua_args}    )x!! $args{ua_args},
+        ( user_agent => $args{user_agent} )x!! $args{user_agent},
+        ( domain     => $args{domain}     )x!! $args{domain},
+        ( debug      => $args{debug}      )x!! $args{debug},
     );
 
     return \%args;
@@ -505,6 +506,15 @@ instead of the default, which is L<HTTP::Tiny>.
 
 Then it can be used to fetch the user agent object used by
 L<MetaCPAN::Client::Request>.
+
+=head2 user_agent
+
+Sets the user agent string used for the built-in L<HTTP::Tiny> client.
+
+    my $mcpan = MetaCPAN::Client->new( user_agent => 'MyApp/1.0' );
+
+If you need full control over the HTTP stack, continue to pass a custom C<ua>
+object or explicit C<ua_args>.
 
 =head2 domain
 

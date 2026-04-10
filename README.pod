@@ -57,6 +57,15 @@ instead of the default, which is L<HTTP::Tiny>.
 Then it can be used to fetch the user agent object used by
 L<MetaCPAN::Client::Request>.
 
+=head2 user_agent
+
+Sets the user agent string used for the built-in L<HTTP::Tiny> client.
+
+    my $mcpan = MetaCPAN::Client->new( user_agent => 'MyApp/1.0' );
+
+If you need full control over the HTTP stack, continue to pass a custom C<ua>
+object or explicit C<ua_args>.
+
 =head2 domain
 
 If given, will be used to alter the API domain.

@@ -20,13 +20,20 @@ has ua => (
     builder  => '_build_ua',
 );
 
+has user_agent => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_build_user_agent',
+);
+
 has ua_args => (
     is      => 'ro',
-    default => sub {
-        [ agent => 'MetaCPAN::Client/'.($MetaCPAN::Client::VERSION||'xx'),
-          verify_SSL => 1 ]
-    },
+    default => sub { [] },
 );
+
+sub _build_user_agent {
+    return 'MetaCPAN::Client/' . ($MetaCPAN::Client::VERSION || 'xx');
+}
 
 sub _build_ua {
     my $self = shift;
@@ -43,7 +50,11 @@ sub _build_ua {
         return $self->_user_ua;
     }
 
-    return HTTP::Tiny->new( @{ $self->ua_args } );
+    return HTTP::Tiny->new(
+        agent      => $self->user_agent,
+        verify_SSL => 1,
+        @{ $self->ua_args },
+    );
 }
 
 1;
@@ -78,6 +89,16 @@ Must return a result hashref which has key C<success> and key C<content>.
 
 Default: L<HTTP::Tiny>,
 
+=head2 user_agent
+
+    my $mcpan = MetaCPAN::Client->new(
+        user_agent => 'MyApp/1.0',
+    );
+
+Sets the user agent string used by the built-in L<HTTP::Tiny> client.
+
+Default: B<MetaCPAN::Client/$version>.
+
 =head2 ua_args
 
     my $mcpan = MetaCPAN::Client->new(
@@ -86,4 +107,5 @@ Default: L<HTTP::Tiny>,
 
 Arguments sent to the user agent.
 
-Default: user agent string: B<MetaCPAN::Client/$version>.
+Default: none. These arguments are applied on top of the default
+C<HTTP::Tiny-E<gt>new> construction and may override C<user_agent>.

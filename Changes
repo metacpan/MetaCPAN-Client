@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+{{$NEXT}}
+            * Add a supported user_agent option for setting the HTTP::Tiny agent string
+
 2.040000    09.03.26
             * Use a boolean in reverse_deps term (Olaf Alders, GH#136)
             * Allow JSON->true and JSON->false (Olaf Alders, GH#137)
