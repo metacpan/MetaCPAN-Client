@@ -689,7 +689,8 @@ Returns a L<MetaCPAN::Client::DownloadURL> object
 
 =head2 all
 
-Retrieve all matches for authors/modules/distributions/favorites or releases.
+Retrieve all matches for
+authors/modules/distributions/favorites/files/permissions/packages/covers/cves or releases.
 
     my $all_releases = $mcpan->all('releases')
 
