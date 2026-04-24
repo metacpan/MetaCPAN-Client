@@ -68,9 +68,10 @@ sub BUILDARGS {
 
     return \%args;
 }
+
 sub BUILD {
     my ( $self ) = @_;
-    $self->class; # vifify and validate
+    $self->class; # vivify and validate
 }
 
 sub next {
