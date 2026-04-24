@@ -192,10 +192,10 @@ sub all {
     # dispatches to to check types (using the global supported types array).
     $type =~ s/s$//;
 
-    $params and !is_hashref($params)
-        and croak "all: params must be a hashref";
+    is_hashref($params)
+        or croak "all: params must be a hashref";
 
-    if ( $params->{fields} and !is_arrayref($params->{fields}) ) {
+    if ( exists $params->{fields} and !is_arrayref($params->{fields}) ) {
         $params->{fields} = [ split /,/ => $params->{fields} ];
     }
 
