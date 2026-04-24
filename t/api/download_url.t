@@ -2,14 +2,13 @@
 
 use strict;
 use warnings;
-use Test::More tests => 18;
+use Test::More tests => 17;
 use Test::Fatal;
 
 use lib '.';
 use t::lib::Functions;
 
 my $mc = mcpan();
-can_ok( $mc, 'rating' );
 
 {
     my $rs = $mc->download_url( 'Moose' );

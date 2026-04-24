@@ -17,7 +17,6 @@ use MetaCPAN::Client::Module;
 use MetaCPAN::Client::File;
 use MetaCPAN::Client::Favorite;
 use MetaCPAN::Client::Pod;
-use MetaCPAN::Client::Rating;
 use MetaCPAN::Client::Release;
 use MetaCPAN::Client::Mirror;
 use MetaCPAN::Client::Package;
@@ -32,7 +31,7 @@ has request => (
 );
 
 my @supported_searches = qw<
-    author distribution favorite module rating release mirror file permission package cover cve
+    author distribution favorite module release mirror file permission package cover cve
 >;
 
 sub BUILDARGS {
@@ -135,17 +134,6 @@ sub favorite {
     return $self->_search( 'favorite', $args, $params );
 }
 
-sub rating {
-    my $self   = shift;
-    my $args   = shift;
-    my $params = shift;
-
-    is_hashref($args)
-        or croak 'rating takes a hash ref as parameter';
-
-    return _empty_result_set('rating');
-}
-
 sub release {
     my $self   = shift;
     my $arg    = shift;
@@ -204,10 +192,10 @@ sub all {
     # dispatches to to check types (using the global supported types array).
     $type =~ s/s$//;
 
-    $params and !is_hashref($params)
-        and croak "all: params must be a hashref";
+    is_hashref($params)
+        or croak "all: params must be a hashref";
 
-    if ( $params->{fields} and !is_arrayref($params->{fields}) ) {
+    if ( exists $params->{fields} and !is_arrayref($params->{fields}) ) {
         $params->{fields} = [ split /,/ => $params->{fields} ];
     }
 
@@ -565,13 +553,6 @@ Returns a L<MetaCPAN::Client::File> object.
 
 Returns a L<MetaCPAN::Client::ResultSet> object containing
 L<MetaCPAN::Client::Favorite> results.
-
-=head2 rating
-
-    my $rating = $mcpan->rating({ distribution => 'Moose' });
-
-Returns a L<MetaCPAN::Client::ResultSet> object containing
-L<MetaCPAN::Client::Rating> results.
 
 =head2 release
 

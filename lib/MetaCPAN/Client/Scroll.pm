@@ -107,7 +107,7 @@ sub BUILDARGS {
     $args{_buffer}    = $content->{hits}{hits};
 
     $args{aggregations} = $content->{aggregations}
-        if $content->{aggregations} and is_hashref( $content->{aggregations} );
+        if exists $content->{aggregations} and is_hashref( $content->{aggregations} );
 
     return \%args;
 }

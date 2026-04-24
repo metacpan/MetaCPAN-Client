@@ -262,7 +262,7 @@ sub _build_query_element {
     my ($key) = keys %{$args};
     my $val = $args->{$key};
 
-    is_bool($val) or !is_ref($val) and $val =~ /[\w\*]/
+    ( is_bool($val) or (!is_ref($val) and $val =~ /[\w\*]/) )
         or croak 'Wrong type of query arguments';
 
     my $wildcard = $val =~ /[*?]/;
