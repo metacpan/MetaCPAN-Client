@@ -23,7 +23,7 @@ use MetaCPAN::Client::Package;
 use MetaCPAN::Client::Permission;
 use MetaCPAN::Client::ResultSet;
 use MetaCPAN::Client::Cover;
-use MetaCPAN::Client::CVE;
+use MetaCPAN::Client::Cve;
 
 has request => (
     is      => 'ro',
@@ -295,13 +295,13 @@ sub _get {
         or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
 
     $type = 'DownloadURL' if $type eq 'download_url';
-    my $class = 'MetaCPAN::Client::' . ucfirst($type);
 
+    # deal with API response inconsistency
     if ( $type eq 'cve' and is_hashref($response) and is_arrayref($response->{cve} ) ) {
-        $class =~ s/Cve/CVE/;
         $response = $response->{cve}[0];
     }
 
+    my $class = 'MetaCPAN::Client::' . ucfirst($type);
     return $class->new_from_request($response, $self);
 }
 
@@ -527,7 +527,7 @@ Returns a L<MetaCPAN::Client::Cover> object.
 
     my $cve = $mcpan->cve('CPANSA-DBD-SQLite-2019-5018');
 
-Returns a L<MetaCPAN::Client::CVE> object.
+Returns a L<MetaCPAN::Client::Cve> object.
 
 =head2 distribution
 

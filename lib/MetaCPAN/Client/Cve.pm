@@ -1,7 +1,7 @@
 use strict;
 use warnings;
-package MetaCPAN::Client::CVE;
-# ABSTRACT: A Permission data object
+package MetaCPAN::Client::Cve;
+# ABSTRACT: A CVE data object
 
 use Moo;
 
@@ -35,7 +35,7 @@ __END__
 
 =head1 SYNOPSIS
 
-    my $cve = $mcpan->cve('MooseX::Types');
+    my $cve = $mcpan->cve('CPANSA-DBD-SQLite-2019-5018');
 
 =head1 DESCRIPTION
 
