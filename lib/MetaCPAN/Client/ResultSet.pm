@@ -68,9 +68,10 @@ sub BUILDARGS {
 
     return \%args;
 }
+
 sub BUILD {
     my ( $self ) = @_;
-    $self->class; # vifify and validate
+    $self->class; # vivify and validate
 }
 
 sub next {
@@ -93,6 +94,7 @@ sub _build_class {
     my $self = shift;
     my $type = $self->type eq 'cve' ? 'CVE' : ( ucfirst $self->type );
     return 'MetaCPAN::Client::' . $type;
+    return 'MetaCPAN::Client::' . ucfirst $self->type;
 }
 
 1;

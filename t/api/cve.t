@@ -12,7 +12,7 @@ my $mc = mcpan();
 can_ok( $mc, 'cve' );
 
 my $cve = $mc->cve('CPANSA-DBD-SQLite-2019-5018');
-isa_ok( $cve, 'MetaCPAN::Client::CVE' );
+isa_ok( $cve, 'MetaCPAN::Client::Cve' );
 can_ok( $cve, qw< cpansa_id description distribution reported severity affected_versions cves references releases versions > );
 ok( !is_ref($cve->cpansa_id), "cpansa_id is not a ref");
 ok( !is_ref($cve->description), "description is not a ref");
