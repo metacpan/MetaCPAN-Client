@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.040000
+version 2.041000
 
 =head1 SYNOPSIS
 
@@ -116,13 +116,6 @@ Returns a L<MetaCPAN::Client::File> object.
 
 Returns a L<MetaCPAN::Client::ResultSet> object containing
 L<MetaCPAN::Client::Favorite> results.
-
-=head2 rating
-
-    my $rating = $mcpan->rating({ distribution => 'Moose' });
-
-Returns a L<MetaCPAN::Client::ResultSet> object containing
-L<MetaCPAN::Client::Rating> results.
 
 =head2 release
 
@@ -239,7 +232,8 @@ Returns a L<MetaCPAN::Client::DownloadURL> object
 
 =head2 all
 
-Retrieve all matches for authors/modules/distributions/favorites or releases.
+Retrieve all matches for
+authors/modules/distributions/favorites/files/permissions/packages/covers/cves or releases.
 
     my $all_releases = $mcpan->all('releases')
 

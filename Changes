@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.041000    25.04.26
+            * CVE - cleanup and updated (Mickey, GH#142)
+            * Rating - fail instead silent empty response (Mickey, GH#141)
+
 2.040000    09.03.26
             * Use a boolean in reverse_deps term (Olaf Alders, GH#136)
             * Allow JSON->true and JSON->false (Olaf Alders, GH#137)
