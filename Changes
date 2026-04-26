@@ -1,5 +1,8 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.042000    26.04.26
+            * CVE - fixed search + unbroke 'all' method (Mickey, GH#144)
+
 2.041000    25.04.26
             * CVE - cleanup and updated (Mickey, GH#142)
             * Rating - fail instead silent empty response (Mickey, GH#141)

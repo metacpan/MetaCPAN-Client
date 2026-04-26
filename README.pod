@@ -8,7 +8,7 @@ MetaCPAN::Client - A comprehensive, DWIM-featured client to the MetaCPAN API
 
 =head1 VERSION
 
-version 2.041000
+version 2.042000
 
 =head1 SYNOPSIS
 
@@ -90,7 +90,7 @@ Returns a L<MetaCPAN::Client::Cover> object.
 
     my $cve = $mcpan->cve('CPANSA-DBD-SQLite-2019-5018');
 
-Returns a L<MetaCPAN::Client::CVE> object.
+Returns a L<MetaCPAN::Client::Cve> object.
 
 =head2 distribution
 
