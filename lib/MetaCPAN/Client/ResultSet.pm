@@ -92,8 +92,6 @@ sub aggregations {
 
 sub _build_class {
     my $self = shift;
-    my $type = $self->type eq 'cve' ? 'CVE' : ( ucfirst $self->type );
-    return 'MetaCPAN::Client::' . $type;
     return 'MetaCPAN::Client::' . ucfirst $self->type;
 }
 
