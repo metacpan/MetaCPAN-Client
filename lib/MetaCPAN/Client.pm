@@ -181,6 +181,24 @@ sub recent {
     croak "recent: invalid size value";
 }
 
+sub count {
+    my $self = shift;
+    my $type = shift;
+
+    my $res;
+
+    eval {
+        $res = $self->fetch( sprintf '%s/_count', $type );
+        1;
+
+    } or do {
+        warn $@;
+        return [];
+    };
+
+    return $res->{count};
+}
+
 sub all {
     my $self   = shift;
     my $type   = shift;
@@ -668,6 +686,12 @@ You can use a comma ',' to add multiple rules.
 
 
 Returns a L<MetaCPAN::Client::DownloadURL> object
+
+=head2 count
+
+Returns the count of records in a given index.
+
+    my $count = $mcpan->count('release');
 
 =head2 all
 
