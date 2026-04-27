@@ -13,8 +13,9 @@ my %known_fields = (
         city
         country
         gravatar_url
+        is_pause_custodial_account
         name
-        ascii_name
+        asciiname
         pauseid
         region
         updated
