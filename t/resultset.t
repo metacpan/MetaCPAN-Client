@@ -16,18 +16,18 @@ use MetaCPAN::Client::ResultSet;
 like(
     exception {
         MetaCPAN::Client::ResultSet->new(
-            type     => 'failZZ',
+            index    => 'failZZ',
             scroller => bless {}, 'MetaCPAN::Client::Test::ScrollerZ',
         )
     },
-    qr/Invalid type/,
-    'Invalid type fail',
+    qr/Invalid index/,
+    'Invalid index fail',
 );
 
 my $rs = MetaCPAN::Client::ResultSet->new(
-    type     => 'author',
+    index    => 'author',
     scroller => bless {}, 'MetaCPAN::Client::Scroll',
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
-can_ok( $rs, qw<next aggregations total type scroller> );
+can_ok( $rs, qw<next aggregations total index scroller> );

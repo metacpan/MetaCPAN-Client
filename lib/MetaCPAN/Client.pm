@@ -182,13 +182,13 @@ sub recent {
 }
 
 sub count {
-    my $self = shift;
-    my $type = shift;
+    my $self  = shift;
+    my $index = shift;
 
     my $res;
 
     eval {
-        $res = $self->fetch( sprintf '%s/_count', $type );
+        $res = $self->fetch( sprintf '%s/_count', $index );
         1;
 
     } or do {
@@ -201,14 +201,14 @@ sub count {
 
 sub all {
     my $self   = shift;
-    my $type   = shift;
+    my $index  = shift;
     my $params = shift;
 
-    # This endpoint used to support only pluralized types (mostly) and convert
-    # to singular types before redispatching.  Now it accepts both plural and
+    # This endpoint used to support only pluralized indices (mostly) and convert
+    # to singular indices before redispatching.  Now it accepts both plural and
     # unplural forms directly and relies on the underlying methods it
-    # dispatches to to check types (using the global supported types array).
-    $type =~ s/s$//;
+    # dispatches to to check indices (using the global supported indices array).
+    $index =~ s/s$//;
 
     if ( $params and !is_hashref($params) ) {
         croak "all: params must be a hashref";
@@ -218,7 +218,7 @@ sub all {
         $params->{fields} = [ split /,/ => $params->{fields} ];
     }
 
-    return $self->$type( { __MATCH_ALL__ => 1 }, $params );
+    return $self->$index( { __MATCH_ALL__ => 1 }, $params );
 }
 
 sub download_url {
@@ -299,28 +299,28 @@ sub _get {
 
     ( scalar(@_) == 2
       or ( scalar(@_) == 3 and ( !defined $_[2] or is_hashref($_[2]) ) ) )
-        or croak '_get takes type and search string as parameters (and an optional params hash)';
+        or croak '_get takes index and search string as parameters (and an optional params hash)';
 
-    my $type   = shift;
+    my $index  = shift;
     my $arg    = shift;
     my $params = shift;
 
     my $fields_filter = $self->_read_fields( $params );
 
     my $response = $self->fetch(
-        sprintf("%s/%s%s", $type ,$arg, $fields_filter||'')
+        sprintf("%s/%s%s", $index ,$arg, $fields_filter||'')
     );
     is_hashref($response)
-        or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($type), $arg );
+        or croak sprintf( 'Failed to fetch %s (%s)', ucfirst($index), $arg );
 
-    $type = 'DownloadURL' if $type eq 'download_url';
+    $index = 'DownloadURL' if $index eq 'download_url';
 
     # deal with API response inconsistency
-    if ( $type eq 'cve' and is_hashref($response) and is_arrayref($response->{cve} ) ) {
+    if ( $index eq 'cve' and is_hashref($response) and is_arrayref($response->{cve} ) ) {
         $response = $response->{cve}[0];
     }
 
-    my $class = 'MetaCPAN::Client::' . ucfirst($type);
+    my $class = 'MetaCPAN::Client::' . ucfirst($index);
     return $class->new_from_request($response, $self);
 }
 
@@ -348,7 +348,7 @@ sub _read_fields {
 
 sub _search {
     my $self   = shift;
-    my $type   = shift;
+    my $index  = shift;
     my $args   = shift;
     my $params = shift;
 
@@ -360,30 +360,30 @@ sub _search {
 
     $params ||= {};
 
-    grep { $_ eq $type } @supported_searches
-        or croak 'search type is not supported';
+    grep { $_ eq $index } @supported_searches
+        or croak 'search index is not supported';
 
-    my $scroller = $self->ssearch($type, $args, $params);
+    my $scroller = $self->ssearch($index, $args, $params);
 
     return MetaCPAN::Client::ResultSet->new(
         scroller => $scroller,
-        type     => $type,
+        index    => $index,
     );
 }
 
 sub _get_or_search {
     my $self   = shift;
-    my $type   = shift;
+    my $index  = shift;
     my $arg    = shift;
     my $params = shift;
 
     is_hashref($arg) and
-        return $self->_search( $type, $arg, $params );
+        return $self->_search( $index, $arg, $params );
 
     defined $arg and !is_ref($arg)
-        and return $self->_get($type, $arg, $params);
+        and return $self->_get($index, $arg, $params);
 
-    croak "$type: invalid args (takes scalar value or search parameters hashref)";
+    croak "$index: invalid args (takes scalar value or search parameters hashref)";
 }
 
 sub _reverse_deps {
@@ -416,7 +416,7 @@ sub _reverse_deps {
 
     return MetaCPAN::Client::ResultSet->new(
         items => $res->{'data'},
-        type  => 'release',
+        index => 'release',
     );
 }
 
@@ -445,7 +445,7 @@ sub _recent {
 
     return MetaCPAN::Client::ResultSet->new(
         items => $res->{'hits'}{'hits'},
-        type  => 'release',
+        index => 'release',
     );
 }
 
@@ -454,11 +454,11 @@ sub _filter_today {
 }
 
 sub _empty_result_set {
-    my $type = shift;
+    my $index = shift;
 
     return MetaCPAN::Client::ResultSet->new(
         items => [],
-        type  => $type,
+        index => $index,
     );
 }
 

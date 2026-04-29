@@ -14,7 +14,7 @@ can_ok( $mc, 'favorite' );
 foreach my $option ( { author => 'XSAWYERX' }, { dist => 'MetaCPAN-Client' } ) {
     my $rs = $mc->favorite($option);
     isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
-    can_ok( $rs, qw<type scroller> );
-    is( $rs->type, 'favorite', 'Correct resultset type' );
+    can_ok( $rs, qw<index scroller> );
+    is( $rs->index, 'favorite', 'Correct resultset index' );
     isa_ok( $rs->scroller, 'MetaCPAN::Client::Scroll' );
 }

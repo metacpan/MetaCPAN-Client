@@ -32,11 +32,11 @@ my $rs = MetaCPAN::Client::ResultSet->new(
 );
 
 isa_ok( $rs, 'MetaCPAN::Client::ResultSet' );
-can_ok( $rs, qw<next aggregations total type scroller> );
+can_ok( $rs, qw<next aggregations total index scroller> );
 my $item;
 is( exception { $item = $rs->next; 1 }, undef, "no fail on next" );
 isa_ok( $item, 'Test::Result' );
 
 my $ex;
 isnt( $ex = exception { MetaCPAN::Client::ResultSet->new( scroller => $scroll ) },
-      undef, 'Must fail is neither class or type are passed' );
+      undef, 'Must fail is neither class or index are passed' );
