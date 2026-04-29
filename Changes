@@ -1,5 +1,10 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.043000    29.04.26
+            * Cleaned up code references to 'type' (Mickey, GH#148)
+            * Support count method (Mickey, GH#147)
+            * Fixed author fields list (Mickey, GH#145)
+
 2.042000    26.04.26
             * CVE - fixed search + unbroke 'all' method (Mickey, GH#144)
 
