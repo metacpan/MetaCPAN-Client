@@ -12,7 +12,7 @@ use MetaCPAN::Client::Release;
 my $scroller = MetaCPAN::Client::Scroll->new(
    ua       => HTTP::Tiny->new,
    base_url => 'https://fastapi.metacpan.org/v1/',
-   type     => 'release',
+   index    => 'release',
    body     => { query => { term => { distribution => 'MetaCPAN-Client' } } },
    size     => 50,
 );
@@ -22,7 +22,7 @@ can_ok(
     $scroller,
     qw< aggregations base_url body _buffer
         BUILDARGS DEMOLISH _fetch_next _id
-        next size time total type ua >
+        next size time total index ua >
 );
 
 my $next = $scroller->next;

@@ -37,19 +37,19 @@ can_ok( $mc, '_get' );
 
 like(
     exception { $mc->_get() },
-    qr/^_get takes type and search string as parameters/,
+    qr/^_get takes index and search string as parameters/,
     'Failed with no params',
 );
 
 like(
     exception { $mc->_get('wah') },
-    qr/^_get takes type and search string as parameters/,
+    qr/^_get takes index and search string as parameters/,
     'Failed with one param',
 );
 
 like(
     exception { $mc->_get('wah', 'wah', 'wah') },
-    qr/^_get takes type and search string as parameters/,
+    qr/^_get takes index and search string as parameters/,
     'Failed with more than two params',
 );
 
@@ -63,4 +63,3 @@ like(
 # call fetch and succeed
 my $res = $mc->_get( 'author', 'myarg' );
 is( $res, 'ok', 'Correct result' );
-

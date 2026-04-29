@@ -13,9 +13,9 @@ use t::lib::Functions;
 
     my $count = 0;
     *MetaCPAN::Client::ssearch = sub {
-        my ( $self, $type, $args, $params ) = @_;
+        my ( $self, $index, $args, $params ) = @_;
         ::isa_ok( $self, 'MetaCPAN::Client' );
-        ::is( $type, 'author', 'Correct type' );
+        ::is( $index, 'author', 'Correct index' );
         ::is_deeply( $args, { hello => 'world' }, 'Correct args' );
 
         if ( $count++ == 0 ) {
@@ -34,7 +34,7 @@ use t::lib::Functions;
             \%args,
             {
                 scroller => { a => 'ok' },
-                type     => 'author',
+                index    => 'author',
             },
             'Correct args to ::ResultSet',
         );
@@ -60,8 +60,8 @@ like(
 
 like(
     exception { $mc->_search( 'authorz', { hello => 'world' }, { a => 'b' } ) },
-    qr/^search type is not supported/,
-    'Unsupported search type',
+    qr/^search index is not supported/,
+    'Unsupported search index',
 );
 
 is(
@@ -75,4 +75,3 @@ is(
     'yoyo',
     'Correct _search call',
 );
-

@@ -92,7 +92,7 @@ sub fetch {
 
 sub ssearch {
     my $self   = shift;
-    my $type   = shift;
+    my $index  = shift;
     my $args   = shift;
     my $params = shift;
 
@@ -104,7 +104,7 @@ sub ssearch {
         size     => $size,
         time     => $time,
         base_url => $self->base_url,
-        type     => $type,
+        index    => $index,
         body     => $self->_build_body($args, $params),
         debug    => $self->debug,
     );
