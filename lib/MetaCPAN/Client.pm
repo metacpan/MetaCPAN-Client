@@ -526,7 +526,7 @@ If given, errors will include some low-level detailed message.
 =head2 author
 
     my $author = $mcpan->author('XSAWYERX');
-    my $author = $mcpan->author($search_spec);
+    my $author_resultset = $mcpan->author($search_spec);
 
 Finds an author by either its PAUSE ID or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
@@ -551,7 +551,7 @@ Returns a L<MetaCPAN::Client::Cve> object.
 =head2 distribution
 
     my $dist = $mcpan->distribution('MetaCPAN-Client');
-    my $dist = $mcpan->distribution($search_spec);
+    my $dist_resultset = $mcpan->distribution($search_spec);
 
 Finds a distribution by either its distribution name or by a search spec
 defined by a hash reference. Since it is common to many other searches, it is
@@ -568,7 +568,7 @@ Returns a L<MetaCPAN::Client::File> object.
 
 =head2 favorite
 
-    my $favorite = $mcpan->favorite({ distribution => 'Moose' });
+    my $favorite_resultset = $mcpan->favorite({ distribution => 'Moose' });
 
 Returns a L<MetaCPAN::Client::ResultSet> object containing
 L<MetaCPAN::Client::Favorite> results.
@@ -576,7 +576,7 @@ L<MetaCPAN::Client::Favorite> results.
 =head2 release
 
     my $release = $mcpan->release('MetaCPAN-Client');
-    my $release = $mcpan->release($search_spec);
+    my $release_resultset = $mcpan->release($search_spec);
 
 Finds a release by either its distribution name or by a search spec defined by
 a hash reference. Since it is common to many other searches, it is explained
@@ -595,7 +595,7 @@ Returns a L<MetaCPAN::Client::Mirror> object.
 =head2 module
 
     my $module = $mcpan->module('MetaCPAN::Client');
-    my $module = $mcpan->module($search_spec);
+    my $module_resultset = $mcpan->module($search_spec);
 
 Finds a module by either its module name or by a search spec defined by a hash
 reference. Since it is common to many other searches, it is explained below
@@ -619,7 +619,7 @@ Returns a L<MetaCPAN::Client::Permission> object.
 
 =head2 reverse_dependencies
 
-    my $deps = $mcpan->reverse_dependencies('Search::Elasticsearch');
+    my $deps_resultset = $mcpan->reverse_dependencies('Search::Elasticsearch');
 
 all L<MetaCPAN::Client::Release> objects of releases that are directly
 dependent on a given module, returned as L<MetaCPAN::Client::ResultSet>.
@@ -646,8 +646,8 @@ Returns an array reference.
 
 =head2 recent
 
-    my $recent = $mcpan->recent(10);
-    my $recent = $mcpan->recent('today');
+    my $recent_resultset = $mcpan->recent(10);
+    my $recent_resultset = $mcpan->recent('today');
 
 return the latest N releases, or all releases from today.
 
@@ -707,20 +707,20 @@ will support the following keys:
 
 See SEARCH PARAMS.
 
-   my $all_releases = $mcpan->all('releases', { fields => [...] })
+   my $all_releases_resultset = $mcpan->all('releases', { fields => [...] })
 
 =head3 _source
 
 See SEARCH PARAMS.
 
-   my $all_releases = $mcpan->all('releases', { _source => [...] })
+   my $all_releases_resultset = $mcpan->all('releases', { _source => [...] })
 
 =head3 es_filter
 
 Pass a raw Elasticsearch filter structure to reduce the number
 of elements returned by the query.
 
-    my $some_releases = $mcpan->all('releases', { es_filter => {...} })
+    my $some_releases_resultset = $mcpan->all('releases', { es_filter => {...} })
 
 =head2 BUILDARGS
 
@@ -756,7 +756,7 @@ optimizations and the server will internally read the whole document.
 Why do we even need those? because we don't index everything and some things
 we can't to begin with (like non-leaf fields that hold a structure)
 
-    my $module = $mcpan->all('releases', { _source => "stat" });
+    my $module_resultset = $mcpan->all('releases', { _source => "stat" });
 
 =head2 scroller_time
 
