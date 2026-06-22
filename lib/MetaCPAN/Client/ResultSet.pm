@@ -31,8 +31,19 @@ has scroller => (
 
 # in case we're returning from a fetch
 has items => (
-    is  => 'ro',
-    isa => ArrayRef,
+    is      => 'ro',
+    isa     => ArrayRef,
+    lazy    => 1,
+    default => sub {
+        my $self = shift;
+        return [] unless $self->has_scroller;
+
+        my @items;
+        while ( defined( my $result = $self->scroller->next ) ) {
+            push @items, $result;
+        }
+        return \@items;
+    },
 );
 
 has total => (
