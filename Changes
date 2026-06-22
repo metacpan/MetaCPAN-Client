@@ -1,5 +1,9 @@
 Revision history for MetaCPAN-Client (previously MetaCPAN-API)
 
+2.044000    22.06.26
+            * ResultSet: items return an arrayref - fixes GH#151 (Mickey, GH#152)
+            * Doc updates (Michal Josef Špaček, GH#150)
+
 2.043000    29.04.26
             * Cleaned up code references to 'type' (Mickey, GH#148)
             * Support count method (Mickey, GH#147)
