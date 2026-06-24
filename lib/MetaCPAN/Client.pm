@@ -545,8 +545,21 @@ Returns a L<MetaCPAN::Client::Cover> object.
 =head2 cve
 
     my $cve = $mcpan->cve('CPANSA-DBD-SQLite-2019-5018');
+    my $cve_resultset = $mcpan->cve($search_spec);
 
-Returns a L<MetaCPAN::Client::Cve> object.
+Finds CVE (CPAN Security Advisory) by either its CPANSA ID or by a search spec
+defined by a hash reference. Since it is common to many other searches, it is
+explained below under C<SEARCH SPEC>.
+
+Returns a L<MetaCPAN::Client::Cve> object on a simple search (CPANSA ID), or
+a L<MetaCPAN::Client::ResultSet> object populated with
+L<MetaCPAN::Client::Cve> objects on a complex (L<search spec based|/"SEARCH SPEC">) search.
+
+B<Note:> To search by CVE ID (e.g., CVE-2026-5083), use the C<all()> method
+with an ElasticSearch query, since C<cves> is not a supported
+search parameter for the C<cve()> method.
+
+See L<MetaCPAN::Client::Cve> for more details and examples.
 
 =head2 distribution
 
@@ -721,6 +734,9 @@ Pass a raw Elasticsearch filter structure to reduce the number
 of elements returned by the query.
 
     my $some_releases_resultset = $mcpan->all('releases', { es_filter => {...} })
+
+    # Search for CVEs by CVE ID
+    my $cve_resultset = $mcpan->all('cve', { es_filter => { 'match_phrase' => { 'cves' => 'CVE-2026-5083' } } });
 
 =head2 BUILDARGS
 
